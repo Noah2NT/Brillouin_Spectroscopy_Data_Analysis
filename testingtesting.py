@@ -79,8 +79,6 @@ bplt.plot_component_maps(
     cmap="inferno", colorbar_label="Abundance", centres=endmember_pos,
 )
 
-
-
 # ==================
 # Abundance 2D Maps
 # ==================
