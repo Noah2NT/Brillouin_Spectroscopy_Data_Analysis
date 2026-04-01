@@ -192,3 +192,74 @@ def plot_component_maps(arrays, x_vals, y_vals, labels=None,
     plt.suptitle(suptitle, fontsize=14)
     plt.tight_layout()
     plt.show()
+
+
+
+def plot_component_maps_arr(arrays, labels=None,
+                        suptitle="Component Maps", cmap="magma",
+                        colorbar_label="Score", figsize=None, centres=None):
+    """
+    Render a row of heatmaps — one per component (PCs, endmember abundances, etc.).
+
+    Parameters:
+        arrays         : list of 2D arrays
+        labels         : list of str or None — subplot titles
+        suptitle       : str — overall figure title
+        cmap           : str
+        colorbar_label : str
+        figsize        : tuple or None (auto-sized if None)
+        centres         : list of (x, y) tuples
+
+    """
+    n = len(arrays)
+    if labels is None:
+        labels = [f"Component {i+1}" for i in range(n)]
+    if figsize is None:
+        figsize = (5 * n, 5)
+
+    fig, axes = plt.subplots(1, n, figsize=figsize)
+    if n == 1:
+        ax = [axes]
+
+    for i, (arr, label) in enumerate(zip(arrays, labels)):
+
+        plot_heatmap_arr(arr,
+                     title=label, cmap=cmap,
+                     colorbar_label=colorbar_label,
+                     ax=axes[i])
+
+        if centres is not None and i < len(centres):
+            x, y = centres[i]
+            axes[i].scatter(x, y, color='cyan', s=80,
+                       edgecolor='black', zorder=10)
+
+    plt.suptitle(suptitle, fontsize=14)
+    plt.tight_layout()
+    plt.show()
+
+
+
+def plot_heatmap_arr(arr, title="Heatmap", cmap="magma",
+                 colorbar_label="", ax=None):
+    """
+    Display a 2D spatial heatmap from a flat per-pixel array.
+
+    Parameters:
+        arr             : 2D array
+        title           : str
+        cmap            : str — matplotlib colormap
+        colorbar_label  : str
+        ax              : matplotlib Axes or None (creates new figure)
+
+    Returns:
+        im : AxesImage
+    """
+    standalone = ax is None
+    if standalone:
+        fig, ax = plt.subplots(figsize=(6, 5))
+    im = ax.imshow(arr, origin="lower", cmap=cmap)
+    ax.set_title(title)
+    ax.set_xlabel("X position")
+    ax.set_ylabel("Y position")
+    plt.colorbar(im, ax=ax, label=colorbar_label)
+    plt.show()

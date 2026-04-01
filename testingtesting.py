@@ -5,7 +5,7 @@ import brillouin_preprocessing as bp
 import brillouin_fitting as bf
 import brillouin_decomposition as bd
 import brillouin_plotting as bplt
-
+import feature_extraction as fe
 
 '''
 run PCA
@@ -19,11 +19,12 @@ extract meaningful features from VCA images
 # Data Preprocessing
 # ===================
 
-#spectra, freq, df = bp.load_brillouin_csv("Cell_Col Healthy_xy_scanning30um_40um_step1um_15s.csv")     # clustering doesnt work
-#spectra, freq, df  = bp.load_brillouin_csv("XY_scanning_40um_60um_step1um_10s_fixed.csv")              # needs fitting before separation algorithms
-#spectra, freq, df = bp.load_brillouin_csv("Hydrogl1_XYscan_20000_20000_step500um_10s (1).csv")        # 3 clusters, azim 100
+spectra, freq, df = bp.load_brillouin_csv("Cell_Col Healthy_xy_scanning30um_40um_step1um_15s.csv")
+#spectra, freq, df  = bp.load_brillouin_csv("XY_scanning_40um_60um_step1um_10s_fixed.csv")
+#spectra, freq, df = bp.load_brillouin_csv("Hydrogl1_XYscan_20000_20000_step500um_10s (1).csv")
 
-spectra, freq, df = bp.load_brillouin_csv("water_plexiglass.csv")
+#spectra, freq, df = bp.load_brillouin_csv("water_plexiglass.csv")
+
 x_vals, y_vals             = bp.build_coordinate_arrays(df)
 peakSpectraarr, peakFreq   = bp.extract_frequency_window(spectra, freq, int(len(freq)/20*11), len(freq))
 
@@ -88,9 +89,52 @@ abundance_maps = [
     for i in range(n_endmembers)
 ]
 print(abundance_maps[0])
-#asaawdaf
 
 # ==================
 # Feature Extraction
 # ==================
 
+for i in range(n_endmembers):
+
+    # 1. Pooling
+    max_pooled = fe.max_pool(abundance_maps[i], k=2)
+    avg_pooled = fe.avg_pool(abundance_maps[i], k=2)
+
+    # 2. Smoothing
+    smoothed = fe.smooth_heatmap(abundance_maps[i], sigma=1)
+
+    # 3. Edge / change detection
+    grad = fe.gradient_magnitude(abundance_maps[i])
+    sobel_map = fe.sobel_edges(abundance_maps[i])
+    lap_map = fe.laplacian_filter(abundance_maps[i])
+
+    # 4. Thresholding
+    threshold = np.mean(abundance_maps[i])
+    mask = fe.threshold_mask(abundance_maps[i], threshold)
+
+    # 5. Local maxima
+    peaks = fe.local_maxima(abundance_maps[i], size=3)
+
+    # 6. Morphological cleanup
+    eroded = fe.erode_mask(mask, iterations=1)
+    dilated = fe.dilate_mask(mask, iterations=1)
+    opened = fe.open_mask(mask)
+    closed = fe.close_mask(mask)
+    cleaned = fe.clean_mask(mask)
+
+    # 7. Plot results
+    bplt.plot_heatmap_arr(abundance_maps[i], f"Endmember {i+1} Abundance Map", colorbar_label="BFS")
+
+    bplt.plot_heatmap_arr(max_pooled, f"Endmember {i+1} Max Pooled", colorbar_label="Value")
+
+    bplt.plot_heatmap_arr(avg_pooled, f"Endmember {i+1} Average Pooled", colorbar_label="Value")
+
+    bplt.plot_heatmap_arr(smoothed, f"Endmember {i+1} Gaussian Smoothed", colorbar_label="BFS")
+
+    bplt.plot_heatmap_arr(grad, f"Endmember {i+1} Gradient Magnitude", colorbar_label="Change")
+
+    bplt.plot_heatmap_arr(sobel_map, f"Endmember {i+1} Sobel Edges", colorbar_label="Edge Strength")
+
+    bplt.plot_heatmap_arr(lap_map, f"Endmember {i+1} Laplacian Filter", colorbar_label="Curvature")
+
+    bplt.plot_heatmap_arr(mask, f"Endmember {i+1} Threshold Mask", cmap="gray", colorbar_label="Binary")
