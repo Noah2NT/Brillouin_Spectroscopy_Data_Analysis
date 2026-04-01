@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(where python3:*)",
+      "Bash(where python:*)",
+      "Bash(ls \"C:\\\\Users\\\\noahk\\\\OneDrive\\\\Desktop\\\\codine\\\\Capstone\"/*.py)",
+      "Bash(C:\\\\Python313\\\\python.exe -c \"import numpy; print\\(''numpy ok''\\); import matplotlib; print\\(''matplotlib ok''\\); import pandas; print\\(''pandas ok''\\)\")",
+      "Bash(/c/Python313/python.exe -c \"import numpy; print\\(''numpy ok''\\); import matplotlib; print\\(''matplotlib ok''\\); import pandas; print\\(''pandas ok''\\)\")"
+    ]
+  }
+}
