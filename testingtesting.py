@@ -90,7 +90,7 @@ abundance_maps = [
     for i in range(n_endmembers)
 ]
 print(abundance_maps[0])
-#asa
+#asaawdaf
 
 # ==================
 # Feature Extraction

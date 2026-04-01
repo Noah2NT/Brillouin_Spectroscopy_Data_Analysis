@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c5df5ba4-58f6-412e-962a-3349b9ac54a0" name="Changes" comment="proejct beginnings">
-      <change afterPath="$PROJECT_DIR$/.claude/settings.local.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/Capstone.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="c5df5ba4-58f6-412e-962a-3349b9ac54a0" name="Changes" comment="a">
+      <change beforePath="$PROJECT_DIR$/testingtesting.py" beforeDir="false" afterPath="$PROJECT_DIR$/testingtesting.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +22,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Noah2NT/Brillouin_Spectroscopy_Data_Analysis.git",
+    "accountId": "967d24f5-3098-4380-b503-5d342a7b5e50"
+  }
+}]]></component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
@@ -86,7 +87,7 @@
       <workItem from="1774929728055" duration="843000" />
       <workItem from="1774930591084" duration="56000" />
       <workItem from="1774930658621" duration="28000" />
-      <workItem from="1774930704821" duration="6180000" />
+      <workItem from="1774930704821" duration="6506000" />
     </task>
     <task id="LOCAL-00001" summary="proejct beginnings">
       <option name="closed" value="true" />
@@ -96,7 +97,23 @@
       <option name="project" value="LOCAL" />
       <updated>1775018227792</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="proejct beginnings">
+      <option name="closed" value="true" />
+      <created>1775018786813</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1775018786813</updated>
+    </task>
+    <task id="LOCAL-00003" summary="a">
+      <option name="closed" value="true" />
+      <created>1775019058557</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1775019058557</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -104,7 +121,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="proejct beginnings" />
-    <option name="LAST_COMMIT_MESSAGE" value="proejct beginnings" />
+    <MESSAGE value="a" />
+    <option name="LAST_COMMIT_MESSAGE" value="a" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
