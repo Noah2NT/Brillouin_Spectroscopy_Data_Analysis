@@ -1,18 +1,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-import curvesMapping as cm
 
-df = pd.read_csv("Hydrogl1_XYscan_20000_20000_step500um_10s (1).csv") # 3 clusters, azim 100
-spectra = np.vstack(
-    df["Raw Data"].apply(lambda s: np.array([float(v) for v in s.split(",")]))
-)
+import brillouin_preprocessing as bp
+import brillouin_fitting as bf
+import brillouin_decomposition as bd
+import brillouin_plotting as bplt
+
+
+spectra, freq, df = bp.load_brillouin_csv("Hydrogl1_XYscan_20000_20000_step500um_10s (1).csv")
+x_vals, y_vals = bp.build_coordinate_arrays(df)
 start = df["startFrequency"].iloc[0]
 end = df["endFrequency"].iloc[0]
-freq = np.linspace(start, end, spectra.shape[1])
-
-x_vals = np.sort(df["X"].unique())
-y_vals = np.sort(df["Y"].unique())
 
 peakSpectra = []
 
@@ -101,10 +100,10 @@ for spectrum in peakSpectra:
 
     for iteration in range(50):
         params_prev = params.copy()
-        params, err = cm.update_parameter(peakFreq, spectrum, params, 0, steps[0])  # amplitude
-        params, err = cm.update_parameter(peakFreq, spectrum, params, 1, steps[1])  # mean
-        params, err = cm.update_parameter(peakFreq, spectrum, params, 2, steps[2])  # gamma
-        params, err = cm.update_parameter(peakFreq, spectrum, params, 3, steps[3])  # C
+        params, err = bf.update_parameter(peakFreq, spectrum, params, 0, steps[0])  # amplitude
+        params, err = bf.update_parameter(peakFreq, spectrum, params, 1, steps[1])  # mean
+        params, err = bf.update_parameter(peakFreq, spectrum, params, 2, steps[2])  # gamma
+        params, err = bf.update_parameter(peakFreq, spectrum, params, 3, steps[3])  # C
     
         if(np.array_equal(params, params_prev)):
             if(phase < 4):
@@ -176,7 +175,7 @@ plt.show()
 
 
 # noise level
-heatmap = np.full((len(y_vals), len(x_vals)), np.nan) #empty heatmap
+heatmap = np.full((len(y_vals)+1, len(x_vals)+1), np.nan) #empty heatmap
 for row_i, row in df.iterrows():
     x_i = int(row["X"])
     y_i = int(row["Y"])
