@@ -38,6 +38,68 @@ def extract_frequency_window(spectra, freq, start_idx, end_idx):
     return spectra[:, start_idx:end_idx], freq[start_idx:end_idx]
 
 
+def fold_brillouin_spectrum(spectra, freq, rayleigh_trim_ghz=1.5,
+                            exclude_ranges=None):
+    """
+    Fold spectra around the Rayleigh center to stack Stokes and anti-Stokes peaks.
+
+    Both sides are ordered from closest-to-center outward so they align
+    correctly before averaging. The Rayleigh tail region is trimmed.
+
+    Parameters:
+        spectra            : ndarray (N, B) — raw intensity spectra
+        freq               : ndarray (B,)   — frequency axis in GHz
+        rayleigh_trim_ghz  : float — trim bins within this distance of center (GHz)
+        exclude_ranges     : list of (float, float) or None
+                             Frequency ranges (in raw GHz) to exclude. Bins within
+                             each (low, high) pair are replaced with the local
+                             baseline before folding, so they don't contaminate
+                             the averaged spectrum.
+                             Example: [(5.2, 5.8), (7.0, 7.5)]
+
+    Returns:
+        folded_spectra : ndarray (N, W) — averaged Stokes + anti-Stokes
+        shift_freq     : ndarray (W,)   — frequency shift axis (GHz, positive)
+    """
+    spectra = spectra.copy()
+
+    # Mask out excluded frequency ranges before folding
+    if exclude_ranges is not None:
+        for low, high in exclude_ranges:
+            mask = (freq >= low) & (freq <= high)
+            if mask.any():
+                # Replace with per-spectrum baseline (median of non-excluded bins)
+                good = ~mask
+                baseline = np.median(spectra[:, good], axis=1, keepdims=True)
+                spectra[:, mask] = baseline
+
+    center_freq = (freq[0] + freq[-1]) / 2.0
+    center_idx = np.argmin(np.abs(freq - center_freq))
+    bin_width = np.abs(freq[1] - freq[0])
+
+    # Both sides ordered: index 0 = closest to Rayleigh, increasing = further away
+    stokes_from_center = spectra[:, :center_idx][:, ::-1]   # reverse so idx 0 = nearest center
+    anti_stokes_from_center = spectra[:, center_idx:]        # idx 0 = nearest center
+
+    # Truncate to equal length
+    w = min(stokes_from_center.shape[1], anti_stokes_from_center.shape[1])
+    stokes_from_center = stokes_from_center[:, :w]
+    anti_stokes_from_center = anti_stokes_from_center[:, :w]
+
+    # Average for improved SNR
+    folded = (stokes_from_center + anti_stokes_from_center) / 2.0
+
+    # Build shift axis: index i corresponds to (i+1) * bin_width GHz from Rayleigh
+    shift_freq = np.arange(1, w + 1) * bin_width
+
+    # Trim Rayleigh tail region
+    trim_bins = int(rayleigh_trim_ghz / bin_width)
+    folded_spectra = folded[:, trim_bins:]
+    shift_freq = shift_freq[trim_bins:]
+
+    return folded_spectra, shift_freq
+
+
 def build_coordinate_arrays(df):
     """
     Extract sorted unique X and Y scan positions from the dataframe.

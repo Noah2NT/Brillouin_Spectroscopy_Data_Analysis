@@ -262,4 +262,67 @@ def plot_heatmap_arr(arr, title="Heatmap", cmap="magma",
     ax.set_xlabel("X position")
     ax.set_ylabel("Y position")
     plt.colorbar(im, ax=ax, label=colorbar_label)
+
+    if standalone:
+        plt.tight_layout()
+        plt.show()
+
+
+def plot_analysis_grid(panels, suptitle="Analysis Overview", ncols=4,
+                       figsize=None, save_path=None):
+    """
+    Display multiple 2D maps in a single side-by-side grid figure.
+
+    Parameters:
+        panels   : list of dict, each with keys:
+                     'data'  — 2D ndarray
+                     'title' — str
+                     'cmap'  — str (default 'magma')
+                     'colorbar_label' — str (default '')
+        suptitle : str — overall figure title
+        ncols    : int — max columns per row
+        figsize  : tuple or None (auto-calculated)
+        save_path: str or None — if provided, saves figure to this path
+
+    Returns:
+        fig, axes
+    """
+    from math import ceil
+
+    n = len(panels)
+    ncols = min(ncols, n)
+    nrows = ceil(n / ncols)
+
+    if figsize is None:
+        figsize = (5 * ncols, 4.5 * nrows)
+
+    fig, axes = plt.subplots(nrows, ncols, figsize=figsize)
+    axes = np.atleast_2d(axes)
+
+    for idx, panel in enumerate(panels):
+        row, col = divmod(idx, ncols)
+        ax = axes[row, col]
+
+        # Support custom plot functions (e.g. line plots) via 'plot_func' key
+        if 'plot_func' in panel:
+            panel['plot_func'](ax)
+            ax.set_title(panel.get('title', ''))
+        else:
+            cmap = panel.get('cmap', 'magma')
+            label = panel.get('colorbar_label', '')
+            im = ax.imshow(panel['data'], origin='lower', cmap=cmap)
+            ax.set_title(panel['title'])
+            plt.colorbar(im, ax=ax, label=label)
+
+    for idx in range(n, nrows * ncols):
+        row, col = divmod(idx, ncols)
+        axes[row, col].set_visible(False)
+
+    fig.suptitle(suptitle, fontsize=14)
+    fig.tight_layout(rect=[0, 0, 1, 0.96])
+
+    if save_path:
+        fig.savefig(save_path, dpi=150, bbox_inches='tight')
+
     plt.show()
+    return fig, axes

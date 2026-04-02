@@ -8,7 +8,7 @@ import brillouin_decomposition as bd
 import brillouin_plotting as bplt
 
 
-spectra, freq, df = bp.load_brillouin_csv("Hydrogl1_XYscan_20000_20000_step500um_10s (1).csv")
+spectra, freq, df = bp.load_brillouin_csv("Cell_Col Healthy_xy_scanning30um_40um_step1um_15s.csv") # needs freqShift > 8 excluded
 x_vals, y_vals = bp.build_coordinate_arrays(df)
 start = df["startFrequency"].iloc[0]
 end = df["endFrequency"].iloc[0]
@@ -50,7 +50,7 @@ print(f"Lorentzian Error: " + {cm.error_function(s1, cm.lorentzian(peakFreq, amp
 
 
 # fits a lorentzian curve to 1 frequency spectra
-"""
+
 mean = peakFreq[np.argmax(s1)]
 C = -13
 amp = s1.max()-C
@@ -63,10 +63,10 @@ phase = 0
 
 for iteration in range(50):
     params_prev = params
-    params, err = cm.update_parameter(peakFreq, s1, params, 0, steps[0])  # amplitude
-    params, err = cm.update_parameter(peakFreq, s1, params, 1, steps[1])  # mean
-    params, err = cm.update_parameter(peakFreq, s1, params, 2, steps[2])  # gamma
-    params, err = cm.update_parameter(peakFreq, s1, params, 3, steps[3])  # C
+    params, err = bf.update_parameter(peakFreq, s1, params, 0, steps[0])  # amplitude
+    params, err = bf.update_parameter(peakFreq, s1, params, 1, steps[1])  # mean
+    params, err = bf.update_parameter(peakFreq, s1, params, 2, steps[2])  # gamma
+    params, err = bf.update_parameter(peakFreq, s1, params, 3, steps[3])  # C
     
     if(np.array_equal(params, params_prev)):
         if(phase < 4):
@@ -74,15 +74,7 @@ for iteration in range(50):
             steps *= 0.5
         else:
             break
-    
-    #print(f"iteration {iteration}, phase {phase}: params={params}, error={err:.0f}")
-    #plt.figure()
-    #plt.plot(peakFreq, s1, label = 'Raw')
-    #plt.plot(peakFreq, cm.lorentzian(peakFreq, *params), label='Lorentzian')
-    #plt.ylim(0, 1000)
-    #plt.legend()
-    #plt.show()
-"""
+
 
 
 fittedData = [] # intensity, frequency shift, peak width, C
@@ -115,12 +107,7 @@ for spectrum in peakSpectra:
     noises.append(err)
     
 # side by side of fitted data vs raw data
-'''  
-plt.figure()
-plt.ylim(0, 1000)
-for data in fittedData:
-    plt.plot(peakFreq, cm.lorentzian(peakFreq, *data))
-plt.show()
+
 
 
 plt.figure()
@@ -128,7 +115,7 @@ plt.ylim(0, 1000)
 for spectrum in peakSpectra:
     plt.plot(peakFreq, spectrum)
 plt.show()
-'''
+
 
 # peak intensity
 heatmap = np.full((len(y_vals)+1, len(x_vals)+1), np.nan) #empty heatmap
