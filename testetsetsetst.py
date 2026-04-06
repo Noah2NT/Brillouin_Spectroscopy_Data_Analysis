@@ -40,3 +40,51 @@ plt.show()
 # ===================
 # Stokes / Anti-Stokes Folding
 # ===================
+
+folded_spectra, shift_freq = bp.fold_brillouin_spectrum(spectra, freq)
+
+keep = shift_freq <= 8
+folded_spectra = folded_spectra[:, keep]
+shift_freq = shift_freq[keep]
+# ===================
+# Fitting
+# ===================
+
+fitted_curves, fit_params = bf.fit_all_spectra(shift_freq, folded_spectra)
+amplitudes, peak_shifts, linewidths, baselines = bf.extract_fit_parameters(fit_params)
+
+shift_map = bp.reshape_to_map(peak_shifts, y_vals, x_vals)
+
+# ===================
+# VCA Endmember Abundance
+# ===================
+
+endmembers, indices = bd.vca(folded_spectra, num_endmembers=3)
+abundances = bd.estimate_abundances(folded_spectra, endmembers)
+endmember2_map = bp.reshape_to_map(abundances[:, 0], y_vals, x_vals)
+
+# ===================
+# Morphological Mask Comparison
+# ===================
+
+mask = fe.threshold_mask(endmember2_map, np.mean(endmember2_map))
+eroded = fe.erode_mask(mask, iterations=1)
+dilated = fe.dilate_mask(eroded, iterations=1)
+
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+
+axes[0].imshow(mask, cmap='gray', interpolation='nearest', origin='lower')
+axes[0].set_title('Original Mask')
+axes[0].axis('off')
+
+axes[1].imshow(eroded, cmap='gray', interpolation='nearest', origin='lower')
+axes[1].set_title('After Erosion')
+axes[1].axis('off')
+
+axes[2].imshow(dilated, cmap='gray', interpolation='nearest', origin='lower')
+axes[2].set_title('After Dilation')
+axes[2].axis('off')
+
+plt.suptitle('Morphological Operations on VCA Endmember 3 Abundance Mask', fontsize=14)
+plt.tight_layout()
+plt.show()
