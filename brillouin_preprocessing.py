@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from scipy.ndimage import gaussian_filter
 
 
 def load_brillouin_csv(filepath):
@@ -126,3 +127,45 @@ def reshape_to_map(data, y_vals, x_vals):
         ndarray (len(y_vals), len(x_vals))
     """
     return data.reshape(len(y_vals), len(x_vals))
+
+
+def normalize_spectra(spectra):
+    """
+    Min-max normalize each spectrum independently to [0, 1].
+
+    Parameters:
+        spectra : ndarray (N, B)
+
+    Returns:
+        ndarray (N, B) — normalized spectra
+    """
+    mins = spectra.min(axis=1, keepdims=True)
+    maxs = spectra.max(axis=1, keepdims=True)
+    ranges = maxs - mins
+    ranges[ranges == 0] = 1
+    return (spectra - mins) / ranges
+
+
+def spatial_smooth_spectra(spectra, y_vals, x_vals, sigma=1.0):
+    """
+    Spatially smooth spectra using a Gaussian kernel over the 2D scan grid.
+
+    Each frequency bin is independently smoothed across the spatial dimensions,
+    so neighboring pixels' spectra bleed into each other with Gaussian weights.
+
+    Parameters:
+        spectra : ndarray (N, B) — one spectrum per scan pixel
+        y_vals  : array-like     — unique y positions
+        x_vals  : array-like     — unique x positions
+        sigma   : float          — Gaussian kernel width in pixels
+
+    Returns:
+        ndarray (N, B) — spatially smoothed spectra
+    """
+    ny, nx = len(y_vals), len(x_vals)
+    B = spectra.shape[1]
+    cube = spectra.reshape(ny, nx, B)
+    smoothed_cube = np.empty_like(cube)
+    for b in range(B):
+        smoothed_cube[:, :, b] = gaussian_filter(cube[:, :, b], sigma=sigma)
+    return smoothed_cube.reshape(ny * nx, B)

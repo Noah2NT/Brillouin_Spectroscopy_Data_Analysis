@@ -22,8 +22,8 @@ import feature_extraction as fe
 # Data Loading
 # ===================
 
-spectra, freq, df = bp.load_brillouin_csv("Cell_Col Healthy_xy_scanning30um_40um_step1um_15s.csv") # needs freqShift > 8 excluded
-#spectra, freq, df = bp.load_brillouin_csv("XY_scanning_40um_60um_step1um_10s_fixed.csv")
+#spectra, freq, df = bp.load_brillouin_csv("Cell_Col Healthy_xy_scanning30um_40um_step1um_15s.csv") # needs freqShift > 8 excluded
+spectra, freq, df = bp.load_brillouin_csv("XY_scanning_40um_60um_step1um_10s_fixed.csv")
 #spectra, freq, df = bp.load_brillouin_csv("Hydrogl1_XYscan_20000_20000_step500um_10s (1).csv")
 #spectra, freq, df = bp.load_brillouin_csv("water_plexiglass.csv")
 
@@ -38,6 +38,8 @@ folded_spectra, shift_freq = bp.fold_brillouin_spectrum(spectra, freq)
 keep = shift_freq <= 8
 folded_spectra = folded_spectra[:, keep]
 shift_freq = shift_freq[keep]
+normed = bp.normalize_spectra(folded_spectra) #temporary
+folded_spectra = bp.spatial_smooth_spectra(normed, y_vals, x_vals, sigma=1.0) #temporary
 
 print(f"Folded spectra shape: {folded_spectra.shape}")
 print(f"Shift freq range: {shift_freq[0]:.3f} — {shift_freq[-1]:.3f} GHz")

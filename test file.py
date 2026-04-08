@@ -27,15 +27,15 @@ plt.show()
 
 
 # visualise brillouin peak
-
+'''
 plt.figure()
-for spectrum in spectra:
-    plt.plot(freq[320:400], spectrum[320:400])
+for spectrum in spectra[200:250]:
+    plt.plot(freq[320:380], spectrum[320:380])
 plt.xlabel("Frequency Shift (GHz)")
 plt.ylabel("Intensity")
-plt.ylim(0, 2000)
+plt.ylim(0, 1000)
 plt.show()
-
+'''
 
 # heatmap of the brillouin peak maximum for all pixels
 

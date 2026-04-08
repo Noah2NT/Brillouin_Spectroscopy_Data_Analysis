@@ -24,7 +24,7 @@ peakFreq = freq[305:405]
 # manual fitting practise
 s1 = peakSpectra[0]
 
-'''
+
 mean = peakFreq[np.argmax(s1)]
 amp = s1.max()
 C = 0
@@ -33,16 +33,16 @@ gamma = 0.36
 
 std = 0.4 
 
-
+'''
 plt.figure()
 plt.plot(peakFreq, s1, label = 'Raw')
-plt.plot(peakFreq, cm.gaussian(peakFreq, amp, mean, std, C), label='Gaussian')
-plt.plot(peakFreq, cm.lorentzian(peakFreq, amp, mean, gamma, C), label='Lorentzian')
+plt.plot(peakFreq, bf.gaussian(peakFreq, amp, mean, std, C), label='Gaussian')
+plt.plot(peakFreq, bf.lorentzian(peakFreq, amp, mean, gamma, C), label='Lorentzian')
 plt.ylim(0, 1000)
 plt.legend()
 plt.show()
-print(f"Gaussian Error: " + {cm.error_function(s1, cm.gaussian(peakFreq, amp, mean, std, C)))}
-print(f"Lorentzian Error: " + {cm.error_function(s1, cm.lorentzian(peakFreq, amp, mean, gamma, C)))}
+print(f"Gaussian Error: " + {bf.error_function(s1, bf.gaussian(peakFreq, amp, mean, std, C)))}
+print(f"Lorentzian Error: " + {bf.error_function(s1, bf.lorentzian(peakFreq, amp, mean, gamma, C)))}
 '''
 
 
@@ -108,6 +108,11 @@ for spectrum in peakSpectra:
     
 # side by side of fitted data vs raw data
 
+plt.figure()
+plt.ylim(0, 1000)
+plt.plot(peakFreq, peakSpectra[0])
+plt.plot(peakFreq, bf.lorentzian(*fittedData[0]))
+plt.show()
 
 
 plt.figure()

@@ -59,8 +59,11 @@ shift_map = bp.reshape_to_map(peak_shifts, y_vals, x_vals)
 # VCA Endmember Abundance
 # ===================
 
-endmembers, indices = bd.vca(folded_spectra, num_endmembers=3)
-abundances = bd.estimate_abundances(folded_spectra, endmembers)
+normed = bp.normalize_spectra(folded_spectra)
+smoothed_spectra = bp.spatial_smooth_spectra(normed, y_vals, x_vals, sigma=1.0)
+
+endmembers, indices = bd.vca(smoothed_spectra, num_endmembers=3)
+abundances = bd.estimate_abundances(smoothed_spectra, endmembers)
 endmember2_map = bp.reshape_to_map(abundances[:, 0], y_vals, x_vals)
 
 # ===================
