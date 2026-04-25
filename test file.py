@@ -4,7 +4,7 @@ import pandas as pd
 
 #width of curve, map using gaussian/lorentzian curves & research fourier transform
 
-df = pd.read_csv("Cell_Col Healthy_xy_scanning30um_40um_step1um_15s.csv")
+df = pd.read_csv("water_plexiglass.csv")
 spectra = np.vstack(
     df["Raw Data"].apply(lambda s: np.array([float(v) for v in s.split(",")]))
 )
@@ -17,7 +17,7 @@ y_vals = np.sort(df["Y"].unique())
 
 # visualise the fist pixel frequency shift spectrum
 
-spectrum = spectra[0]
+spectrum = spectra[350]
 plt.figure()
 plt.plot(freq, spectrum)
 plt.xlabel("Frequency Shift (GHz)")

@@ -12,9 +12,9 @@ import brillouin_decomposition as bd
 # Data Preprocessing
 # ===================
 #spectra, freq, df = bp.load_brillouin_csv("XY_scanning_40um_60um_step1um_10s_fixed.csv")
-#spectra, freq, df = bp.load_brillouin_csv("Hydrogl1_XYscan_20000_20000_step500um_10s (1).csv")
+spectra, freq, df = bp.load_brillouin_csv("Hydrogl1_XYscan_20000_20000_step500um_10s (1).csv")
 #spectra, freq, df = bp.load_brillouin_csv("water_plexiglass.csv")
-spectra, freq, df = bp.load_brillouin_csv("Cell_Col Healthy_xy_scanning30um_40um_step1um_15s.csv")
+#spectra, freq, df = bp.load_brillouin_csv("Cell_Col Healthy_xy_scanning30um_40um_step1um_15s.csv")
 x_vals, y_vals = bp.build_coordinate_arrays(df)
 peakSpectraarr, peakFreq = bp.extract_frequency_window(spectra, freq, 305, 405)
 
@@ -34,12 +34,12 @@ PC1arr, PC2arr, PC3arr = scores[:, 0], scores[:, 1], scores[:, 2]
 
 n_show = min(10, len(eigenvalues))
 fig, ax = plt.subplots(figsize=(10, 6))
-for i in range(2):
+for i in range(3):
     ax.plot(peakFreq, eigenvectors[:, i], linewidth=1.5, label=f'PC{i+1} ({eigenvalues[i]/eigenvalues.sum()*100:.1f}%)')
 ax.set_xlabel('Frequency Shift (GHz)')
 ax.set_ylabel('Eigenvector Weight')
 ax.set_title('Principal Components')
-ax.legend(fontsize=8, ncol=2)
+ax.legend(fontsize=8, ncol=3)
 plt.tight_layout()
 plt.show()
 
@@ -48,11 +48,11 @@ plt.show()
 # PCA Abundance Heatmaps
 # ============================
 
-fig, axes = plt.subplots(1, 2, figsize=(10, 5))
-PC_labels = ['PC1', 'PC2']
-PC_arrays = [PC1arr, PC2arr]
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+PC_labels = ['PC1', 'PC2', 'PC3']
+PC_arrays = [PC1arr, PC2arr, PC3arr]
 
-for i in range(2):
+for i in range(3):
     heatmap = PC_arrays[i].reshape(len(y_vals), len(x_vals))
     im = axes[i].imshow(heatmap, origin="lower", cmap='magma')
     axes[i].set_title(f"{PC_labels[i]} Score Map")
@@ -75,7 +75,7 @@ _, freqShiftarr, _, _ = bf.extract_fit_parameters(fit_params)
 # ===================
 # Plot according to peak shift in PC space (good) (noticable gradient)
 # ===================
-'''
+
 i = 0  # plots in 3d from all angles
 while i < 360:
     fig = plt.figure()
@@ -86,10 +86,10 @@ while i < 360:
     ax.set_xlabel('PC1 value')
     ax.set_ylabel('PC2 value')
     ax.set_zlabel('PC3 value')
-    ax.view_init(elev=0, azim=i)
+    ax.view_init(elev=30, azim=i)
     plt.show()
     i += 10
-'''
+
 
 fig = plt.figure()  # plots in 3d at the clearest angle
 ax = fig.add_subplot(111, projection='3d')

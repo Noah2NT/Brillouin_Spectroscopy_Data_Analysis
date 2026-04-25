@@ -5,13 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c5df5ba4-58f6-412e-962a-3349b9ac54a0" name="Changes" comment="a">
+      <change afterPath="$PROJECT_DIR$/Smoothing + Clustering.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Capstone.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Capstone.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Background Data Visualisations.py" beforeDir="false" afterPath="$PROJECT_DIR$/Background Data Visualisations.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PCA implementation.py" beforeDir="false" afterPath="$PROJECT_DIR$/PCA implementation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/brillouin_preprocessing.py" beforeDir="false" afterPath="$PROJECT_DIR$/brillouin_preprocessing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VCA implementation.py" beforeDir="false" afterPath="$PROJECT_DIR$/VCA implementation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/brillouin_plotting.py" beforeDir="false" afterPath="$PROJECT_DIR$/brillouin_plotting.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/curve fitting.py" beforeDir="false" afterPath="$PROJECT_DIR$/curve fitting.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test file.py" beforeDir="false" afterPath="$PROJECT_DIR$/test file.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testetsetsetst.py" beforeDir="false" afterPath="$PROJECT_DIR$/testetsetsetst.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +40,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Noah2NT/Brillouin_Spectroscopy_Data_Analysis.git&quot;,
-    &quot;accountId&quot;: &quot;967d24f5-3098-4380-b503-5d342a7b5e50&quot;
+    &quot;accountId&quot;: &quot;a194bfe2-b854-405a-8573-e6caaf28a8be&quot;
   }
 }</component>
   <component name="McpProjectServerCommands">
@@ -58,6 +61,7 @@
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;Python.Background Data Visualisations.executor&quot;: &quot;Run&quot;,
     &quot;Python.PCA implementation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Smoothing + Clustering.executor&quot;: &quot;Run&quot;,
     &quot;Python.VCA PCA display.executor&quot;: &quot;Run&quot;,
     &quot;Python.VCA implementation.executor&quot;: &quot;Run&quot;,
     &quot;Python.brillouin_plotting.executor&quot;: &quot;Run&quot;,
@@ -96,7 +100,6 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.13 (Brillouin_Spectroscopy_Data_Analysis)" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -145,6 +148,12 @@
       <workItem from="1775468401907" duration="4267000" />
       <workItem from="1775473493833" duration="2229000" />
       <workItem from="1775543297645" duration="10281000" />
+      <workItem from="1775647661587" duration="594000" />
+      <workItem from="1775800529184" duration="9413000" />
+      <workItem from="1775817483191" duration="1212000" />
+      <workItem from="1776050411250" duration="908000" />
+      <workItem from="1776654077757" duration="7230000" />
+      <workItem from="1776669533100" duration="166000" />
     </task>
     <task id="LOCAL-00001" summary="proejct beginnings">
       <option name="closed" value="true" />
@@ -182,19 +191,20 @@
     <option name="LAST_COMMIT_MESSAGE" value="a" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Brillouin_Spectroscopy_Data_Analysis$PCA_implementation.coverage" NAME="PCA implementation Coverage Results" MODIFIED="1775619859244" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Brillouin_Spectroscopy_Data_Analysis$VCA_implementation.coverage" NAME="VCA implementation Coverage Results" MODIFIED="1775100361151" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Brillouin_Spectroscopy_Data_Analysis$curve_fitting.coverage" NAME="curve fitting Coverage Results" MODIFIED="1775619248861" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Brillouin_Spectroscopy_Data_Analysis$PCA_implementation.coverage" NAME="PCA implementation Coverage Results" MODIFIED="1776660975436" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Brillouin_Spectroscopy_Data_Analysis$VCA_implementation.coverage" NAME="VCA implementation Coverage Results" MODIFIED="1776661221447" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Brillouin_Spectroscopy_Data_Analysis$curve_fitting.coverage" NAME="curve fitting Coverage Results" MODIFIED="1775818064361" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Brillouin_Spectroscopy_Data_Analysis$Smoothing___Clustering.coverage" NAME="Smoothing + Clustering Coverage Results" MODIFIED="1776669549428" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Brillouin_Spectroscopy_Data_Analysis$feature_extraction.coverage" NAME="feature_extraction Coverage Results" MODIFIED="1775471487174" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Brillouin_Spectroscopy_Data_Analysis$testingtesting.coverage" NAME="testingtesting Coverage Results" MODIFIED="1775093225390" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Brillouin_Spectroscopy_Data_Analysis$test_file.coverage" NAME="test file Coverage Results" MODIFIED="1775617182283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Brillouin_Spectroscopy_Data_Analysis$test_file.coverage" NAME="test file Coverage Results" MODIFIED="1775802272709" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Capstone$VCA_PCA_display.coverage" NAME="VCA PCA display Coverage Results" MODIFIED="1774857880922" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Capstone$brillouin_preprocessing.coverage" NAME="brillouin_preprocessing Coverage Results" MODIFIED="1774848689392" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Capstone$testingtesting.coverage" NAME="testingtesting Coverage Results" MODIFIED="1774934021033" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Brillouin_Spectroscopy_Data_Analysis$VCA_PCA_display.coverage" NAME="VCA PCA display Coverage Results" MODIFIED="1775619651921" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Capstone$brillouin_plotting.coverage" NAME="brillouin_plotting Coverage Results" MODIFIED="1774860554156" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Brillouin_Spectroscopy_Data_Analysis$testetsetsetst.coverage" NAME="testetsetsetst Coverage Results" MODIFIED="1775543349826" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Brillouin_Spectroscopy_Data_Analysis$Background_Data_Visualisations.coverage" NAME="Background Data Visualisations Coverage Results" MODIFIED="1775622737667" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Brillouin_Spectroscopy_Data_Analysis$Background_Data_Visualisations.coverage" NAME="Background Data Visualisations Coverage Results" MODIFIED="1776654394602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Brillouin_Spectroscopy_Data_Analysis$brillouin_plotting.coverage" NAME="brillouin_plotting Coverage Results" MODIFIED="1775045392502" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

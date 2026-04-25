@@ -9,11 +9,16 @@ import brillouin_plotting as bplt
 # ===================
 # Data Preprocessing
 # ===================
-spectra, freq, df = bp.load_brillouin_csv("Hydrogl1_XYscan_20000_20000_step500um_10s (1).csv")
+spectra, freq, df = bp.load_brillouin_csv("XY_scanning_40um_60um_step1um_10s_fixed.csv")
+#spectra, freq, df = bp.load_brillouin_csv("Hydrogl1_XYscan_20000_20000_step500um_10s (1).csv")
 
 #spectra, freq, df = bp.load_brillouin_csv("Cell_Col Healthy_xy_scanning30um_40um_step1um_15s.csv")
 x_vals, y_vals = bp.build_coordinate_arrays(df)
 peakSpectraarr, peakFreq = bp.extract_frequency_window(spectra, freq, 305, 405)
+keep = peakFreq <= 8
+peakSpectraarr = peakSpectraarr[:, keep]
+peakFreq = peakFreq[keep]
+
 
 bplt.plot_spectrum(peakFreq, peakSpectraarr[0])
 # ===============
@@ -68,7 +73,7 @@ abundances = bd.estimate_abundances(peakSpectraarr, endmembers)
 fig, axes = plt.subplots(1, num_endmembers, figsize=(5 * num_endmembers, 5))
 for i in range(num_endmembers):
     abundance_map = abundances[:, i].reshape(len(y_vals), len(x_vals))
-    im = axes[i].imshow(abundance_map, origin="lower", cmap="viridis")
+    im = axes[i].imshow(abundance_map, origin="lower", cmap="inferno")
     axes[i].set_title(f"Endmember {i+1}")
     axes[i].set_xlabel("X position")
     axes[i].set_ylabel("Y position")

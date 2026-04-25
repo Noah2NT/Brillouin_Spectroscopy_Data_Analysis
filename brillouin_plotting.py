@@ -117,7 +117,7 @@ def plot_2d_colored_scatter(x, y, colors, xlabel="Component 1",
 
 def plot_3d_colored_scatter(x, y, z, colors, xlabel="PC1", ylabel="PC2",
                              zlabel="PC3", title="3D Scatter", cmap="jet",
-                             elev=40, azim=105, s=10, endmember_indices=None):
+                             elev=40, azim=50, s=10, endmember_indices=None):
     """
     3D scatter plot with per-point colour coding.
 

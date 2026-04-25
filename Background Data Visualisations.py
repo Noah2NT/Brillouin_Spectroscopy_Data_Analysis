@@ -38,6 +38,7 @@ folded_spectra, shift_freq = bp.fold_brillouin_spectrum(spectra, freq)
 keep = shift_freq <= 8
 folded_spectra = folded_spectra[:, keep]
 shift_freq = shift_freq[keep]
+
 normed = bp.normalize_spectra(folded_spectra) #temporary
 folded_spectra = bp.spatial_smooth_spectra(normed, y_vals, x_vals, sigma=1.0) #temporary
 
@@ -52,11 +53,10 @@ eigenvectors, eigenvalues, mean_spectrum = bd.run_pca(folded_spectra)
 explained_variance_ratio = eigenvalues / eigenvalues.sum()
 cumulative_variance      = np.cumsum(explained_variance_ratio)
 n_endmembers             = int(np.searchsorted(cumulative_variance, 0.95) + 1)
-n_endmembers = 3 if n_endmembers == 2 else n_endmembers
-n_endmembers = 2 if n_endmembers == 1 else n_endmembers
+n_endmembers = 3 if n_endmembers < 3 else n_endmembers
 print(f"Components to explain 95% variance: {n_endmembers}")
 print(f"Cumulative variance at {n_endmembers} components: {cumulative_variance[n_endmembers - 1]:.4f}")
-
+n_endmembers = 3
 # ===================================
 # K-Means Clustering in PCA Space
 # ===================================
@@ -83,7 +83,7 @@ bplt.plot_3d_colored_scatter(
     colors=pca_cluster_labels,
     xlabel="PC1", ylabel="PC2", zlabel="PC3",
     title=f"PCA Space — K-Means (k={pca_knee_k})",
-    cmap="tab10",
+    cmap="tab10"
 )
 
 # ===================================
@@ -111,15 +111,16 @@ for i, idx in enumerate(endmember_indices):
 # ===================================
 # 3D PCA Scatter with VCA Endmembers
 # ===================================
-
-bplt.plot_3d_colored_scatter(
-    PC1arr, PC2arr, PC3arr,
-    colors=abundances[:, 0],
-    xlabel="PC1", ylabel="PC2", zlabel="PC3",
-    title="PCA Space — VCA Endmembers Highlighted",
-    cmap="inferno",
-    endmember_indices=endmember_indices,
-)
+for i in range(5):
+    bplt.plot_3d_colored_scatter(
+        PC1arr, PC2arr, PC3arr,
+        colors=abundances[:, 0],
+        xlabel="PC1", ylabel="PC2", zlabel="PC3",
+        title="PCA Space — VCA Endmembers Highlighted",
+        cmap="inferno",
+        endmember_indices=endmember_indices,
+        azim=i*72
+    )
 
 # ===================================
 # VCA Abundance Maps with Endmembers

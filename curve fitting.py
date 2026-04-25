@@ -8,7 +8,7 @@ import brillouin_decomposition as bd
 import brillouin_plotting as bplt
 
 
-spectra, freq, df = bp.load_brillouin_csv("Cell_Col Healthy_xy_scanning30um_40um_step1um_15s.csv") # needs freqShift > 8 excluded
+spectra, freq, df = bp.load_brillouin_csv("water_plexiglass.csv") # needs freqShift > 8 excluded
 x_vals, y_vals = bp.build_coordinate_arrays(df)
 start = df["startFrequency"].iloc[0]
 end = df["endFrequency"].iloc[0]
@@ -16,9 +16,9 @@ end = df["endFrequency"].iloc[0]
 peakSpectra = []
 
 for spectrum in spectra:
-    peakSpectra.append(spectrum[305:405])
+    peakSpectra.append(spectrum[305:512])
 
-peakFreq = freq[305:405]
+peakFreq = freq[305:512]
 
 
 # manual fitting practise
@@ -108,17 +108,18 @@ for spectrum in peakSpectra:
     
 # side by side of fitted data vs raw data
 
-plt.figure()
-plt.ylim(0, 1000)
-plt.plot(peakFreq, peakSpectra[0])
-plt.plot(peakFreq, bf.lorentzian(*fittedData[0]))
-plt.show()
-
 
 plt.figure()
 plt.ylim(0, 1000)
 for spectrum in peakSpectra:
     plt.plot(peakFreq, spectrum)
+plt.show()
+
+plt.figure()
+plt.ylim(0, 3000)
+plt.plot(peakFreq, peakSpectra[350], label='raw')
+plt.plot(peakFreq, bf.lorentzian(peakFreq, *fittedData[350]), label='fitted')
+plt.legend()
 plt.show()
 
 
