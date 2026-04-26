@@ -39,8 +39,8 @@ keep = shift_freq <= 8
 folded_spectra = folded_spectra[:, keep]
 shift_freq = shift_freq[keep]
 
-normed = bp.normalize_spectra(folded_spectra) #temporary
-folded_spectra = bp.spatial_smooth_spectra(normed, y_vals, x_vals, sigma=1.0) #temporary
+#normed = bp.normalize_spectra(folded_spectra) #temporary
+#folded_spectra = bp.spatial_smooth_spectra(normed, y_vals, x_vals, sigma=1.0) #temporary
 
 print(f"Folded spectra shape: {folded_spectra.shape}")
 print(f"Shift freq range: {shift_freq[0]:.3f} — {shift_freq[-1]:.3f} GHz")
