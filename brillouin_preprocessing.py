@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 from scipy.ndimage import gaussian_filter
@@ -146,6 +147,45 @@ def normalize_spectra(spectra):
     return (spectra - mins) / ranges
 
 
+def sum_normalize_spectra(spectra):
+    """
+    Normalize each spectrum so its intensities sum to 1 (L1 normalization).
+
+    Useful when overall pixel brightness varies across the scan but you want
+    to compare spectral *shape* between pixels.
+
+    Parameters:
+        spectra : ndarray (N, B)
+
+    Returns:
+        ndarray (N, B) — each row sums to 1
+    """
+    sums = spectra.sum(axis=1, keepdims=True)
+    sums[sums == 0] = 1
+    return spectra / sums
+
+
+def sum_normalize_line_scans(scans, key="folded_spectra"):
+    """
+    Apply sum-normalization to every scan's spectra in a list of line-scan
+    dicts. The normalized array is stored under '<key>_norm'.
+
+    Parameters:
+        scans : list of line-scan dicts
+        key   : which spectra array to normalize ('spectra' or 'folded_spectra')
+
+    Returns:
+        new list of dicts (originals are not mutated) with an extra key
+        '<key>_norm' containing the normalized spectra
+    """
+    out = []
+    for scan in scans:
+        new_scan = dict(scan)
+        new_scan[key + "_norm"] = sum_normalize_spectra(scan[key])
+        out.append(new_scan)
+    return out
+
+
 def spatial_smooth_spectra(spectra, y_vals, x_vals, sigma=1.0):
     """
     Spatially smooth spectra using a Gaussian kernel over the 2D scan grid.
@@ -169,3 +209,145 @@ def spatial_smooth_spectra(spectra, y_vals, x_vals, sigma=1.0):
     for b in range(B):
         smoothed_cube[:, :, b] = gaussian_filter(cube[:, :, b], sigma=sigma)
     return smoothed_cube.reshape(ny * nx, B)
+
+
+# ============================================================
+# 1D line-scan loaders
+# ============================================================
+
+def load_line_scan(filepath):
+    """
+    Load a single 1D line-scan Brillouin CSV.
+
+    Line-scan files have the same schema as 2D scans but only one spatial
+    column varies (the other(s) stay constant). Most files vary X, but some
+    Treated files vary Y instead — this loader auto-detects which spatial
+    column is the actual scan axis (the one with the most unique values).
+
+    Parameters:
+        filepath : str — path to the line-scan CSV
+
+    Returns:
+        spectra   : ndarray (N, B)  — raw intensity spectra along the line
+        freq      : ndarray (B,)    — frequency axis (GHz)
+        positions : ndarray (N,)    — position of each spectrum, in scan order
+        df        : DataFrame       — original dataframe
+    """
+    spectra, freq, df = load_brillouin_csv(filepath)
+    axis = _detect_scan_axis(df)
+    positions = df[axis].to_numpy()
+    return spectra, freq, positions, df
+
+
+def _detect_scan_axis(df):
+    """
+    Return whichever of 'X', 'Y', 'Z' has the most unique values
+    in the dataframe — i.e. the one that's actually being scanned.
+    """
+    candidates = [c for c in ("X", "Y", "Z") if c in df.columns]
+    if not candidates:
+        raise ValueError("Dataframe has no X/Y/Z column to use as scan axis.")
+    counts = {c: df[c].nunique() for c in candidates}
+    return max(counts, key=counts.get)
+
+
+def build_position_array(df):
+    """
+    Extract the 1D scan-position axis from a line-scan dataframe.
+    Automatically picks whichever of X/Y/Z is the varying axis.
+
+    Returns:
+        ndarray — unique scan positions in ascending order
+    """
+    axis = _detect_scan_axis(df)
+    return np.sort(df[axis].unique())
+
+
+def load_line_scan_folder(folder_path):
+    """
+    Load every .csv file in a folder as a line scan.
+
+    Parameters:
+        folder_path : str — path to a folder containing line-scan CSVs
+
+    Returns:
+        list of dicts with keys:
+            'spectra'   — ndarray (N, B)
+            'freq'      — ndarray (B,)
+            'positions' — ndarray (N,)
+            'filename'  — str
+    """
+    out = []
+    for fname in sorted(os.listdir(folder_path)):
+        if not fname.lower().endswith(".csv"):
+            continue
+        full = os.path.join(folder_path, fname)
+        spectra, freq, positions, _ = load_line_scan(full)
+        out.append({
+            "spectra":   spectra,
+            "freq":      freq,
+            "positions": positions,
+            "filename":  fname,
+        })
+    return out
+
+
+def fold_line_scans(scans, rayleigh_trim_ghz=1.5, max_shift_ghz=None,
+                    exclude_ranges=None):
+    """
+    Apply Stokes/anti-Stokes folding to every scan in a list of line scans,
+    isolating the Brillouin peak.
+
+    Each scan dict (from load_line_scan_folder) gains two new keys:
+        'folded_spectra' — ndarray (N, W) — folded spectra
+        'shift_freq'     — ndarray (W,)   — frequency shift axis (positive GHz)
+
+    Parameters:
+        scans              : list of line-scan dicts
+        rayleigh_trim_ghz  : float — bins within this distance of Rayleigh
+                             centre are dropped (passed through to
+                             fold_brillouin_spectrum)
+        max_shift_ghz      : float or None — if given, also crop folded
+                             spectra to shift_freq <= max_shift_ghz, removing
+                             bins above the Brillouin peak region
+        exclude_ranges     : list of (low, high) GHz ranges to baseline-mask
+                             before folding (passed through)
+
+    Returns:
+        new list of dicts (originals are not mutated)
+    """
+    out = []
+    for scan in scans:
+        folded, shift_freq = fold_brillouin_spectrum(
+            scan["spectra"], scan["freq"],
+            rayleigh_trim_ghz=rayleigh_trim_ghz,
+            exclude_ranges=exclude_ranges,
+        )
+        if max_shift_ghz is not None:
+            keep = shift_freq <= max_shift_ghz
+            folded = folded[:, keep]
+            shift_freq = shift_freq[keep]
+        new_scan = dict(scan)
+        new_scan["folded_spectra"] = folded
+        new_scan["shift_freq"] = shift_freq
+        out.append(new_scan)
+    return out
+
+
+def load_control_treated_line_scans(base_folder):
+    """
+    Load both Control and Treated line-scan groups from a base folder.
+
+    The base folder is expected to contain 'Control/' and 'Treated/'
+    subfolders, each filled with line-scan CSVs.
+
+    Parameters:
+        base_folder : str — e.g. "Line_scan_data"
+
+    Returns:
+        control_scans : list of line-scan dicts
+        treated_scans : list of line-scan dicts
+    """
+    control = load_line_scan_folder(os.path.join(base_folder, "Control"))
+    treated = load_line_scan_folder(os.path.join(base_folder, "Treated"))
+    return control, treated
