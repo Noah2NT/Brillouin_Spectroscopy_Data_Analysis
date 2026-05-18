@@ -8,7 +8,7 @@ import brillouin_decomposition as bd
 import brillouin_plotting as bplt
 
 
-spectra, freq, df = bp.load_brillouin_csv("water_plexiglass.csv") # needs freqShift > 8 excluded
+spectra, freq, df = bp.load_brillouin_csv("Cell_Col Healthy_xy_scanning30um_40um_step1um_15s.csv") # needs freqShift > 8 excluded
 x_vals, y_vals = bp.build_coordinate_arrays(df)
 start = df["startFrequency"].iloc[0]
 end = df["endFrequency"].iloc[0]
@@ -16,9 +16,9 @@ end = df["endFrequency"].iloc[0]
 peakSpectra = []
 
 for spectrum in spectra:
-    peakSpectra.append(spectrum[305:512])
+    peakSpectra.append(spectrum[305:400])
 
-peakFreq = freq[305:512]
+peakFreq = freq[305:400]
 
 
 # manual fitting practise
@@ -124,7 +124,7 @@ plt.show()
 
 
 # peak intensity
-heatmap = np.full((len(y_vals)+1, len(x_vals)+1), np.nan) #empty heatmap
+heatmap = np.full((len(y_vals), len(x_vals)), np.nan) #empty heatmap
 for row_i, row in df.iterrows():
     x_i = int(row["X"])
     y_i = int(row["Y"])
@@ -138,7 +138,7 @@ plt.title("Brillouin Peak Intensity Map")
 plt.show()
 
 # frequency shift
-heatmap = np.full((len(y_vals)+1, len(x_vals)+1), np.nan) #empty heatmap
+heatmap = np.full((len(y_vals), len(x_vals)), np.nan) #empty heatmap
 for row_i, row in df.iterrows():
     x_i = int(row["X"])
     y_i = int(row["Y"])
@@ -152,7 +152,7 @@ plt.title("Frequency Shift Heatmap")
 plt.show()
 
 # peak width
-heatmap = np.full((len(y_vals)+1, len(x_vals)+1), np.nan) #empty heatmap
+heatmap = np.full((len(y_vals), len(x_vals)), np.nan) #empty heatmap
 for row_i, row in df.iterrows():
     x_i = int(row["X"])
     y_i = int(row["Y"])

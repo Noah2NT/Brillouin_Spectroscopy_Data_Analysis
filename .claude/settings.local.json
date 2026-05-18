@@ -5,7 +5,8 @@
       "Bash(where python:*)",
       "Bash(ls \"C:\\\\Users\\\\noahk\\\\OneDrive\\\\Desktop\\\\codine\\\\Capstone\"/*.py)",
       "Bash(C:\\\\Python313\\\\python.exe -c \"import numpy; print\\(''numpy ok''\\); import matplotlib; print\\(''matplotlib ok''\\); import pandas; print\\(''pandas ok''\\)\")",
-      "Bash(/c/Python313/python.exe -c \"import numpy; print\\(''numpy ok''\\); import matplotlib; print\\(''matplotlib ok''\\); import pandas; print\\(''pandas ok''\\)\")"
+      "Bash(/c/Python313/python.exe -c \"import numpy; print\\(''numpy ok''\\); import matplotlib; print\\(''matplotlib ok''\\); import pandas; print\\(''pandas ok''\\)\")",
+      "Bash(python -c \"import pandas as pd; df = pd.read_csv\\(r'C:/Users/noahk/OneDrive/Documents/GitHub/Brillouin_Spectroscopy_Data_Analysis/Line_scan_data/Control 2D/control_5um_20s.csv'\\); print\\('rows:', len\\(df\\)\\); print\\('X unique:', df['X'].nunique\\(\\), df['X'].min\\(\\), df['X'].max\\(\\)\\); print\\('Y unique:', df['Y'].nunique\\(\\), df['Y'].min\\(\\), df['Y'].max\\(\\)\\); print\\('startFrequency:', df['startFrequency'].iloc[0]\\); print\\('endFrequency:', df['endFrequency'].iloc[0]\\)\")"
     ]
   }
 }

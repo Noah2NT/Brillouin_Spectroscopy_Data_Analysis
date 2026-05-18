@@ -11,8 +11,8 @@ import brillouin_plotting as bplt
 # Data Preprocessing
 # ===================
 
-spectra, freq, df = bp.load_brillouin_csv("water_plexiglass.csv")                                      # 2 clusters, azim 110
-#spectra, freq, df = bp.load_brillouin_csv("Cell_Col Healthy_xy_scanning30um_40um_step1um_15s.csv")     # clustering doesnt work
+#spectra, freq, df = bp.load_brillouin_csv("water_plexiglass.csv")                                      # 2 clusters, azim 110
+spectra, freq, df = bp.load_brillouin_csv("Cell_Col Healthy_xy_scanning30um_40um_step1um_15s.csv")     # clustering doesnt work
 #spectra, freq, df  = bp.load_brillouin_csv("XY_scanning_40um_60um_step1um_10s_fixed.csv")              # needs fitting before separation algorithms
 #spectra, freq, df = bp.load_brillouin_csv("Hydrogl1_XYscan_20000_20000_step500um_10s (1).csv")        # 3 clusters, azim 100
 

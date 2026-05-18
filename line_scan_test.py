@@ -65,7 +65,7 @@ def analyse_scan(scan):
     spectra_norm = scan["folded_spectra_norm"]
 
     _, params = bf.fit_all_spectra(scan["shift_freq"], spectra_norm)
-    _, shifts, _, _ = bf.extract_fit_parameters(params)
+    _, shifts, linewidths, _ = bf.extract_fit_parameters(params)
 
     pixel_grad       = spectral_gradient_per_pixel(spectra_norm, "simple")
     pixel_grad_sobel = spectral_gradient_per_pixel(spectra_norm, "sobel")
@@ -77,7 +77,7 @@ def analyse_scan(scan):
     except Exception:
         tab_params, tab_curve, region = None, None, None
 
-    return {"scan": scan, "shifts": shifts,
+    return {"scan": scan, "shifts": shifts, "linewidths": linewidths,
             "pixel_grad": pixel_grad,
             "pixel_grad_sobel": pixel_grad_sobel,
             "pixel_grad_lap": pixel_grad_lap,
@@ -113,20 +113,33 @@ def region_stats(result):
             grad_mask = (region == "outside") & ~edge_grad
 
         if mask.any():
-            def _mean(arr):
+            def _stats(arr):
                 v = arr[grad_mask] if grad_mask.any() else np.array([np.nan])
-                return float(np.nanmean(v))
+                return (float(np.nanmean(v)), float(np.nanmin(v)),
+                        float(np.nanmax(v)))
+            mg, _, _ = _stats(result["pixel_grad"])
+            ms, mns, mxs = _stats(result["pixel_grad_sobel"])
+            ml, mnl, mxl = _stats(result["pixel_grad_lap"])
             out[r] = {
-                "var":              float(np.var(residuals[mask])) * 10000.0,
-                "mean_shift":       float(np.mean(result["shifts"][mask])),
-                "mean_grad":        _mean(result["pixel_grad"]),
-                "mean_grad_sobel":  _mean(result["pixel_grad_sobel"]),
-                "mean_grad_lap":    _mean(result["pixel_grad_lap"]),
+                "var":             float(np.var(residuals[mask])) * 10000.0,
+                "mean_shift":      float(np.mean(result["shifts"][mask])),
+                "mean_grad":       mg,
+                "mean_grad_sobel": ms,
+                "min_grad_sobel":  mns,
+                "max_grad_sobel":  mxs,
+                "mean_grad_lap":   ml,
+                "min_grad_lap":    mnl,
+                "max_grad_lap":    mxl,
             }
         else:
             out[r] = {"var": np.nan, "mean_shift": np.nan,
-                      "mean_grad": np.nan, "mean_grad_sobel": np.nan,
-                      "mean_grad_lap": np.nan}
+                      "mean_grad": np.nan,
+                      "mean_grad_sobel": np.nan,
+                      "min_grad_sobel": np.nan,
+                      "max_grad_sobel": np.nan,
+                      "mean_grad_lap": np.nan,
+                      "min_grad_lap": np.nan,
+                      "max_grad_lap": np.nan}
     return out
 
 
@@ -325,8 +338,82 @@ def find_scan(scans, name_substr):
 ctrl_demo = find_scan(control, "control18")
 treat_demo = find_scan(treated, "treated2")
 
-vca_demo(ctrl_demo, "Control", num_endmembers=2)
-vca_demo(treat_demo, "Treated", num_endmembers=2)
+# vca_demo(ctrl_demo, "Control", num_endmembers=2)
+# vca_demo(treat_demo, "Treated", num_endmembers=2)
+
+# Frequency shift grids — every scan as a small line plot
+plot_grid(ctrl_results,  "Control", ncols=5)
+plot_grid(treat_results, "Treated", ncols=4)
+
+
+# ─────────────────────────────────────────────
+# Linewidth line graphs — every scan in each group
+# ─────────────────────────────────────────────
+
+def plot_linewidth_grid(results, group_label, ncols):
+    nrows = (len(results) + ncols - 1) // ncols
+    fig, axes = plt.subplots(nrows, ncols, figsize=(ncols * 4, nrows * 2.6))
+    axes = np.atleast_2d(axes).flatten()
+    for i, r in enumerate(results):
+        ax = axes[i]
+        positions = r["scan"]["positions"]
+        ax.plot(positions, r["linewidths"], 'b-', linewidth=1.2)
+        ax.set_title(r["scan"]["filename"].rsplit(".csv", 1)[0], fontsize=9)
+        ax.tick_params(labelsize=7)
+        ax.grid(alpha=0.2)
+    for j in range(len(results), len(axes)):
+        axes[j].axis("off")
+    fig.suptitle(f"{group_label} — linewidth (Lorentzian gamma) "
+                 f"along line (n={len(results)})", fontsize=13)
+    fig.supxlabel("X position (um)", fontsize=10)
+    fig.supylabel("Linewidth (GHz)", fontsize=10)
+    plt.tight_layout()
+    plt.show()
+
+
+# plot_linewidth_grid(ctrl_results,  "Control", ncols=5)
+# plot_linewidth_grid(treat_results, "Treated", ncols=4)
+
+
+# ─────────────────────────────────────────────
+# Per-pixel Lorentzian fits with shift + linewidth annotated
+# ─────────────────────────────────────────────
+
+def plot_per_pixel_lorentzians(result, group_label, ncols=10):
+    scan = result["scan"]
+    shift_freq = scan["shift_freq"]
+    spectra = scan["folded_spectra_norm"]
+    shifts = result["shifts"]
+    linewidths = result["linewidths"]
+    fitted_curves, _ = bf.fit_all_spectra(shift_freq, spectra)
+
+    n = spectra.shape[0]
+    nrows = (n + ncols - 1) // ncols
+    fig, axes = plt.subplots(nrows, ncols,
+                             figsize=(ncols * 2.0, nrows * 1.7),
+                             sharex=True)
+    axes = np.atleast_2d(axes).flatten()
+    for i in range(n):
+        ax = axes[i]
+        ax.plot(shift_freq, spectra[i], 'k-', linewidth=1.0)
+        ax.plot(shift_freq, fitted_curves[i], 'r-', linewidth=1.0, alpha=0.8)
+        ax.set_title(
+            f"px {i}\nshift={shifts[i]:.3f}\nlw={linewidths[i]:.3f}",
+            fontsize=6.5,
+        )
+        ax.tick_params(labelsize=6)
+        ax.grid(alpha=0.2)
+    for j in range(n, len(axes)):
+        axes[j].axis("off")
+    fig.suptitle(f"{group_label}: per-pixel Lorentzian fits "
+                 f"({scan['filename']}, {n} pixels)", fontsize=12)
+    fig.supxlabel("Frequency Shift (GHz)", fontsize=9)
+    fig.supylabel("Normalised intensity", fontsize=9)
+    plt.tight_layout()
+    plt.show()
+
+
+# plot_per_pixel_lorentzians(ctrl_results[0], "Control", ncols=10)
 
 
 # ─────────────────────────────────────────────
@@ -426,88 +513,468 @@ print_summary(treat_results, "TREATED")
 
 
 # ─────────────────────────────────────────────
-# Excel export — one row per scan  (commented out)
+# Excel export — one row per scan
 # ─────────────────────────────────────────────
 
-# def build_export_row(result, group):
-#     fname = result["scan"]["filename"]
-#     if result["tab_params"] is None:
-#         return {"group": group, "filename": fname}
-#
-#     p = result["tab_params"]
-#     s = region_stats(result)
-#     shifts = result["shifts"]
-#     grad = result["pixel_grad"]
-#     grad_sobel = result["pixel_grad_sobel"]
-#     grad_lap = result["pixel_grad_lap"]
-#     region = result["region"]
-#
-#     centre_mask = region == "center"
-#     edge_mask = region == "edge"
-#     n_centre = int(centre_mask.sum())
-#     n_edge = int(edge_mask.sum())
-#     cell_size = n_centre + n_edge
-#     edge_pct = (n_edge / cell_size) if cell_size > 0 else float("nan")
-#
-#     # Slope normalised by cell width (smaller = sharper edges relative to size)
-#     cell_width = p["x_right"] - p["x_left"]
-#     slope_norm = p["slope_width"] / cell_width if cell_width > 0 else float("nan")
-#
-#     if centre_mask.any():
-#         max_shift_c = float(np.nanmax(shifts[centre_mask]))
-#         min_shift_c = float(np.nanmin(shifts[centre_mask]))
-#     else:
-#         max_shift_c = min_shift_c = float("nan")
-#
-#     return {
-#         "group":               group,
-#         "filename":            fname,
-#         "slope":               p["slope_width"],
-#         "slope_normalized":    slope_norm,
-#         "var_centre":          s["center"]["var"],
-#         "var_edge":            s["edge"]["var"],
-#         "var_outside":         s["outside"]["var"],
-#         "shift_centre":        s["center"]["mean_shift"],
-#         "shift_edge":          s["edge"]["mean_shift"],
-#         "shift_outside":       s["outside"]["mean_shift"],
-#         "grad_centre":         s["center"]["mean_grad"],
-#         "grad_edge":           s["edge"]["mean_grad"],
-#         "grad_outside":        s["outside"]["mean_grad"],
-#         "grad_sobel_centre":   s["center"]["mean_grad_sobel"],
-#         "grad_sobel_edge":     s["edge"]["mean_grad_sobel"],
-#         "grad_sobel_outside":  s["outside"]["mean_grad_sobel"],
-#         "grad_lap_centre":     s["center"]["mean_grad_lap"],
-#         "grad_lap_edge":       s["edge"]["mean_grad_lap"],
-#         "grad_lap_outside":    s["outside"]["mean_grad_lap"],
-#         "max_shift":           float(np.nanmax(shifts)),
-#         "min_shift":           float(np.nanmin(shifts)),
-#         "max_shift_centre":    max_shift_c,
-#         "min_shift_centre":    min_shift_c,
-#         "max_grad":              float(np.nanmax(grad)),
-#         "min_grad":              float(np.nanmin(grad)),
-#         "overall_avg_grad":      float(np.nanmean(grad)),
-#         "max_grad_sobel":        float(np.nanmax(grad_sobel)),
-#         "min_grad_sobel":        float(np.nanmin(grad_sobel)),
-#         "overall_avg_grad_sobel":float(np.nanmean(grad_sobel)),
-#         "max_grad_lap":          float(np.nanmax(grad_lap)),
-#         "min_grad_lap":          float(np.nanmin(grad_lap)),
-#         "overall_avg_grad_lap":  float(np.nanmean(grad_lap)),
-#         "overall_variance":    float(np.nanvar(shifts - result["tab_curve"])) * 10000.0,
-#         "tabletop_height":     p["baseline"] + p["amplitude"],
-#         "tabletop_floor":      p["baseline"],
-#         "n_centre_pixels":     n_centre,
-#         "n_edge_pixels":       n_edge,
-#         "cell_size":           cell_size,
-#         "edge_pct":            edge_pct,
-#     }
-#
-#
-# rows = (
-#     [build_export_row(r, "Control") for r in ctrl_results]
-#     + [build_export_row(r, "Treated") for r in treat_results]
-# )
-# df_export = pd.DataFrame(rows)
-#
-# excel_path = "line_scan_summary.xlsx"
-# df_export.to_excel(excel_path, index=False, sheet_name="line_scans")
-# print(f"\nExported {len(df_export)} rows to {excel_path}")
+def build_export_row(result, group):
+    fname = result["scan"]["filename"]
+    if result["tab_params"] is None:
+        return {"group": group, "filename": fname}
+
+    p = result["tab_params"]
+    s = region_stats(result)
+    shifts = result["shifts"]
+    linewidths = result["linewidths"]
+    grad = result["pixel_grad"]
+    grad_sobel = result["pixel_grad_sobel"]
+    grad_lap = result["pixel_grad_lap"]
+    region = result["region"]
+
+    centre_mask = region == "center"
+    edge_mask = region == "edge"
+    outside_mask = region == "outside"
+    n_centre = int(centre_mask.sum())
+    n_edge = int(edge_mask.sum())
+    cell_size = n_centre + n_edge
+    edge_pct = (n_edge / cell_size) if cell_size > 0 else float("nan")
+
+    # Slope normalised by cell width (smaller = sharper edges relative to size)
+    cell_width = p["x_right"] - p["x_left"]
+    slope_norm = p["slope_width"] / cell_width if cell_width > 0 else float("nan")
+
+    if centre_mask.any():
+        max_shift_c = float(np.nanmax(shifts[centre_mask]))
+        min_shift_c = float(np.nanmin(shifts[centre_mask]))
+    else:
+        max_shift_c = min_shift_c = float("nan")
+
+    # Linewidth stats per region (Lorentzian gamma)
+    def _lw_stats(mask):
+        if mask.any():
+            v = linewidths[mask]
+            return (float(np.nanmean(v)), float(np.nanmin(v)),
+                    float(np.nanmax(v)))
+        return (float("nan"), float("nan"), float("nan"))
+
+    lw_c_mean, lw_c_min, lw_c_max = _lw_stats(centre_mask)
+    lw_e_mean, lw_e_min, lw_e_max = _lw_stats(edge_mask)
+    lw_o_mean, lw_o_min, lw_o_max = _lw_stats(outside_mask)
+
+    # Sobel gradient applied to the 1D linewidth array
+    n_pix = len(linewidths)
+    lw_sobel = np.full(n_pix, np.nan)
+    for i in range(2, n_pix - 2):
+        lw_sobel[i] = abs(linewidths[i - 2] + 2.0 * linewidths[i - 1]
+                          - 2.0 * linewidths[i + 1] - linewidths[i + 2])
+
+    def _sobel_mean(mask):
+        if mask.any():
+            v = lw_sobel[mask]
+            return float(np.nanmean(v))
+        return float("nan")
+
+    lw_sobel_overall = float(np.nanmean(lw_sobel))
+    lw_sobel_c = _sobel_mean(centre_mask)
+    lw_sobel_e = _sobel_mean(edge_mask)
+    lw_sobel_o = _sobel_mean(outside_mask)
+
+    return {
+        "group":               group,
+        "filename":            fname,
+        "slope":               p["slope_width"],
+        "slope_normalized":    slope_norm,
+        "var_centre":          s["center"]["var"],
+        "var_edge":            s["edge"]["var"],
+        "shift_centre":        s["center"]["mean_shift"],
+        "shift_edge":          s["edge"]["mean_shift"],
+        "grad_centre":         s["center"]["mean_grad"],
+        "grad_edge":           s["edge"]["mean_grad"],
+        "grad_sobel_centre":      s["center"]["mean_grad_sobel"],
+        "grad_sobel_edge":        s["edge"]["mean_grad_sobel"],
+        "grad_sobel_min_centre":  s["center"]["min_grad_sobel"],
+        "grad_sobel_max_centre":  s["center"]["max_grad_sobel"],
+        "grad_sobel_min_edge":    s["edge"]["min_grad_sobel"],
+        "grad_sobel_max_edge":    s["edge"]["max_grad_sobel"],
+        "grad_lap_centre":        s["center"]["mean_grad_lap"],
+        "grad_lap_edge":          s["edge"]["mean_grad_lap"],
+        "grad_lap_min_centre":    s["center"]["min_grad_lap"],
+        "grad_lap_max_centre":    s["center"]["max_grad_lap"],
+        "grad_lap_min_edge":      s["edge"]["min_grad_lap"],
+        "grad_lap_max_edge":      s["edge"]["max_grad_lap"],
+        "max_shift_centre":    max_shift_c,
+        "min_shift_centre":    min_shift_c,
+        "min_shift":           float(np.nanmin(shifts)),
+        "freq_shift_range":    float(np.nanmax(shifts) - np.nanmin(shifts)),
+        "tabletop_range":      p["amplitude"],
+        "lw_centre_mean":      lw_c_mean,
+        "lw_centre_min":       lw_c_min,
+        "lw_centre_max":       lw_c_max,
+        "lw_edge_mean":        lw_e_mean,
+        "lw_edge_min":         lw_e_min,
+        "lw_edge_max":         lw_e_max,
+        "lw_sobel_centre":     lw_sobel_c,
+        "lw_sobel_edge":       lw_sobel_e,
+        "tabletop_height":     p["baseline"] + p["amplitude"],
+        "n_centre_pixels":     n_centre,
+        "edge_pct":            edge_pct,
+    }
+
+rows = (
+    [build_export_row(r, "Control") for r in ctrl_results]
+    + [build_export_row(r, "Treated") for r in treat_results]
+)
+df_export = pd.DataFrame(rows)
+
+excel_path = "line_scan_summary.xlsx"
+df_export.to_excel(excel_path, index=False, sheet_name="line_scans")
+print(f"\nExported {len(df_export)} rows to {excel_path}")
+
+
+# ─────────────────────────────────────────────
+# Separation score per feature: |mean_C - mean_T| / sqrt(std_C^2 + std_T^2)
+# ─────────────────────────────────────────────
+
+def separation_scores(df):
+    ctrl = df[df["group"] == "Control"]
+    treat = df[df["group"] == "Treated"]
+    rows = []
+    for col in df.columns:
+        if col in ("group", "filename"):
+            continue
+        if not np.issubdtype(df[col].dtype, np.number):
+            continue
+        m_c = float(np.nanmean(ctrl[col]))
+        m_t = float(np.nanmean(treat[col]))
+        s_c = float(np.nanstd(ctrl[col]))
+        s_t = float(np.nanstd(treat[col]))
+        denom = np.sqrt(s_c**2 + s_t**2)
+        score = abs(m_c - m_t) / denom if denom > 0 else float("nan")
+        rows.append({"feature": col, "score": score,
+                     "mean_C": m_c, "std_C": s_c,
+                     "mean_T": m_t, "std_T": s_t})
+    sep = pd.DataFrame(rows).sort_values("score", ascending=False).reset_index(drop=True)
+    return sep
+
+
+sep = separation_scores(df_export)
+
+print(f"\n=== Separation score: |mean_C - mean_T| / sqrt(std_C^2 + std_T^2) ===")
+print(f"{'rank':>4}  {'feature':<28} {'score':>7}  "
+      f"{'mean_C':>10} {'std_C':>9}  {'mean_T':>10} {'std_T':>9}")
+print("-" * 86)
+for i, row in sep.iterrows():
+    print(f"{i+1:>4}  {row['feature']:<28} {row['score']:>7.3f}  "
+          f"{row['mean_C']:>10.4f} {row['std_C']:>9.4f}  "
+          f"{row['mean_T']:>10.4f} {row['std_T']:>9.4f}")
+
+# Also save the ranking as a second sheet in the main Excel file
+with pd.ExcelWriter(excel_path, engine="openpyxl", mode="a",
+                    if_sheet_exists="replace") as writer:
+    sep.to_excel(writer, index=False, sheet_name="separation")
+print(f"Separation ranking written to {excel_path} (sheet: 'separation')")
+
+# And also as its own standalone file (just feature + score)
+sep_path = "separation_scores.xlsx"
+sep[["feature", "score"]].to_excel(sep_path, index=False,
+                                   sheet_name="separation")
+print(f"Standalone ranking written to {sep_path}")
+
+
+# ─────────────────────────────────────────────
+# Tabletop fits for Control1 vs Treated1
+#   row 1: linewidth + tabletop fit
+#   row 2: VCA EM1 abundance + tabletop fit
+# ─────────────────────────────────────────────
+
+def find_result(results, name_substr):
+    """Locate the analyse_scan result whose filename contains name_substr."""
+    for r in results:
+        if name_substr.lower() in r["scan"]["filename"].lower():
+            return r
+    raise ValueError(f"no result matching {name_substr!r}")
+
+
+def fit_and_plot_with_tabletop(ax, scan, signal, title, ylabel):
+    """Fit a tabletop to `signal` (1D over scan positions) and plot it."""
+    positions = scan["positions"]
+    try:
+        tab_params, tab_curve = bf.fit_tabletop(positions, signal)
+        region = bf.tabletop_regions(positions, tab_params, edge_pad=2.0)
+    except Exception:
+        tab_params, tab_curve, region = None, None, None
+
+    shade_regions(ax, positions, region)
+    ax.plot(positions, signal, 'k.', markersize=4, label='data')
+    if tab_curve is not None:
+        ax.plot(positions, tab_curve, 'r-', linewidth=1.8, label='tabletop fit')
+        ax.axvline(tab_params["x_left"],  color='r', linestyle='--', alpha=0.5)
+        ax.axvline(tab_params["x_right"], color='r', linestyle='--', alpha=0.5)
+    ax.set_title(title)
+    ax.set_xlabel("X position (um)")
+    ax.set_ylabel(ylabel)
+    ax.legend(loc='best', fontsize=8)
+    ax.grid(alpha=0.3)
+
+
+def vca_abundances_2em(scan):
+    """VCA(2) on this scan; return (EM1_abundance, EM2_abundance) per pixel."""
+    spec = scan["folded_spectra_norm"]
+    endmembers, _ = bd.vca(spec, num_endmembers=2)
+    ab = bd.estimate_abundances(spec, endmembers)
+    return ab[:, 0], ab[:, 1]
+
+
+# ── Manual override: which endmember "goes up" (low-high-low tabletop)
+# for each scan. Keyed by filename substring (case-insensitive). Value is
+# 0 for EM1 or 1 for EM2. Fill these in by inspecting the working-EM grid
+# plots — anything not listed falls back to the auto-detector below.
+EM_CHOICE = {
+    # "control1.1_5um_9s":  0,
+    # "control14":          1,
+    # "treated_5um_9s":     0,
+    # "6.25nM_1.1_6s_5um":  1,
+}
+
+
+def pick_working_em(positions, em1, em2, filename=""):
+    """Return (signal, label). Manual override first, then auto-pick.
+
+    Auto-pick uses centre-vs-edge mean of each endmember; whichever has the
+    larger positive (centre − edge) value is the one "going up".
+    """
+    base = filename.rsplit(".csv", 1)[0].lower()
+    for key, idx in EM_CHOICE.items():
+        if key.lower() in base:
+            return (em1, "EM1") if idx == 0 else (em2, "EM2")
+
+    n = len(em1)
+    mid_slice = slice(n // 3, 2 * n // 3)
+    edge_idx = list(range(0, n // 5)) + list(range(4 * n // 5, n))
+    score1 = float(np.nanmean(em1[mid_slice]) - np.nanmean(em1[edge_idx]))
+    score2 = float(np.nanmean(em2[mid_slice]) - np.nanmean(em2[edge_idx]))
+    return (em1, "EM1") if score1 >= score2 else (em2, "EM2")
+
+
+def plot_raw_line(ax, scan, signal, title, ylabel):
+    """Plain line plot — no tabletop, no region shading."""
+    positions = scan["positions"]
+    ax.plot(positions, signal, 'k-', linewidth=1.2)
+    ax.set_title(title)
+    ax.set_xlabel("X position (um)")
+    ax.set_ylabel(ylabel)
+    ax.grid(alpha=0.3)
+
+
+ctrl1 = find_result(ctrl_results, "control1")
+treat1 = find_result(treat_results, "treated1")
+
+ctrl1_em1, ctrl1_em2 = vca_abundances_2em(ctrl1["scan"])
+treat1_em1, treat1_em2 = vca_abundances_2em(treat1["scan"])
+
+ctrl1_signal,  ctrl1_label  = pick_working_em(
+    ctrl1["scan"]["positions"], ctrl1_em1, ctrl1_em2,
+    ctrl1["scan"]["filename"])
+treat1_signal, treat1_label = pick_working_em(
+    treat1["scan"]["positions"], treat1_em1, treat1_em2,
+    treat1["scan"]["filename"])
+
+fig, axes = plt.subplots(2, 2, figsize=(14, 8))
+
+# Row 1: linewidth (raw line, no tabletop)
+plot_raw_line(axes[0, 0], ctrl1["scan"], ctrl1["linewidths"],
+              "Control", "Brillouin linewidth (GHz)")
+plot_raw_line(axes[0, 1], treat1["scan"], treat1["linewidths"],
+              "Treated", "Brillouin linewidth (GHz)")
+
+# Row 2: working endmember abundance + tabletop fit
+fit_and_plot_with_tabletop(axes[1, 0], ctrl1["scan"], ctrl1_signal,
+                           f"Control ({ctrl1_label})",
+                           "Working EM abundance")
+fit_and_plot_with_tabletop(axes[1, 1], treat1["scan"], treat1_signal,
+                           f"Treated ({treat1_label})",
+                           "Working EM abundance")
+
+plt.suptitle("Linewidth (raw) + working VCA endmember tabletop fit",
+             fontsize=13)
+plt.tight_layout()
+plt.show()
+
+
+# ─────────────────────────────────────────────
+# Grids: linewidth (raw line, no tabletop) for ALL Controls and ALL Treated
+# ─────────────────────────────────────────────
+
+def plot_linewidth_grid_raw(results, group_label, ncols):
+    nrows = (len(results) + ncols - 1) // ncols
+    fig, axes = plt.subplots(nrows, ncols, figsize=(ncols * 4, nrows * 2.6))
+    axes = np.atleast_2d(axes).flatten()
+    for i, r in enumerate(results):
+        ax = axes[i]
+        positions = r["scan"]["positions"]
+        ax.plot(positions, r["linewidths"], 'k-', linewidth=1.2)
+        ax.set_title(r["scan"]["filename"].rsplit(".csv", 1)[0], fontsize=9)
+        ax.tick_params(labelsize=7)
+        ax.grid(alpha=0.2)
+    for j in range(len(results), len(axes)):
+        axes[j].axis("off")
+    fig.suptitle(f"{group_label} — linewidth (n={len(results)})",
+                 fontsize=13)
+    fig.supxlabel("X position (um)", fontsize=10)
+    fig.supylabel("Brillouin linewidth (GHz)", fontsize=10)
+    plt.tight_layout()
+    plt.show()
+
+
+plot_linewidth_grid_raw(ctrl_results,  "Control", ncols=5)
+plot_linewidth_grid_raw(treat_results, "Treated", ncols=4)
+
+
+# ─────────────────────────────────────────────
+# Grids: working VCA endmember + tabletop fit for ALL Controls and Treated
+# ─────────────────────────────────────────────
+
+def compute_working_em(results):
+    """Per-scan: pick working endmember and fit tabletop; return list of dicts."""
+    out = []
+    for r in results:
+        positions = r["scan"]["positions"]
+        em1, em2 = vca_abundances_2em(r["scan"])
+        signal, em_label = pick_working_em(positions, em1, em2,
+                                            r["scan"]["filename"])
+        try:
+            tab_params, tab_curve = bf.fit_tabletop(positions, signal)
+            region = bf.tabletop_regions(positions, tab_params, edge_pad=2.0)
+        except Exception:
+            tab_params, tab_curve, region = None, None, None
+        out.append({
+            "scan": r["scan"], "signal": signal, "em_label": em_label,
+            "tab_params": tab_params, "tab_curve": tab_curve,
+            "region": region,
+        })
+    return out
+
+
+def plot_working_em_grid(em_results, group_label, ncols):
+    nrows = (len(em_results) + ncols - 1) // ncols
+    fig, axes = plt.subplots(nrows, ncols, figsize=(ncols * 4, nrows * 2.6))
+    axes = np.atleast_2d(axes).flatten()
+    for i, r in enumerate(em_results):
+        ax = axes[i]
+        positions = r["scan"]["positions"]
+        ax.plot(positions, r["signal"], 'k-', linewidth=1.2)
+        title = (f"{r['scan']['filename'].rsplit('.csv', 1)[0]} "
+                 f"({r['em_label']})")
+        ax.set_title(title, fontsize=8.5)
+        ax.tick_params(labelsize=7)
+        ax.grid(alpha=0.2)
+    for j in range(len(em_results), len(axes)):
+        axes[j].axis("off")
+    fig.suptitle(f"{group_label} — working VCA endmember "
+                 f"(n={len(em_results)})", fontsize=13)
+    fig.supxlabel("X position (um)", fontsize=10)
+    fig.supylabel("Working EM abundance", fontsize=10)
+    plt.tight_layout()
+    plt.show()
+
+
+def print_working_em_tabletop(em_results, group_label):
+    print(f"\n=== {group_label} — VCA working endmember tabletop fits ===")
+    hdr = (f"{'filename':<40} {'EM':>4}  "
+           f"{'floor':>8} {'roof':>8} {'amp':>8}  "
+           f"{'x_left':>8} {'x_right':>8} {'slope':>7}")
+    print(hdr)
+    print("-" * len(hdr))
+    for r in em_results:
+        name = r["scan"]["filename"].rsplit(".csv", 1)[0]
+        if r["tab_params"] is None:
+            print(f"{name:<40} {r['em_label']:>4}  (fit failed)")
+            continue
+        p = r["tab_params"]
+        floor = p["baseline"]
+        roof = floor + p["amplitude"]
+        print(f"{name:<40} {r['em_label']:>4}  "
+              f"{floor:>8.4f} {roof:>8.4f} {p['amplitude']:>8.4f}  "
+              f"{p['x_left']:>8.2f} {p['x_right']:>8.2f} "
+              f"{p['slope_width']:>7.3f}")
+
+
+ctrl_em_results  = compute_working_em(ctrl_results)
+treat_em_results = compute_working_em(treat_results)
+
+plot_working_em_grid(ctrl_em_results,  "Control", ncols=5)
+plot_working_em_grid(treat_em_results, "Treated", ncols=4)
+
+print_working_em_tabletop(ctrl_em_results,  "CONTROL")
+print_working_em_tabletop(treat_em_results, "TREATED")
+
+
+# ─────────────────────────────────────────────
+# Sobel gradient grids — applied along position to linewidth + working EM
+# ─────────────────────────────────────────────
+
+def sobel_1d(signal):
+    """1D Sobel-Feldman gradient [1, 2, 0, -2, -1] applied across positions.
+    Returns |gradient| with NaN at the two boundary pixels on each end."""
+    n = len(signal)
+    out = np.full(n, np.nan)
+    for i in range(2, n - 2):
+        out[i] = abs(signal[i - 2] + 2.0 * signal[i - 1]
+                     - 2.0 * signal[i + 1] - signal[i + 2])
+    return out
+
+
+def plot_sobel_grid(positions_list, signals, titles, group_label,
+                    ncols, ylabel, suptitle):
+    nrows = (len(signals) + ncols - 1) // ncols
+    fig, axes = plt.subplots(nrows, ncols, figsize=(ncols * 4, nrows * 2.6))
+    axes = np.atleast_2d(axes).flatten()
+    for i, (pos, sig, ttl) in enumerate(zip(positions_list, signals, titles)):
+        ax = axes[i]
+        grad = sobel_1d(sig)
+        ax.plot(pos, grad, 'k-', linewidth=1.2)
+        ax.set_title(ttl, fontsize=8.5)
+        ax.tick_params(labelsize=7)
+        ax.grid(alpha=0.2)
+    for j in range(len(signals), len(axes)):
+        axes[j].axis("off")
+    fig.suptitle(f"{group_label} — {suptitle} (n={len(signals)})",
+                 fontsize=13)
+    fig.supxlabel("X position (um)", fontsize=10)
+    fig.supylabel(ylabel, fontsize=10)
+    plt.tight_layout()
+    plt.show()
+
+
+# Linewidth Sobel
+plot_sobel_grid(
+    [r["scan"]["positions"] for r in ctrl_results],
+    [r["linewidths"] for r in ctrl_results],
+    [r["scan"]["filename"].rsplit(".csv", 1)[0] for r in ctrl_results],
+    "Control", ncols=5, ylabel="|Sobel(linewidth)|",
+    suptitle="Sobel gradient of linewidth",
+)
+plot_sobel_grid(
+    [r["scan"]["positions"] for r in treat_results],
+    [r["linewidths"] for r in treat_results],
+    [r["scan"]["filename"].rsplit(".csv", 1)[0] for r in treat_results],
+    "Treated", ncols=4, ylabel="|Sobel(linewidth)|",
+    suptitle="Sobel gradient of linewidth",
+)
+
+# VCA working-endmember Sobel
+plot_sobel_grid(
+    [r["scan"]["positions"] for r in ctrl_em_results],
+    [r["signal"] for r in ctrl_em_results],
+    [f"{r['scan']['filename'].rsplit('.csv', 1)[0]} ({r['em_label']})"
+     for r in ctrl_em_results],
+    "Control", ncols=5, ylabel="|Sobel(EM abundance)|",
+    suptitle="Sobel gradient of working VCA endmember",
+)
+plot_sobel_grid(
+    [r["scan"]["positions"] for r in treat_em_results],
+    [r["signal"] for r in treat_em_results],
+    [f"{r['scan']['filename'].rsplit('.csv', 1)[0]} ({r['em_label']})"
+     for r in treat_em_results],
+    "Treated", ncols=4, ylabel="|Sobel(EM abundance)|",
+    suptitle="Sobel gradient of working VCA endmember",
+)
