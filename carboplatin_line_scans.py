@@ -51,7 +51,7 @@ import brillouin_fitting as bf
 STEP_UM = 5.0
 
 # --- PACLITAXEL ---------------------------------------------------------
-'''
+
 DRUG    = "Paclitaxel"
 BASE    = "Paclitaxel final line scans"
 FOLDERS = ["Control", "1.52 nM", "3.125 nM", "6.25 nM", "12.5 nM"]
@@ -74,6 +74,7 @@ FOLDER_COLORS = {
     "200um":   "orange",
     "400um":   "red",
 }
+'''
 # Folder names are directory names; these are what appears on the charts.
 # uM here is micromolar (concentration) - not to be confused with the um in
 # the position axis, which is micrometres.
@@ -85,8 +86,14 @@ FOLDER_LABELS = {
 }
 
 
-# Write every figure to figures/<DRUG>/ as well as showing it.
-SAVE_FIGS = False
+# Where every generated figure is written, as well as being shown.
+# Set to None to disable saving entirely.
+# Follows whichever config block is active above, so carboplatin figures land
+# in 'Brillouin Images/Carboplatin' and paclitaxel in
+# 'Brillouin Images/Paclitaxel'. Relative to the working directory, which must
+# be the repo root (BASE is relative too).
+SAVE_PATH = os.path.join("Brillouin Images", DRUG)
+# SAVE_PATH = None
 
 REGION_COLORS = {"outside": "#dddddd", "edge": "#ffd9b3", "center": "#b3e6ff"}
 
@@ -170,15 +177,20 @@ def _style_axes(ax):
         lbl.set_fontweight("bold")
 
 
+def _save(fig, name):
+    """Write a figure to SAVE_PATH, unless saving is switched off."""
+    if not SAVE_PATH:
+        return
+    os.makedirs(SAVE_PATH, exist_ok=True)
+    safe = "".join(c if c.isalnum() or c in "-_." else "_" for c in name)
+    fig.savefig(os.path.join(SAVE_PATH, safe + ".png"),
+                dpi=300, bbox_inches="tight")
+
+
 def _finish(fig, name):
-    """Tidy layout, optionally save, then show."""
+    """Tidy layout, save, then show."""
     fig.tight_layout()
-    if SAVE_FIGS:
-        outdir = os.path.join("figures", DRUG)
-        os.makedirs(outdir, exist_ok=True)
-        safe = "".join(c if c.isalnum() or c in "-_." else "_" for c in name)
-        fig.savefig(os.path.join(outdir, safe + ".png"),
-                    dpi=300, bbox_inches="tight")
+    _save(fig, name)
     plt.show()
 
 
@@ -810,11 +822,7 @@ def plot_mean_panels(all_results, signal_keys=("bfs_0", "lw_0")):
     if handles:
         fig.legend(handles, labels, title="dose", loc="lower center",
                    ncol=min(len(labels), 5), frameon=True)
-    if SAVE_FIGS:
-        outdir = os.path.join("figures", DRUG)
-        os.makedirs(outdir, exist_ok=True)
-        fig.savefig(os.path.join(outdir, "average_panels.png"),
-                    dpi=300, bbox_inches="tight")
+    _save(fig, "average_panels")
     plt.show()
 
 
@@ -1011,7 +1019,7 @@ def make_all_plots(all_results, signal_key):
 
 if __name__ == "__main__":
     # 'bfs', 'lw', 'bfs_0', 'lw_0', 'simple', 'sobel', 'lap'.
-    SIGNAL_KIND = "lw_0"
+    SIGNAL_KIND = "bfs_0"
 
     all_results = {}
     for folder in FOLDERS:
