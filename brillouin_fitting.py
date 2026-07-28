@@ -188,9 +188,20 @@ def tabletop(x, baseline, amplitude, x_left, x_right, slope_width):
     return baseline + amplitude * (sig_l - sig_r)
 
 
-def fit_tabletop(x, y):
+def fit_tabletop(x, y, allow_negative=False):
     """
     Fit a tabletop curve to a 1D profile (e.g. Brillouin shift along a line).
+
+    Parameters
+    ----------
+    x, y           : ndarray — position axis and profile. `x` is assumed to be
+                     sorted ascending (the initial guess reads the first/last
+                     10% of `y` as the outside-the-cell level).
+    allow_negative : bool — if True the plateau may sit BELOW the baseline
+                     (negative amplitude). Needed for signals such as the
+                     linewidth, where the cell can be narrower than the
+                     surrounding medium. Default False keeps the original
+                     amplitude >= 0 behaviour.
 
     Returns
     -------
@@ -203,51 +214,75 @@ def fit_tabletop(x, y):
     x = np.asarray(x, dtype=float)
     y = np.asarray(y, dtype=float)
 
+    # Fit only on finite points; the returned curve is still evaluated on the
+    # full input x so the caller gets an array of the original length.
+    finite = np.isfinite(x) & np.isfinite(y)
+    if finite.sum() < 5:
+        raise ValueError("fit_tabletop: fewer than 5 finite points")
+    xf, yf = x[finite], y[finite]
+
     # Initial guesses from the data
-    n = len(y)
+    n = len(yf)
     edge_window = max(1, n // 10)
-    baseline_0 = float(np.median(np.concatenate([y[:edge_window],
-                                                 y[-edge_window:]])))
-    amplitude_0 = float(np.max(y) - baseline_0)
+    baseline_0 = float(np.median(np.concatenate([yf[:edge_window],
+                                                 yf[-edge_window:]])))
+    up = float(np.max(yf) - baseline_0)
+    down = float(np.min(yf) - baseline_0)
+    if allow_negative and abs(down) > abs(up):
+        amplitude_0 = down          # plateau dips below the surrounding level
+    else:
+        amplitude_0 = up
     half_level = baseline_0 + amplitude_0 / 2.0
 
-    above = np.where(y > half_level)[0]
-    if len(above) >= 2:
-        x_left_0 = float(x[above[0]])
-        x_right_0 = float(x[above[-1]])
+    # Points on the plateau side of the half-way level
+    if amplitude_0 >= 0:
+        beyond = np.where(yf > half_level)[0]
+    else:
+        beyond = np.where(yf < half_level)[0]
+    if len(beyond) >= 2:
+        x_left_0 = float(xf[beyond[0]])
+        x_right_0 = float(xf[beyond[-1]])
     else:
         # fallback: use 1/3 and 2/3 of the range
-        x_left_0 = float(x[n // 3])
-        x_right_0 = float(x[2 * n // 3])
+        x_left_0 = float(xf[n // 3])
+        x_right_0 = float(xf[2 * n // 3])
 
-    span = x[-1] - x[0]
+    span = xf[-1] - xf[0]
     slope_width_0 = max(span / 50.0, 1e-3)
 
     p0 = [baseline_0, amplitude_0, x_left_0, x_right_0, slope_width_0]
 
     # Bounds: keep parameters physical and robust to non-monotonic x
-    x_lo = float(np.min(x))
-    x_hi = float(np.max(x))
-    pixel_spacing = float(np.median(np.abs(np.diff(x)))) if len(x) > 1 else 1.0
+    x_lo = float(np.min(xf))
+    x_hi = float(np.max(xf))
+    # Median spacing of the UNIQUE x values: when several scans are pooled onto
+    # a shared axis many points share an x, and a raw diff would collapse to 0.
+    ux = np.unique(xf)
+    pixel_spacing = float(np.median(np.diff(ux))) if len(ux) > 1 else 1.0
     min_slope = max(pixel_spacing * 0.5, 1e-3)
     span_abs = max(x_hi - x_lo, 1e-3)
 
-    lower = [-np.inf, 0.0,    x_lo, x_lo, min_slope]
+    amp_lo = -np.inf if allow_negative else 0.0
+    lower = [-np.inf, amp_lo, x_lo, x_lo, min_slope]
     upper = [ np.inf, np.inf, x_hi, x_hi, span_abs]
 
     # Clip the initial guess to be strictly inside the bounds
-    p0[1] = max(p0[1], 1e-6)             # amplitude > 0
+    if allow_negative:
+        if abs(p0[1]) < 1e-6:
+            p0[1] = 1e-6
+    else:
+        p0[1] = max(p0[1], 1e-6)         # amplitude > 0
     p0[2] = float(np.clip(p0[2], x_lo, x_hi))
     p0[3] = float(np.clip(p0[3], x_lo, x_hi))
     p0[4] = float(np.clip(p0[4], min_slope, span_abs))
 
     try:
-        popt, _ = curve_fit(tabletop, x, y, p0=p0,
+        popt, _ = curve_fit(tabletop, xf, yf, p0=p0,
                             bounds=(lower, upper), maxfev=5000)
     except (RuntimeError, ValueError):
         # Fallback: try without bounds — at least returns *some* curve
         try:
-            popt, _ = curve_fit(tabletop, x, y, p0=p0, maxfev=5000)
+            popt, _ = curve_fit(tabletop, xf, yf, p0=p0, maxfev=5000)
         except (RuntimeError, ValueError):
             popt = p0
 
