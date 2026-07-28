@@ -62,6 +62,7 @@ FOLDER_COLORS = {
      "6.25 nM":  "red",
      "12.5 nM":  "purple",
 }
+FOLDER_LABELS = {}      # folder names are already display-ready
 '''
 # --- CARBOPLATIN --------------------------------------------------------
 DRUG    = "Carboplatin"
@@ -73,6 +74,15 @@ FOLDER_COLORS = {
     "200um":   "orange",
     "400um":   "red",
 }
+# Folder names are directory names; these are what appears on the charts.
+# uM here is micromolar (concentration) - not to be confused with the um in
+# the position axis, which is micrometres.
+FOLDER_LABELS = {
+    "control": "Control",
+    "100um":   "100 µM",
+    "200um":   "200 µM",
+    "400um":   "400 µM",
+}
 
 
 # Write every figure to figures/<DRUG>/ as well as showing it.
@@ -83,12 +93,20 @@ REGION_COLORS = {"outside": "#dddddd", "edge": "#ffd9b3", "center": "#b3e6ff"}
 SIGNAL_LABELS = {
     "bfs":    "Brillouin shift (GHz)",
     "lw":     "Brillouin linewidth (GHz)",
-    "bfs_0":  "BFS - BFS0 (GHz)",
-    "lw_0":   "Linewidth - Linewidth0 (GHz)",
+    "bfs_0":  "BFS - BFS₀ (MHz)",
+    "lw_0":   "LW - LW₀ (MHz)",
     "simple": "|spectral gradient| - kernel [-1, 1]",
     "sobel":  "|spectral gradient| - Sobel [1, 2, 0, -2, -1]",
     "lap":    "|spectral gradient| - Laplacian [1, -2, 1]",
 }
+
+# The baseline-corrected signals are only a few hundred MHz, so they are
+# stored and plotted in MHz rather than GHz (1 GHz = 1000 MHz). Converting at
+# the source means the axis, the fitted height and the variance are all in the
+# same unit with no per-plot rescaling. Raw bfs/lw stay in GHz - 5.69 GHz
+# would read as an unwieldy 5690 MHz.
+MHZ_PER_GHZ = 1000.0
+MHZ_SIGNALS = {"bfs_0", "lw_0"}
 
 # Signals that have a meaningful tabletop (media -> cell -> media) shape.
 TABLETOP_SIGNALS = {"bfs", "lw", "bfs_0", "lw_0"}
@@ -122,6 +140,28 @@ plt.rcParams.update({
     "axes.labelweight": "bold",
     "axes.linewidth":   1.3,
 })
+
+
+# Axis text for the scan position. This is micrometres (um), a length - the
+# uM in the carboplatin dose labels is micromolar, a concentration.
+POS_LABEL = "Position relative to cell centre (µm)"
+
+
+def _flabel(folder):
+    """Display name for a dose folder."""
+    return FOLDER_LABELS.get(folder, folder)
+
+
+def _ascii(text):
+    """Plain-ASCII version of a label, for printing.
+
+    Figures use µ and subscripts happily, but Windows consoles frequently
+    default to cp1252 and raise UnicodeEncodeError on them - which would kill
+    a run part-way through simply because its output was redirected to a file.
+    """
+    return (text.replace("µ", "u")
+                .replace("₀", "0")
+                .replace("₁", "1"))
 
 
 def _style_axes(ax):
@@ -349,18 +389,24 @@ def load_and_analyse(folder_path):
             if p is None or level is None:
                 tab[key] = (None, None)
                 continue
+            # Scale the y-valued parameters too; x_left/x_right/slope_width
+            # are positions in um and must not be touched.
+            scale = MHZ_PER_GHZ if key in MHZ_SIGNALS else 1.0
             shifted = dict(p)
-            shifted["baseline"] = p["baseline"] - level
+            shifted["baseline"] = (p["baseline"] - level) * scale
+            shifted["amplitude"] = p["amplitude"] * scale
             tab[key] = (shifted,
-                        None if curve is None else curve - level)
+                        None if curve is None else (curve - level) * scale)
 
         results.append({
             "tab":           tab,
             "scan":          s,
             "bfs":           shifts,
             "lw":            linewidths,
-            "bfs_0":         None if bfs0 is None else shifts - bfs0,
-            "lw_0":          None if lw0 is None else linewidths - lw0,
+            "bfs_0":         None if bfs0 is None
+                             else (shifts - bfs0) * MHZ_PER_GHZ,
+            "lw_0":          None if lw0 is None
+                             else (linewidths - lw0) * MHZ_PER_GHZ,
             "bfs0_level":    bfs0,
             "lw0_level":     lw0,
             "simple":        spectral_gradient_per_pixel(spec_norm, "simple"),
@@ -516,13 +562,31 @@ def _binned_mean(x, y, nbins=60):
     return centres[ok], means[ok]
 
 
+def _signal_unit(signal_key):
+    """The y-axis unit of a signal, read off its label."""
+    label = SIGNAL_LABELS.get(signal_key, "")
+    if "(MHz)" in label:
+        return "MHz"
+    if "(GHz)" in label:
+        return "GHz"
+    return ""
+
+
+def _fmt_y(value, unit):
+    """Format a y-valued quantity with a sensible number of decimals."""
+    return f"{value:.1f}" if unit == "MHz" else f"{value:.3f}"
+
+
 def _residual_units(signal_key):
     """(unit label, d^2 scale, RMS scale).
 
     Residuals are ~0.02 GHz, so GHz signals are reported in MHz to avoid
-    leading zeros.
+    leading zeros. Signals already stored in MHz need no scaling.
     """
-    if "GHz" in SIGNAL_LABELS[signal_key]:
+    unit = _signal_unit(signal_key)
+    if unit == "MHz":
+        return "MHz", 1.0, 1.0
+    if unit == "GHz":
         return "MHz", 1e6, 1e3
     return "units", 1.0, 1.0
 
@@ -594,13 +658,14 @@ def plot_folder_grid(results, folder_label, signal_key, ncols=3):
                 ax.axvline(p["x_left"], color='r', linestyle='--', alpha=0.5)
                 ax.axvline(p["x_right"], color='r', linestyle='--', alpha=0.5)
         ax.set_title(os.path.splitext(r["scan"]["filename"])[0], fontsize=11)
-        ax.set_xlabel("Position (um)")
+        ax.set_xlabel("Position (µm)")
         ax.set_ylabel(ylabel)
         ax.grid(alpha=0.3)
         _style_axes(ax)
     for j in range(n, len(axes)):
         axes[j].axis("off")
-    fig.suptitle(f"{DRUG} {folder_label}", fontsize=16, fontweight="bold")
+    fig.suptitle(f"{DRUG} {_flabel(folder_label)}", fontsize=16,
+                 fontweight="bold")
     _finish(fig, f"{signal_key}_grid_{folder_label}")
 
 
@@ -624,8 +689,8 @@ def plot_folder_overlay(results, folder_label, color, signal_key,
                 markersize=4, linewidth=1.0, alpha=0.85)
     ax.axvline(0.0, color='grey', linestyle=':', linewidth=1.2, alpha=0.8)
     if show_title:
-        ax.set_title(f"{DRUG} {folder_label} (n={used})")
-    ax.set_xlabel("Position relative to cell centre (um)")
+        ax.set_title(f"{DRUG} {_flabel(folder_label)} (n={used})")
+    ax.set_xlabel(POS_LABEL)
     ax.set_ylabel(ylabel)
     ax.grid(alpha=0.3)
     _style_axes(ax)
@@ -649,11 +714,11 @@ def plot_all_stacked(all_results, signal_key):
                 continue
             ax.plot(positions, sig, 'o-', color=color,
                     markersize=4, linewidth=1.0, alpha=0.75,
-                    label=folder if first else None)
+                    label=_flabel(folder) if first else None)
             first = False
     ax.axvline(0.0, color='grey', linestyle=':', linewidth=1.2, alpha=0.8)
     ax.set_title(f"{DRUG} dose series - {ylabel}")
-    ax.set_xlabel("Position relative to cell centre (um)")
+    ax.set_xlabel(POS_LABEL)
     ax.set_ylabel(ylabel)
     ax.grid(alpha=0.3)
     ax.legend(title="dose", loc="best")
@@ -683,7 +748,7 @@ def _draw_folder_means(ax, all_results, signal_key, report=False):
             ax.fill_between(grid, mean - sd, mean + sd,
                             color=color, alpha=0.15, linewidth=0)
         ax.plot(grid, mean, 'o-', color=color, markersize=4,
-                linewidth=1.5, alpha=0.9, label=f"{folder} (n={n})")
+                linewidth=1.5, alpha=0.9, label=f"{_flabel(folder)} (n={n})")
         drew = True
         if report:
             print(f"  {folder:<10} n={n}  x {grid.min():7.1f} .. {grid.max():7.1f} um"
@@ -696,11 +761,11 @@ def _draw_folder_means(ax, all_results, signal_key, report=False):
 def plot_folder_means(all_results, signal_key):
     """One connected mean line per concentration - the average line chart."""
     ylabel = SIGNAL_LABELS[signal_key]
-    print(f"\nAverage line chart coverage - {ylabel}")
+    print(f"\nAverage line chart coverage - {_ascii(ylabel)}")
     fig, ax = plt.subplots(figsize=(12, 5.8))
     _draw_folder_means(ax, all_results, signal_key, report=True)
     ax.set_title(f"{DRUG} dose series - average {ylabel}")
-    ax.set_xlabel("Position relative to cell centre (um)")
+    ax.set_xlabel(POS_LABEL)
     ax.set_ylabel(ylabel)
     ax.grid(alpha=0.3)
     ax.legend(title="dose", loc="best")
@@ -731,7 +796,7 @@ def plot_mean_panels(all_results, signal_keys=("bfs_0", "lw_0")):
         ax = axes[i]
         _draw_folder_means(ax, all_results, key)
         ax.set_title(SIGNAL_LABELS[key], fontsize=13)
-        ax.set_xlabel("Position relative to cell centre (um)")
+        ax.set_xlabel(POS_LABEL)
         ax.set_ylabel(SIGNAL_LABELS[key])
         ax.grid(alpha=0.3)
         _style_axes(ax)
@@ -774,7 +839,7 @@ def plot_folder_tabletops(all_results, signal_key, ncols=2):
         ax = axes[i]
         x, y, used, skipped = _pooled(all_results[folder], signal_key)
         if x is None:
-            ax.set_title(f"{folder} - no data")
+            ax.set_title(f"{_flabel(folder)} - no data")
             ax.axis("off")
             continue
         p = _fit_pooled(x, y, signal_key)
@@ -796,7 +861,8 @@ def plot_folder_tabletops(all_results, signal_key, ncols=2):
             ax.axvline(p["x_right"], color='r', linestyle='--', alpha=0.6)
             ax.axhline(p["baseline"], color='dimgrey', linestyle='--',
                        linewidth=1.6, zorder=3)
-            ax.annotate(f"media = {p['baseline']:.3f}",
+            unit_y = _signal_unit(signal_key)
+            ax.annotate(f"media = {_fmt_y(p['baseline'], unit_y)} {unit_y}",
                         xy=(0.02, 0.06), xycoords="axes fraction",
                         fontsize=11, fontweight="bold", color="dimgrey")
             width = p["x_right"] - p["x_left"]
@@ -806,16 +872,17 @@ def plot_folder_tabletops(all_results, signal_key, ncols=2):
             mres = _folder_mean_residual(all_results[folder], signal_key)
             res_txt = ("" if mres is None
                        else f"\nmean d^2 = {mres * s_sq:.0f} {unit}^2")
-            ax.set_title(f"{folder} (n={used})\n"
-                         f"width = {width:.1f} um   "
-                         f"height = {p['amplitude']:.3f} GHz{res_txt}",
+            ax.set_title(f"{_flabel(folder)} (n={used})\n"
+                         f"width = {width:.1f} µm   "
+                         f"height = {_fmt_y(p['amplitude'], unit_y)} "
+                         f"{unit_y}{res_txt}",
                          fontsize=12)
         else:
-            ax.set_title(f"{folder} (n={used})", fontsize=12)
+            ax.set_title(f"{_flabel(folder)} (n={used})", fontsize=12)
         if skipped:
             print(f"  [warn] {folder}: {skipped} scan(s) skipped "
                   f"(no tabletop fit)")
-        ax.set_xlabel("Position relative to cell centre (um)")
+        ax.set_xlabel(POS_LABEL)
         ax.set_ylabel(ylabel)
         ax.grid(alpha=0.3)
         _style_axes(ax)
@@ -843,7 +910,8 @@ def report_tabletop_residuals(all_results, signal_key):
     if signal_key not in TABLETOP_SIGNALS:
         return
     unit, s_sq, s_lin = _residual_units(signal_key)
-    print(f"\nPer-scan tabletop scatter - {SIGNAL_LABELS[signal_key]}")
+    print(f"\nPer-scan tabletop scatter - "
+          f"{_ascii(SIGNAL_LABELS[signal_key])}")
     for folder in FOLDERS:
         print(f"  {folder}")
         vals = []
