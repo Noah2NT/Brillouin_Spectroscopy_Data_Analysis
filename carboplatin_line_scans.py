@@ -30,6 +30,32 @@ The plotted quantity is chosen by SIGNAL_KIND at the bottom of the file:
   'simple' - pixel spectral gradient with the [-1, 1] kernel across pixels
   'sobel'  - Sobel-Feldman kernel across pixels
   'lap'    - Laplacian kernel across pixels
+
+The same three kernels applied to the per-pixel FITTED Lorentzian instead of
+the raw spectrum - the area between neighbouring model curves. Fitting first
+removes the per-bin noise that makes the raw versions sensitive to exposure
+time:
+  'fit_grad', 'fit_sobel', 'fit_lap'
+
+The spectral gradients above respond to ANY change in the spectrum. These
+follow one fitted quantity instead, in MHz:
+  'bfs_grad', 'bfs_sobel', 'bfs_lap' - the same kernels on the BFS profile
+  'lw_grad',  'lw_sobel',  'lw_lap'  - the same kernels on the linewidth
+
+VCA modes run Vertex Component Analysis with 2 endmembers on each individual
+line scan and use the cell endmember's abundance as the signal:
+  'vca'       - the abundance profile itself (tabletop-shaped)
+  'vca_grad'  - |[-1, 1]| along the scan
+  'vca_sobel' - |Sobel| along the scan
+  'vca_lap'   - |Laplacian| along the scan
+The three gradient modes peak at the cell edges rather than forming a
+plateau, so they get no tabletop fit.
+
+All six gradient modes ('simple', 'sobel', 'lap', 'vca_grad', 'vca_sobel',
+'vca_lap') are restricted to the CENTRE region of the scan's own shift
+tabletop, so they describe texture inside the cell rather than the cell-edge
+transition. Their charts are annotated with the max and mean of what is
+plotted.
 """
 
 import os
@@ -40,6 +66,7 @@ import matplotlib.pyplot as plt
 
 import brillouin_preprocessing as bp
 import brillouin_fitting as bf
+import brillouin_decomposition as bd
 
 
 # ─────────────────────────────────────────────
@@ -51,7 +78,7 @@ import brillouin_fitting as bf
 STEP_UM = 5.0
 
 # --- PACLITAXEL ---------------------------------------------------------
-
+'''
 DRUG    = "Paclitaxel"
 BASE    = "Paclitaxel final line scans"
 FOLDERS = ["Control", "1.52 nM", "3.125 nM", "6.25 nM", "12.5 nM"]
@@ -74,7 +101,9 @@ FOLDER_COLORS = {
     "200um":   "orange",
     "400um":   "red",
 }
-'''
+
+
+
 # Folder names are directory names; these are what appears on the charts.
 # uM here is micromolar (concentration) - not to be confused with the um in
 # the position axis, which is micrometres.
@@ -92,8 +121,8 @@ FOLDER_LABELS = {
 # in 'Brillouin Images/Carboplatin' and paclitaxel in
 # 'Brillouin Images/Paclitaxel'. Relative to the working directory, which must
 # be the repo root (BASE is relative too).
-SAVE_PATH = os.path.join("Brillouin Images", DRUG)
-# SAVE_PATH = None
+# SAVE_PATH = os.path.join("Brillouin Images", DRUG)
+SAVE_PATH = None
 
 REGION_COLORS = {"outside": "#dddddd", "edge": "#ffd9b3", "center": "#b3e6ff"}
 
@@ -105,7 +134,25 @@ SIGNAL_LABELS = {
     "simple": "|spectral gradient| - kernel [-1, 1]",
     "sobel":  "|spectral gradient| - Sobel [1, 2, 0, -2, -1]",
     "lap":    "|spectral gradient| - Laplacian [1, -2, 1]",
+    "fit_grad":  "area between fitted curves - kernel [-1, 1]",
+    "fit_sobel": "area between fitted curves - Sobel [1, 2, 0, -2, -1]",
+    "fit_lap":   "area between fitted curves - Laplacian [1, -2, 1]",
+    "bfs_grad":  "|BFS gradient| - kernel [-1, 1] (MHz)",
+    "bfs_sobel": "|BFS gradient| - Sobel [1, 2, 0, -2, -1] (MHz)",
+    "bfs_lap":   "|BFS gradient| - Laplacian [1, -2, 1] (MHz)",
+    "lw_grad":   "|LW gradient| - kernel [-1, 1] (MHz)",
+    "lw_sobel":  "|LW gradient| - Sobel [1, 2, 0, -2, -1] (MHz)",
+    "lw_lap":    "|LW gradient| - Laplacian [1, -2, 1] (MHz)",
+    "vca":       "VCA abundance (cell endmember)",
+    "vca_grad":  "|VCA gradient| - kernel [-1, 1]",
+    "vca_sobel": "|VCA gradient| - Sobel [1, 2, 0, -2, -1]",
+    "vca_lap":   "|VCA gradient| - Laplacian [1, -2, 1]",
 }
+
+# Endmembers per line scan for the VCA modes. With 2, the abundances sum to 1
+# per pixel, so the two columns are exact complements and the profile has a
+# single degree of freedom.
+VCA_ENDMEMBERS = 2
 
 # The baseline-corrected signals are only a few hundred MHz, so they are
 # stored and plotted in MHz rather than GHz (1 GHz = 1000 MHz). Converting at
@@ -116,11 +163,22 @@ MHZ_PER_GHZ = 1000.0
 MHZ_SIGNALS = {"bfs_0", "lw_0"}
 
 # Signals that have a meaningful tabletop (media -> cell -> media) shape.
-TABLETOP_SIGNALS = {"bfs", "lw", "bfs_0", "lw_0"}
+# The gradient modes are excluded: they spike at the two cell edges rather
+# than forming a plateau, so a tabletop fit would not mean anything.
+TABLETOP_SIGNALS = {"bfs", "lw", "bfs_0", "lw_0", "vca"}
 
 # Signals whose plateau may sit BELOW the surrounding medium, so the tabletop
 # fit must be allowed a negative amplitude.
 NEGATIVE_OK_SIGNALS = {"lw", "lw_0"}
+
+# Gradient modes. These are restricted to the CENTRE region of the scan's own
+# shift tabletop, so they measure texture inside the cell rather than the
+# cell-edge transition, and their charts are annotated with max and mean.
+GRADIENT_SIGNALS = {"simple", "sobel", "lap",
+                    "fit_grad", "fit_sobel", "fit_lap",
+                    "bfs_grad", "bfs_sobel", "bfs_lap",
+                    "lw_grad", "lw_sobel", "lw_lap",
+                    "vca_grad", "vca_sobel", "vca_lap"}
 
 # Averaging (see _aligned_mean). A grid point is only plotted where at least
 # this fraction of a folder's scans reach it - otherwise the ends of the mean
@@ -187,9 +245,15 @@ def _save(fig, name):
                 dpi=300, bbox_inches="tight")
 
 
-def _finish(fig, name):
-    """Tidy layout, save, then show."""
-    fig.tight_layout()
+def _finish(fig, name, tight=True):
+    """Tidy layout, save, then show.
+
+    Pass tight=False when the caller has already run tight_layout with a
+    reserved strip (e.g. for a legend below the axes); running it again
+    without the rect would reclaim that space and overlap the legend.
+    """
+    if tight:
+        fig.tight_layout()
     _save(fig, name)
     plt.show()
 
@@ -341,6 +405,72 @@ def spectral_gradient_per_pixel(spectra, kind):
     return out
 
 
+def profile_gradient(sig, kind):
+    """Apply a 1D kernel ALONG the position axis; |response| per pixel.
+
+    Distinct from spectral_gradient_per_pixel, which sums differences across a
+    whole spectrum. This one works on a scalar profile such as the VCA
+    abundance. NaN where the kernel does not fit at the ends.
+    """
+    sig = np.asarray(sig, dtype=float)
+    n = len(sig)
+    out = np.full(n, np.nan)
+    if kind == "simple":       # [-1, 1] forward difference
+        for i in range(n - 1):
+            out[i] = abs(sig[i + 1] - sig[i])
+    elif kind == "lap":        # [1, -2, 1]
+        for i in range(1, n - 1):
+            out[i] = abs(sig[i - 1] - 2.0 * sig[i] + sig[i + 1])
+    elif kind == "sobel":      # [1, 2, 0, -2, -1]
+        for i in range(2, n - 2):
+            out[i] = abs(sig[i - 2] + 2.0 * sig[i - 1]
+                         - 2.0 * sig[i + 1] - sig[i + 2])
+    else:
+        raise ValueError(f"unknown gradient kind: {kind}")
+    return out
+
+
+def _cell_minus_media(sig, region):
+    """How much higher a profile sits inside the cell than outside it.
+
+    Uses the fitted region labels when available; those come from the shift
+    tabletop and give the cell's real extent. Falls back to fixed slices of
+    the scan (middle third vs outer fifths) when no fit succeeded, which
+    assumes the cell is roughly centred.
+    """
+    sig = np.asarray(sig, dtype=float)
+    if region is not None:
+        centre = (region == "center") & np.isfinite(sig)
+        outside = (region == "outside") & np.isfinite(sig)
+        if centre.any() and outside.any():
+            return float(np.mean(sig[centre]) - np.mean(sig[outside]))
+    n = len(sig)
+    if n < 5:
+        return 0.0
+    mid = sig[n // 3:2 * n // 3]
+    edge = np.concatenate([sig[:n // 5], sig[4 * n // 5:]])
+    if not np.isfinite(mid).any() or not np.isfinite(edge).any():
+        return 0.0
+    return float(np.nanmean(mid) - np.nanmean(edge))
+
+
+def _vca_profile(spec_norm, region):
+    """VCA(2) abundance for the cell endmember, oriented consistently.
+
+    With 2 endmembers the abundance columns sum to 1 per pixel, so column 1 is
+    exactly 1 - column 0 and "which endmember" is only a choice of
+    orientation. VCA picks its endmembers by largest-magnitude projection, so
+    the cell lands in column 0 for some scans and the medium for others; left
+    uncorrected roughly half the scans would be inverted and dose averages
+    would partly cancel. Flipping so the cell always reads high also lets
+    fit_tabletop work, since it bounds amplitude >= 0 by default.
+    """
+    endmembers, _ = bd.vca(spec_norm, num_endmembers=VCA_ENDMEMBERS)
+    ab = bd.estimate_abundances(spec_norm, endmembers)
+    em = ab[:, 0]
+    return 1.0 - em if _cell_minus_media(em, region) < 0 else em
+
+
 def _media_level(sig, tab_params, region):
     """The medium ('outside') level of a profile - the bottom of its tabletop.
 
@@ -374,7 +504,8 @@ def load_and_analyse(folder_path):
         bp.fold_line_scans(scans, max_shift_ghz=8))
     results = []
     for s in scans:
-        _, params = bf.fit_all_spectra(s["shift_freq"], s["folded_spectra_norm"])
+        fitted_curves, params = bf.fit_all_spectra(s["shift_freq"],
+                                                   s["folded_spectra_norm"])
         _, shifts, linewidths, _ = bf.extract_fit_parameters(params)
         spec_norm = s["folded_spectra_norm"]
 
@@ -393,8 +524,25 @@ def load_and_analyse(folder_path):
         bfs0 = _media_level(shifts, tab_params, region)
         lw0 = _media_level(linewidths, tab_params_lw, region)
 
+        # VCA(2) per scan. A failure here should cost only the VCA modes for
+        # this scan, not the whole folder.
+        try:
+            vca_sig = _vca_profile(spec_norm, region)
+        except Exception as exc:
+            print(f"  [warn] {s['filename']}: VCA failed ({exc})")
+            vca_sig = None
+        if vca_sig is None:
+            tab_params_vca, tab_curve_vca = None, None
+        else:
+            try:
+                tab_params_vca, tab_curve_vca = bf.fit_tabletop(
+                    s["positions"], vca_sig)
+            except Exception:
+                tab_params_vca, tab_curve_vca = None, None
+
         tab = {"bfs": (tab_params, tab_curve),
-               "lw":  (tab_params_lw, tab_curve_lw)}
+               "lw":  (tab_params_lw, tab_curve_lw),
+               "vca": (tab_params_vca, tab_curve_vca)}
         for key, (parent, level) in (("bfs_0", ("bfs", bfs0)),
                                      ("lw_0", ("lw", lw0))):
             p, curve = tab[parent]
@@ -410,6 +558,21 @@ def load_and_analyse(folder_path):
             tab[key] = (shifted,
                         None if curve is None else (curve - level) * scale)
 
+        def _centre_only(sig):
+            """Blank a gradient outside the cell interior.
+
+            The gradient modes are meant to describe texture WITHIN the cell,
+            so everything outside the shift tabletop's centre region is set to
+            NaN. Downstream code already drops non-finite points, so the
+            restriction propagates to every figure. With no region info there
+            is nothing to restrict against, so the profile is left whole.
+            """
+            if sig is None or region is None:
+                return sig
+            out = np.asarray(sig, dtype=float).copy()
+            out[region != "center"] = np.nan
+            return out
+
         results.append({
             "tab":           tab,
             "scan":          s,
@@ -421,9 +584,47 @@ def load_and_analyse(folder_path):
                              else (linewidths - lw0) * MHZ_PER_GHZ,
             "bfs0_level":    bfs0,
             "lw0_level":     lw0,
-            "simple":        spectral_gradient_per_pixel(spec_norm, "simple"),
-            "sobel":         spectral_gradient_per_pixel(spec_norm, "sobel"),
-            "lap":           spectral_gradient_per_pixel(spec_norm, "lap"),
+            # Same kernels as simple/sobel/lap, but on the per-pixel fitted
+            # Lorentzian instead of the raw spectrum: the area between two
+            # neighbouring MODEL curves rather than between two noisy ones.
+            # Summing |difference| over bins is that area up to the constant
+            # bin width, which is identical for every file here. Fitting first
+            # strips the per-bin noise that makes the raw versions track
+            # exposure time as much as biology.
+            "fit_grad":      _centre_only(
+                                 spectral_gradient_per_pixel(fitted_curves, "simple")),
+            "fit_sobel":     _centre_only(
+                                 spectral_gradient_per_pixel(fitted_curves, "sobel")),
+            "fit_lap":       _centre_only(
+                                 spectral_gradient_per_pixel(fitted_curves, "lap")),
+            # BFS / linewidth gradients, in MHz: these follow change in peak
+            # position or width alone, where the spectral gradients above
+            # respond to any change in the spectrum.
+            "bfs_grad":      _centre_only(
+                                 profile_gradient(shifts, "simple") * MHZ_PER_GHZ),
+            "bfs_sobel":     _centre_only(
+                                 profile_gradient(shifts, "sobel") * MHZ_PER_GHZ),
+            "bfs_lap":       _centre_only(
+                                 profile_gradient(shifts, "lap") * MHZ_PER_GHZ),
+            "lw_grad":       _centre_only(
+                                 profile_gradient(linewidths, "simple") * MHZ_PER_GHZ),
+            "lw_sobel":      _centre_only(
+                                 profile_gradient(linewidths, "sobel") * MHZ_PER_GHZ),
+            "lw_lap":        _centre_only(
+                                 profile_gradient(linewidths, "lap") * MHZ_PER_GHZ),
+            "simple":        _centre_only(
+                                 spectral_gradient_per_pixel(spec_norm, "simple")),
+            "sobel":         _centre_only(
+                                 spectral_gradient_per_pixel(spec_norm, "sobel")),
+            "lap":           _centre_only(
+                                 spectral_gradient_per_pixel(spec_norm, "lap")),
+            "vca":           vca_sig,
+            "vca_grad":      None if vca_sig is None
+                             else _centre_only(profile_gradient(vca_sig, "simple")),
+            "vca_sobel":     None if vca_sig is None
+                             else _centre_only(profile_gradient(vca_sig, "sobel")),
+            "vca_lap":       None if vca_sig is None
+                             else _centre_only(profile_gradient(vca_sig, "lap")),
             "tab_params":    tab_params,
             "tab_curve":     tab_curve,
             "tab_params_lw": tab_params_lw,
@@ -593,14 +794,38 @@ def _residual_units(signal_key):
     """(unit label, d^2 scale, RMS scale).
 
     Residuals are ~0.02 GHz, so GHz signals are reported in MHz to avoid
-    leading zeros. Signals already stored in MHz need no scaling.
+    leading zeros. Signals already stored in MHz need no scaling. Dimensionless
+    signals (VCA abundance, the gradients) get an empty unit label.
     """
     unit = _signal_unit(signal_key)
     if unit == "MHz":
         return "MHz", 1.0, 1.0
     if unit == "GHz":
         return "MHz", 1e6, 1e3
-    return "units", 1.0, 1.0
+    return "", 1.0, 1.0
+
+
+def _fmt_resid(value):
+    """Format a residual readably at any scale.
+
+    MHz residuals run to hundreds while dimensionless ones (VCA abundance) are
+    ~0.01, so a fixed number of decimals renders one of them as '0'.
+    """
+    if not np.isfinite(value):
+        return "n/a"
+    a = abs(value)
+    if a >= 100:
+        return f"{value:.0f}"
+    if a >= 1:
+        return f"{value:.1f}"
+    if a >= 0.001:
+        return f"{value:.4f}"
+    return f"{value:.2e}"
+
+
+def _unit_sq(unit):
+    """' MHz^2' or '' for a dimensionless signal."""
+    return f" {unit}^2" if unit else ""
 
 
 def _scan_tabletop_residual(r, signal_key):
@@ -639,11 +864,76 @@ def _folder_mean_residual(results, signal_key):
     return float(np.mean(vals)) if vals else None
 
 
+def _fmt_val(v):
+    """Format a signal value readably at any scale."""
+    if not np.isfinite(v):
+        return "n/a"
+    a = abs(v)
+    if a >= 100:
+        return f"{v:.0f}"
+    if a >= 1:
+        return f"{v:.2f}"
+    if a >= 0.001:
+        return f"{v:.4f}"
+    return f"{v:.2e}"
+
+
+def _stats_text(values):
+    """'max = X   mean = Y' for a set of values, or None if there are none."""
+    v = np.asarray(values, dtype=float)
+    v = v[np.isfinite(v)]
+    if not v.size:
+        return None
+    return f"max = {_fmt_val(v.max())}   mean = {_fmt_val(v.mean())}"
+
+
+def _annotate_stats(ax, values, loc=(0.02, 0.94)):
+    """Put max/mean in the corner of a gradient chart."""
+    txt = _stats_text(values)
+    if txt is None:
+        return
+    ax.annotate(txt, xy=loc, xycoords="axes fraction",
+                fontsize=11, fontweight="bold", va="top",
+                bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
+                          edgecolor="0.7", alpha=0.85))
+
+
+def _folder_values(results, signal_key):
+    """All finite values of a signal pooled across a folder's scans."""
+    out = []
+    for r in results:
+        sig = r.get(signal_key)
+        if sig is None:
+            continue
+        v = np.asarray(sig, dtype=float)
+        out.append(v[np.isfinite(v)])
+    return np.concatenate(out) if out else np.array([])
+
+
+def _gradient_ylim(all_results, signal_key):
+    """(0, global max) so every gradient panel shares one scale.
+
+    Without this each panel autoscales and two doses with very different
+    magnitudes look identical, which is exactly what the gradient charts are
+    meant to distinguish. Returns None for non-gradient signals.
+    """
+    if signal_key not in GRADIENT_SIGNALS:
+        return None
+    vals = [_folder_values(all_results[f], signal_key) for f in FOLDERS]
+    vals = [v for v in vals if v.size]
+    if not vals:
+        return None
+    gmax = float(np.max(np.concatenate(vals)))
+    if not np.isfinite(gmax) or gmax <= 0:
+        return None
+    return (0.0, gmax * 1.05)
+
+
 # ─────────────────────────────────────────────
 # 1) Per-folder grid
 # ─────────────────────────────────────────────
 
-def plot_folder_grid(results, folder_label, signal_key, ncols=3):
+def plot_folder_grid(results, folder_label, signal_key, ncols=3, ylim=None):
     ylabel = SIGNAL_LABELS[signal_key]
     n = len(results)
     nrows = (n + ncols - 1) // ncols
@@ -669,13 +959,19 @@ def plot_folder_grid(results, folder_label, signal_key, ncols=3):
             if p is not None:
                 ax.axvline(p["x_left"], color='r', linestyle='--', alpha=0.5)
                 ax.axvline(p["x_right"], color='r', linestyle='--', alpha=0.5)
+        if signal_key in GRADIENT_SIGNALS:
+            _annotate_stats(ax, sig)
+        if ylim is not None:
+            ax.set_ylim(*ylim)
         ax.set_title(os.path.splitext(r["scan"]["filename"])[0], fontsize=11)
         ax.set_xlabel("Position (µm)")
-        ax.set_ylabel(ylabel)
         ax.grid(alpha=0.3)
         _style_axes(ax)
     for j in range(n, len(axes)):
         axes[j].axis("off")
+    # One figure-level y label: these are long enough that a per-panel label
+    # collides with the panel above and below.
+    fig.supylabel(ylabel, fontsize=13, fontweight="bold")
     fig.suptitle(f"{DRUG} {_flabel(folder_label)}", fontsize=16,
                  fontweight="bold")
     _finish(fig, f"{signal_key}_grid_{folder_label}")
@@ -686,7 +982,7 @@ def plot_folder_grid(results, folder_label, signal_key, ncols=3):
 # ─────────────────────────────────────────────
 
 def plot_folder_overlay(results, folder_label, color, signal_key,
-                        ax=None, show_title=True):
+                        ax=None, show_title=True, ylim=None):
     ylabel = SIGNAL_LABELS[signal_key]
     standalone = ax is None
     if standalone:
@@ -700,6 +996,10 @@ def plot_folder_overlay(results, folder_label, color, signal_key,
         ax.plot(positions, sig, 'o-', color=color,
                 markersize=4, linewidth=1.0, alpha=0.85)
     ax.axvline(0.0, color='grey', linestyle=':', linewidth=1.2, alpha=0.8)
+    if signal_key in GRADIENT_SIGNALS:
+        _annotate_stats(ax, _folder_values(results, signal_key))
+    if ylim is not None:
+        ax.set_ylim(*ylim)
     if show_title:
         ax.set_title(f"{DRUG} {_flabel(folder_label)} (n={used})")
     ax.set_xlabel(POS_LABEL)
@@ -716,9 +1016,15 @@ def plot_folder_overlay(results, folder_label, color, signal_key,
 
 def plot_all_stacked(all_results, signal_key):
     ylabel = SIGNAL_LABELS[signal_key]
-    fig, ax = plt.subplots(figsize=(12, 5.8))
+    wide_legend = signal_key in GRADIENT_SIGNALS
+    fig, ax = plt.subplots(figsize=(12, 7.0 if wide_legend else 5.8))
     for folder in FOLDERS:
         color = FOLDER_COLORS[folder]
+        label = _flabel(folder)
+        if signal_key in GRADIENT_SIGNALS:
+            stats = _stats_text(_folder_values(all_results[folder], signal_key))
+            if stats:
+                label = f"{label}  ({stats})"
         first = True
         for r in all_results[folder]:
             positions, sig = _aligned(r, signal_key)
@@ -726,16 +1032,26 @@ def plot_all_stacked(all_results, signal_key):
                 continue
             ax.plot(positions, sig, 'o-', color=color,
                     markersize=4, linewidth=1.0, alpha=0.75,
-                    label=_flabel(folder) if first else None)
+                    label=label if first else None)
             first = False
     ax.axvline(0.0, color='grey', linestyle=':', linewidth=1.2, alpha=0.8)
+    gylim = _gradient_ylim(all_results, signal_key)
+    if gylim is not None:
+        ax.set_ylim(*gylim)
     ax.set_title(f"{DRUG} dose series - {ylabel}")
     ax.set_xlabel(POS_LABEL)
     ax.set_ylabel(ylabel)
     ax.grid(alpha=0.3)
-    ax.legend(title="dose", loc="best")
+    if wide_legend:
+        handles, labels = ax.get_legend_handles_labels()
+        if handles:
+            fig.tight_layout(rect=(0, 0.17, 1, 1))
+            fig.legend(handles, labels, title="dose", loc="lower center",
+                       ncol=2, frameon=True)
+    else:
+        ax.legend(title="dose", loc="best")
     _style_axes(ax)
-    _finish(fig, f"{signal_key}_all_stacked")
+    _finish(fig, f"{signal_key}_all_stacked", tight=not wide_legend)
 
 
 # ─────────────────────────────────────────────
@@ -759,13 +1075,22 @@ def _draw_folder_means(ax, all_results, signal_key, report=False):
         if MEAN_SHOW_SD:
             ax.fill_between(grid, mean - sd, mean + sd,
                             color=color, alpha=0.15, linewidth=0)
+        label = f"{_flabel(folder)} (n={n})"
+        if signal_key in GRADIENT_SIGNALS:
+            # Stats of the mean line itself, i.e. of what is drawn here.
+            stats = _stats_text(mean)
+            if stats:
+                label = f"{label}  {stats}"
         ax.plot(grid, mean, 'o-', color=color, markersize=4,
-                linewidth=1.5, alpha=0.9, label=f"{_flabel(folder)} (n={n})")
+                linewidth=1.5, alpha=0.9, label=label)
         drew = True
         if report:
             print(f"  {folder:<10} n={n}  x {grid.min():7.1f} .. {grid.max():7.1f} um"
                   f"  ({grid.max() - grid.min():.0f} um)"
                   f"  scans per point {npp.min()}-{npp.max()}")
+            gs = _stats_text(_folder_values(results, signal_key))
+            if signal_key in GRADIENT_SIGNALS and gs:
+                print(f"  {'':<10} centre-region points: {gs}")
     ax.axvline(0.0, color='grey', linestyle=':', linewidth=1.2, alpha=0.8)
     return drew
 
@@ -774,15 +1099,29 @@ def plot_folder_means(all_results, signal_key):
     """One connected mean line per concentration - the average line chart."""
     ylabel = SIGNAL_LABELS[signal_key]
     print(f"\nAverage line chart coverage - {_ascii(ylabel)}")
-    fig, ax = plt.subplots(figsize=(12, 5.8))
+    # Gradient legends carry max/mean per dose and are far too wide to sit
+    # over the data, so they go underneath the axes instead.
+    wide_legend = signal_key in GRADIENT_SIGNALS
+    fig, ax = plt.subplots(figsize=(12, 7.0 if wide_legend else 5.8))
     _draw_folder_means(ax, all_results, signal_key, report=True)
+    if wide_legend:
+        # Mean lines, so the raw global max would squash them; pin the floor
+        # at 0 and let the top autoscale.
+        ax.set_ylim(bottom=0.0)
     ax.set_title(f"{DRUG} dose series - average {ylabel}")
     ax.set_xlabel(POS_LABEL)
     ax.set_ylabel(ylabel)
     ax.grid(alpha=0.3)
-    ax.legend(title="dose", loc="best")
+    if wide_legend:
+        handles, labels = ax.get_legend_handles_labels()
+        if handles:
+            fig.tight_layout(rect=(0, 0.17, 1, 1))
+            fig.legend(handles, labels, title="dose", loc="lower center",
+                       ncol=2, frameon=True)
+    else:
+        ax.legend(title="dose", loc="best")
     _style_axes(ax)
-    _finish(fig, f"{signal_key}_average")
+    _finish(fig, f"{signal_key}_average", tight=not wide_legend)
 
 
 def plot_mean_panels(all_results, signal_keys=("bfs_0", "lw_0")):
@@ -870,7 +1209,8 @@ def plot_folder_tabletops(all_results, signal_key, ncols=2):
             ax.axhline(p["baseline"], color='dimgrey', linestyle='--',
                        linewidth=1.6, zorder=3)
             unit_y = _signal_unit(signal_key)
-            ax.annotate(f"media = {_fmt_y(p['baseline'], unit_y)} {unit_y}",
+            ax.annotate(f"media = {_fmt_y(p['baseline'], unit_y)}"
+                        f"{' ' + unit_y if unit_y else ''}",
                         xy=(0.02, 0.06), xycoords="axes fraction",
                         fontsize=11, fontweight="bold", color="dimgrey")
             width = p["x_right"] - p["x_left"]
@@ -878,12 +1218,12 @@ def plot_folder_tabletops(all_results, signal_key, ncols=2):
             # report - not the scatter about this pooled curve.
             unit, s_sq, _ = _residual_units(signal_key)
             mres = _folder_mean_residual(all_results[folder], signal_key)
-            res_txt = ("" if mres is None
-                       else f"\nmean d^2 = {mres * s_sq:.0f} {unit}^2")
+            res_txt = ("" if mres is None else
+                       f"\nmean d^2 = {_fmt_resid(mres * s_sq)}{_unit_sq(unit)}")
             ax.set_title(f"{_flabel(folder)} (n={used})\n"
                          f"width = {width:.1f} µm   "
-                         f"height = {_fmt_y(p['amplitude'], unit_y)} "
-                         f"{unit_y}{res_txt}",
+                         f"height = {_fmt_y(p['amplitude'], unit_y)}"
+                         f"{' ' + unit_y if unit_y else ''}{res_txt}",
                          fontsize=12)
         else:
             ax.set_title(f"{_flabel(folder)} (n={used})", fontsize=12)
@@ -931,16 +1271,20 @@ def report_tabletop_residuals(all_results, signal_key):
                 continue
             vals.append(msq)
             print(f"    {name:<40} {npts:>4} pts  "
-                  f"d^2 = {msq * s_sq:>8.1f}  RMS = {np.sqrt(msq) * s_lin:>6.2f}")
+                  f"d^2 = {_fmt_resid(msq * s_sq):>9}"
+                  f"  RMS = {_fmt_resid(np.sqrt(msq) * s_lin):>8}")
         if vals:
             v = np.array(vals)
             print(f"    {'-> mean over ' + str(len(v)) + ' scans':<40} "
-                  f"          d^2 = {v.mean() * s_sq:>8.1f}"
-                  f"  RMS = {np.sqrt(v.mean()) * s_lin:>6.2f}"
-                  f"   (spread of d^2 +/- {v.std() * s_sq:.1f})")
+                  f"          d^2 = {_fmt_resid(v.mean() * s_sq):>9}"
+                  f"  RMS = {_fmt_resid(np.sqrt(v.mean()) * s_lin):>8}"
+                  f"   (spread of d^2 +/- {_fmt_resid(v.std() * s_sq)})")
         else:
             print(f"    {'-> no usable scans':<40}")
-    print(f"  (d^2 in {unit}^2, RMS in {unit})")
+    if unit:
+        print(f"  (d^2 in {unit}^2, RMS in {unit})")
+    else:
+        print("  (dimensionless signal)")
 
 
 # ─────────────────────────────────────────────
@@ -1003,11 +1347,14 @@ def report_vendor_agreement(all_results):
 # ─────────────────────────────────────────────
 
 def make_all_plots(all_results, signal_key):
+    # Gradient panels share one y scale so doses can be compared by eye.
+    ylim = _gradient_ylim(all_results, signal_key)
     for folder in FOLDERS:
-        plot_folder_grid(all_results[folder], folder, signal_key, ncols=3)
+        plot_folder_grid(all_results[folder], folder, signal_key, ncols=3,
+                         ylim=ylim)
     for folder in FOLDERS:
         plot_folder_overlay(all_results[folder], folder,
-                            FOLDER_COLORS[folder], signal_key)
+                            FOLDER_COLORS[folder], signal_key, ylim=ylim)
     plot_all_stacked(all_results, signal_key)
     plot_folder_means(all_results, signal_key)
     if signal_key in TABLETOP_SIGNALS:
@@ -1018,8 +1365,9 @@ def make_all_plots(all_results, signal_key):
 
 
 if __name__ == "__main__":
-    # 'bfs', 'lw', 'bfs_0', 'lw_0', 'simple', 'sobel', 'lap'.
-    SIGNAL_KIND = "bfs_0"
+    # 'bfs', 'lw', 'bfs_0', 'lw_0', 'simple', 'sobel', 'lap',
+    # 'vca', 'vca_grad', 'vca_sobel', 'vca_lap'.
+    SIGNAL_KIND = "bfs"
 
     all_results = {}
     for folder in FOLDERS:
