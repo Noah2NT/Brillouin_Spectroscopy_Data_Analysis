@@ -58,12 +58,7 @@ ALPHA = 0.05
 N_PERM = 20000
 SEED = 0
 
-MODES = ["bfs", "lw", "bfs_0", "lw_0",
-         "simple", "sobel", "lap",
-         "fit_grad", "fit_sobel", "fit_lap",
-         "bfs_grad", "bfs_sobel", "bfs_lap",
-         "lw_grad", "lw_sobel", "lw_lap",
-         "vca", "vca_grad", "vca_sobel", "vca_lap"]
+MODES = ["bfs", "lw", "bfs_0", "lw_0", "vca", "sobel"]
 
 # Untreated spheroids are the same sample for both drugs, so both dose series
 # read their control group from one shared folder.
@@ -181,84 +176,210 @@ def per_file_feature(results, mode):
 # Tabletop shape percentages
 # ─────────────────────────────────────────────
 
-def tabletop_border_percent(results):
-    """Cell border as a percentage of the whole cell, one value per FILE.
+# The periphery calculation lives with the regions it counts, in
+# carboplatin_line_scans, so the tabletop panels and this report can never
+# disagree. See C.periphery_percent for the definition.
+tabletop_periphery_percent = C.periphery_percent
 
-        border % = edge / (edge + centre) * 100
 
-    'edge' (orange on the shaded plots) and 'centre' (blue) are the regions
-    bf.tabletop_regions assigns from each scan's own shift tabletop; 'outside'
-    (grey) is the medium and plays no part. Counted in PIXELS rather than from
-    the fitted widths, so the number matches exactly what is shaded on the
-    graph, including where the scan ends before the edge zone does.
-
-    A sharply delimited cell has a thin border and scores low; a cell whose
-    boundary fades gradually into the medium scores high. A scan whose fit
-    leaves no plateau at all scores 100%.
-    """
-    by_file = {}
+def scan_shape(results):
+    """(width, slope_width, periphery%) per SCAN, from the BFS tabletop."""
+    w, s, p = [], [], []
     for r in results:
-        region = r["region"]
-        if region is None:
+        tp, region = r["tab_params"], r["region"]
+        if tp is None or region is None:
             continue
         n_edge = int((region == "edge").sum())
         n_centre = int((region == "center").sum())
-        total = n_edge + n_centre
-        if total == 0:
+        if n_edge + n_centre == 0:
             continue
-        by_file.setdefault(r["scan"]["filename"], []).append(
-            n_edge / total * 100.0)
+        w.append(tp["x_right"] - tp["x_left"])
+        s.append(tp["slope_width"])
+        p.append(n_edge / (n_edge + n_centre) * 100.0)
+    return np.array(w), np.array(s), np.array(p)
+
+
+def per_file_slope(results):
+    """Fitted edge slope_width per FILE - boundary sharpness in microns.
+
+    Unlike the periphery this is NOT divided by spheroid size, so it separates
+    "the edge got sharper" from "the spheroid got bigger". The periphery
+    tracks slope_width/width at r = 0.994, so on its own it cannot tell those
+    two apart.
+    """
+    by_file = {}
+    for r in results:
+        tp = r["tab_params"]
+        if tp is None:
+            continue
+        by_file.setdefault(r["scan"]["filename"], []).append(tp["slope_width"])
     return np.array([np.mean(v) for v in by_file.values()])
 
 
-def plot_border_percent(per_drug):
-    """Line chart of border % against dose, one panel per drug."""
-    fig, axes = plt.subplots(1, len(per_drug),
-                             figsize=(6.6 * len(per_drug), 5.4),
+def _periphery_if_only_size(width, slope):
+    """Periphery a spheroid of this width would show at a FIXED edge slope.
+
+    tabletop_regions puts 2*slope_width either side of each edge midpoint, so
+    the edge spans 8*slope in total and the centre spans width - 4*slope:
+        periphery = 8s / (8s + width - 4s) = 8s / (width + 4s)
+    Drawn as a reference curve: points sitting on it are explained by size
+    alone, points off it have genuinely different edge sharpness.
+    """
+    return 8.0 * slope / (width + 4.0 * slope) * 100.0
+
+
+def plot_shape_diagnostics(per_drug, rng):
+    """Per drug: periphery vs spheroid width, and edge slope vs dose."""
+    nrows = len(per_drug)
+    fig, axes = plt.subplots(nrows, 2, figsize=(13.5, 5.0 * nrows),
                              squeeze=False)
-    for ax, (cfg, by_dose) in zip(axes.flatten(), per_drug):
+    for row, (cfg, all_results) in enumerate(per_drug):
+        ax = axes[row][0]
+        all_w, all_s = [], []
+        for folder in cfg["folders"]:
+            w, s, p = scan_shape(all_results[folder])
+            if not w.size:
+                continue
+            all_w.append(w); all_s.append(s)
+            ax.scatter(w, p, s=70, alpha=0.85,
+                       color=cfg["colors"][folder],
+                       label=cfg["labels"].get(folder, folder))
+        if all_w:
+            w_all = np.concatenate(all_w)
+            s_mean = float(np.concatenate(all_s).mean())
+            grid = np.linspace(w_all.min() * 0.95, w_all.max() * 1.05, 200)
+            ax.plot(grid, _periphery_if_only_size(grid, s_mean), '--',
+                    color="0.4", linewidth=2.0,
+                    label=f"size alone (slope = {s_mean:.1f} µm)")
+        ax.set_xlabel("spheroid width (µm)")
+        ax.set_ylabel("periphery (%)")
+        ax.set_title(f"{cfg['drug']}: periphery vs size", fontsize=13)
+        ax.grid(alpha=0.3)
+        ax.legend(fontsize=9, loc="best")
+
+        ax = axes[row][1]
         x = np.arange(len(cfg["folders"]))
-        means = [v.mean() if v.size else np.nan for v in by_dose]
-        sems = [v.std(ddof=1) / np.sqrt(v.size) if v.size > 1 else 0.0
-                for v in by_dose]
+        means, sems = [], []
+        for i, folder in enumerate(cfg["folders"]):
+            _, s, _ = scan_shape(all_results[folder])
+            means.append(s.mean() if s.size else np.nan)
+            sems.append(s.std(ddof=1) / np.sqrt(s.size) if s.size > 1 else 0.0)
+            if s.size:
+                ax.plot(np.full(s.size, i), s, '.', color="0.6",
+                        markersize=8, zorder=1)
         ax.errorbar(x, means, yerr=sems, marker='o', markersize=8,
-                    linewidth=2.2, capsize=5, color="tab:red")
-        for xi, v in zip(x, by_dose):          # individual files behind
-            if v.size:
-                ax.plot(np.full(v.size, xi), v, '.', color="0.55",
-                        markersize=7, zorder=1)
+                    linewidth=2.2, capsize=5, color="tab:purple", zorder=2)
         ax.set_xticks(x)
         ax.set_xticklabels([cfg["labels"].get(f, f) for f in cfg["folders"]])
-        ax.set_ylim(0, 100)
-        ax.set_title(f"{cfg['drug']}  (n = "
-                     f"{[int(v.size) for v in by_dose]} files)", fontsize=13)
         ax.set_xlabel("dose")
-        ax.set_ylabel("cell border as % of whole cell")
+        ax.set_ylabel("edge slope_width (µm)")
+        ax.set_title(f"{cfg['drug']}: edge sharpness (size-free)", fontsize=13)
         ax.grid(alpha=0.3)
-        for lbl in ax.get_xticklabels() + ax.get_yticklabels():
-            lbl.set_fontweight("bold")
-    fig.suptitle("Cell border / (border + centre) vs dose   "
-                 "(mean +/- SEM, grey = individual files)",
-                 fontsize=15, fontweight="bold")
+
+        for a in axes[row]:
+            for lbl in a.get_xticklabels() + a.get_yticklabels():
+                lbl.set_fontweight("bold")
+
+    fig.suptitle("Is the periphery telling us about the edge, or just the "
+                 "spheroid size?", fontsize=15, fontweight="bold")
     fig.tight_layout()
     if FIG_PATH:
         os.makedirs(FIG_PATH, exist_ok=True)
-        fig.savefig(os.path.join(FIG_PATH, "tabletop_border_percent.png"),
+        fig.savefig(os.path.join(FIG_PATH, "shape_diagnostics.png"),
                     dpi=300, bbox_inches="tight")
     plt.show()
 
 
-def report_border_percent(cfg, by_dose):
-    print(f"\n{cfg['drug']} - cell border as % of whole cell (edge/(edge+centre))")
-    print(f"  {'dose':<12}{'n':>3}{'border %':>12}{'SEM':>7}   per-file values")
-    for folder, v in zip(cfg["folders"], by_dose):
+def report_shape(cfg, all_results, rng):
+    """Slope width per dose, tested the same way as the feature ranking."""
+    print(f"\n{cfg['drug']} - edge slope_width (size-free boundary sharpness)")
+    print(f"  {'dose':<12}{'n':>3}{'slope um':>11}{'SEM':>7}"
+          f"{'width um':>11}{'periph %':>10}")
+    groups, dose_of = [], []
+    for folder, dose in zip(cfg["folders"], cfg["doses"]):
+        g = per_file_slope(all_results[folder])
+        w, s, p = scan_shape(all_results[folder])
+        if not g.size:
+            continue
+        groups.append(g)
+        dose_of += [dose] * g.size
+        sem = g.std(ddof=1) / np.sqrt(g.size) if g.size > 1 else 0.0
+        print(f"  {cfg['labels'].get(folder, folder):<12}{g.size:>3}"
+              f"{g.mean():>11.1f}{sem:>7.1f}{w.mean():>11.1f}{p.mean():>10.1f}")
+    if len(groups) >= 2:
+        flat = np.concatenate(groups)
+        rho, p_rho = stats.spearmanr(dose_of, flat)
+        print(f"  slope_width vs dose: eta^2 = {eta_squared(groups):.3f}, "
+              f"p_perm = {permutation_p(groups, rng):.4f}, "
+              f"rho = {rho:+.2f} (p = {p_rho:.3f})")
+
+
+def _mean_sem(v):
+    if not v.size:
+        return np.nan, 0.0
+    return v.mean(), (v.std(ddof=1) / np.sqrt(v.size) if v.size > 1 else 0.0)
+
+
+def plot_periphery_percent(per_drug):
+    """Line chart of the BFS and LW borders against dose, one panel per drug."""
+    fig, axes = plt.subplots(1, len(per_drug),
+                             figsize=(6.8 * len(per_drug), 5.6),
+                             squeeze=False)
+    for ax, (cfg, bfs_by_dose, lw_by_dose) in zip(axes.flatten(), per_drug):
+        x = np.arange(len(cfg["folders"]))
+        for by_dose, colour, label in (
+                (bfs_by_dose, "tab:red", "BFS periphery (stiffness)"),
+                (lw_by_dose, "tab:blue", "LW periphery (viscosity)")):
+            ms = [_mean_sem(v) for v in by_dose]
+            ax.errorbar(x, [m for m, _ in ms], yerr=[s for _, s in ms],
+                        marker='o', markersize=8, linewidth=2.2, capsize=5,
+                        color=colour, label=label)
+        # Individual files for the BFS line only - both would be unreadable.
+        for xi, v in zip(x, bfs_by_dose):
+            if v.size:
+                ax.plot(np.full(v.size, xi), v, '.', color="0.6",
+                        markersize=6, zorder=1)
+        ax.set_xticks(x)
+        ax.set_xticklabels([cfg["labels"].get(f, f) for f in cfg["folders"]])
+        ax.set_ylim(0, 100)
+        ax.set_title(f"{cfg['drug']}  (n = "
+                     f"{[int(v.size) for v in bfs_by_dose]} files)",
+                     fontsize=13)
+        ax.set_xlabel("dose")
+        ax.set_ylabel("periphery as % of whole spheroid")
+        ax.grid(alpha=0.3)
+        ax.legend(loc="best", fontsize=11)
+        for lbl in ax.get_xticklabels() + ax.get_yticklabels():
+            lbl.set_fontweight("bold")
+    fig.suptitle("Spheroid periphery / (periphery + centre) vs dose   "
+                 "(mean +/- SEM, grey dots = individual files, BFS)",
+                 fontsize=15, fontweight="bold")
+    fig.tight_layout()
+    if FIG_PATH:
+        os.makedirs(FIG_PATH, exist_ok=True)
+        fig.savefig(os.path.join(FIG_PATH, "tabletop_periphery_percent.png"),
+                    dpi=300, bbox_inches="tight")
+    plt.show()
+
+
+def report_periphery_percent(cfg, bfs_by_dose, lw_by_dose):
+    print(f"\n{cfg['drug']} - periphery as % of whole spheroid "
+          f"(edge/(edge+centre))")
+    print(f"  {'dose':<12}{'n':>3}{'BFS periphery %':>15}{'LW periphery %':>16}"
+          f"{'LW-BFS':>9}   per-file (BFS)")
+    for folder, b, l in zip(cfg["folders"], bfs_by_dose, lw_by_dose):
         lbl = cfg["labels"].get(folder, folder)
-        if not v.size:
+        if not b.size and not l.size:
             print(f"  {lbl:<12}{0:>3}   no usable tabletop")
             continue
-        sem = v.std(ddof=1) / np.sqrt(v.size) if v.size > 1 else 0.0
-        vals = "  ".join(f"{x:.0f}" for x in np.sort(v))
-        print(f"  {lbl:<12}{v.size:>3}{v.mean():>12.1f}{sem:>7.1f}   {vals}")
+        bm, bs = _mean_sem(b)
+        lm, ls = _mean_sem(l)
+        diff = lm - bm if np.isfinite(bm) and np.isfinite(lm) else np.nan
+        vals = "  ".join(f"{x:.0f}" for x in np.sort(b))
+        print(f"  {lbl:<12}{b.size:>3}"
+              f"{bm:>10.1f} +/-{bs:>3.1f}"
+              f"{lm:>11.1f} +/-{ls:>3.1f}"
+              f"{diff:>9.1f}   {vals}")
 
 
 def analyse(cfg, rng):
@@ -339,14 +460,19 @@ def report(cfg, rows, all_results):
 
 if __name__ == "__main__":
     rng = np.random.default_rng(SEED)
-    per_drug = []
+    per_drug, shape_drug = [], []
     for cfg in DRUGS:
         rows, all_results = analyse(cfg, rng)
         report(cfg, rows, all_results)
 
-        by_dose = [tabletop_border_percent(all_results[f])
-                   for f in cfg["folders"]]
-        report_border_percent(cfg, by_dose)
-        per_drug.append((cfg, by_dose))
+        bfs_by_dose = [tabletop_periphery_percent(all_results[f], "region")
+                       for f in cfg["folders"]]
+        lw_by_dose = [tabletop_periphery_percent(all_results[f], "region_lw")
+                      for f in cfg["folders"]]
+        report_periphery_percent(cfg, bfs_by_dose, lw_by_dose)
+        report_shape(cfg, all_results, rng)
+        per_drug.append((cfg, bfs_by_dose, lw_by_dose))
+        shape_drug.append((cfg, all_results))
 
-    plot_border_percent(per_drug)
+    plot_periphery_percent(per_drug)
+    plot_shape_diagnostics(shape_drug, rng)

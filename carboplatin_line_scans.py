@@ -14,48 +14,34 @@ chosen signal:
   5. Table tops: one panel per folder (4 for carboplatin, 5 for paclitaxel)
      showing the pooled points, the refit tabletop, and the media level in
      grey.
-  6. Average panels: bfs_0 and lw_0 averaged side by side in one figure,
-     drawn every run regardless of SIGNAL_KIND.
+  6. Dose lines (tabletop modes only): two one-point-per-dose charts -
+     periphery % and mean d^2.
+  7. Summary: one figure with the bfs_0, lw_0 and sobel average line charts
+     plus BFS mean d^2 vs dose, drawn every run regardless of SIGNAL_KIND.
 
 Scans are combined by shifting each one so the centre of its fitted tabletop
 sits at x = 0, then pooling every point into a single dataset and refitting
 one tabletop. Absolute stage position is discarded; cells of differing size
 are simply centred on each other.
 
-The plotted quantity is chosen by SIGNAL_KIND at the bottom of the file:
-  'bfs'    - Lorentzian-fit Brillouin frequency shift (GHz)
-  'lw'     - Lorentzian-fit Brillouin linewidth (GHz)
-  'bfs_0'  - BFS minus that scan's tabletop baseline (BFS - BFS0)
-  'lw_0'   - linewidth minus its tabletop baseline (LW - LW0)
-  'simple' - pixel spectral gradient with the [-1, 1] kernel across pixels
-  'sobel'  - Sobel-Feldman kernel across pixels
-  'lap'    - Laplacian kernel across pixels
+The plotted quantity is chosen by SIGNAL_KIND at the bottom of the file.
+Five tabletop modes, which get a fitted tabletop and region shading:
+  'bfs'   - Lorentzian-fit Brillouin frequency shift (GHz), stiffness
+  'lw'    - Lorentzian-fit Brillouin linewidth (GHz), viscosity
+  'bfs_0' - BFS minus that scan's tabletop baseline (MHz)
+  'lw_0'  - linewidth minus its tabletop baseline (MHz)
+  'vca'   - Vertex Component Analysis with 2 endmembers per scan, the cell
+            endmember's abundance (0-1)
 
-The same three kernels applied to the per-pixel FITTED Lorentzian instead of
-the raw spectrum - the area between neighbouring model curves. Fitting first
-removes the per-bin noise that makes the raw versions sensitive to exposure
-time:
-  'fit_grad', 'fit_sobel', 'fit_lap'
+One gradient mode, restricted to the CENTRE region of the scan's own shift
+tabletop so it describes texture inside the spheroid rather than the
+boundary. It is annotated with max and mean and shares one y scale across
+doses:
+  'sobel' - Sobel across pixels on the raw folded spectrum; responds to ANY
+            change in the spectrum
 
-The spectral gradients above respond to ANY change in the spectrum. These
-follow one fitted quantity instead, in MHz:
-  'bfs_grad', 'bfs_sobel', 'bfs_lap' - the same kernels on the BFS profile
-  'lw_grad',  'lw_sobel',  'lw_lap'  - the same kernels on the linewidth
-
-VCA modes run Vertex Component Analysis with 2 endmembers on each individual
-line scan and use the cell endmember's abundance as the signal:
-  'vca'       - the abundance profile itself (tabletop-shaped)
-  'vca_grad'  - |[-1, 1]| along the scan
-  'vca_sobel' - |Sobel| along the scan
-  'vca_lap'   - |Laplacian| along the scan
-The three gradient modes peak at the cell edges rather than forming a
-plateau, so they get no tabletop fit.
-
-All six gradient modes ('simple', 'sobel', 'lap', 'vca_grad', 'vca_sobel',
-'vca_lap') are restricted to the CENTRE region of the scan's own shift
-tabletop, so they describe texture inside the cell rather than the cell-edge
-transition. Their charts are annotated with the max and mean of what is
-plotted.
+Only Sobel is retained of the three kernels - its 5-pixel span smooths noise
+where the 2- and 3-pixel [-1,1] and Laplacian kernels amplified it.
 """
 
 import os
@@ -82,7 +68,7 @@ STEP_UM = 5.0
 CONTROL_DIR = "Spheroid Controls"
 
 # --- PACLITAXEL ---------------------------------------------------------
-'''
+
 DRUG    = "Paclitaxel"
 BASE    = "Paclitaxel final line scans"
 FOLDERS = ["Control", "1.52 nM", "3.125 nM", "6.25 nM", "12.5 nM"]
@@ -108,7 +94,7 @@ FOLDER_COLORS = {
 }
 # Anything not listed here is read from BASE/<folder> as usual.
 FOLDER_PATHS = {"control": CONTROL_DIR}
-
+'''
 
 
 # Folder names are directory names; these are what appears on the charts.
@@ -128,32 +114,18 @@ FOLDER_LABELS = {
 # in 'Brillouin Images/Carboplatin' and paclitaxel in
 # 'Brillouin Images/Paclitaxel'. Relative to the working directory, which must
 # be the repo root (BASE is relative too).
-# SAVE_PATH = os.path.join("Brillouin Images", DRUG)
-SAVE_PATH = None
+SAVE_PATH = os.path.join("Brillouin Images", DRUG)
+# SAVE_PATH = None
 
 REGION_COLORS = {"outside": "#dddddd", "edge": "#ffd9b3", "center": "#b3e6ff"}
 
 SIGNAL_LABELS = {
-    "bfs":    "Brillouin shift (GHz)",
-    "lw":     "Brillouin linewidth (GHz)",
-    "bfs_0":  "BFS - BFS₀ (MHz)",
-    "lw_0":   "LW - LW₀ (MHz)",
-    "simple": "|spectral gradient| - kernel [-1, 1]",
-    "sobel":  "|spectral gradient| - Sobel [1, 2, 0, -2, -1]",
-    "lap":    "|spectral gradient| - Laplacian [1, -2, 1]",
-    "fit_grad":  "area between fitted curves - kernel [-1, 1]",
-    "fit_sobel": "area between fitted curves - Sobel [1, 2, 0, -2, -1]",
-    "fit_lap":   "area between fitted curves - Laplacian [1, -2, 1]",
-    "bfs_grad":  "|BFS gradient| - kernel [-1, 1] (MHz)",
-    "bfs_sobel": "|BFS gradient| - Sobel [1, 2, 0, -2, -1] (MHz)",
-    "bfs_lap":   "|BFS gradient| - Laplacian [1, -2, 1] (MHz)",
-    "lw_grad":   "|LW gradient| - kernel [-1, 1] (MHz)",
-    "lw_sobel":  "|LW gradient| - Sobel [1, 2, 0, -2, -1] (MHz)",
-    "lw_lap":    "|LW gradient| - Laplacian [1, -2, 1] (MHz)",
+    "bfs":       "Brillouin shift (GHz)",
+    "lw":        "Brillouin linewidth (GHz)",
+    "bfs_0":     "BFS - BFS₀ (MHz)",
+    "lw_0":      "LW - LW₀ (MHz)",
     "vca":       "VCA abundance (cell endmember)",
-    "vca_grad":  "|VCA gradient| - kernel [-1, 1]",
-    "vca_sobel": "|VCA gradient| - Sobel [1, 2, 0, -2, -1]",
-    "vca_lap":   "|VCA gradient| - Laplacian [1, -2, 1]",
+    "sobel":     "|spectral gradient| - Sobel [1, 2, 0, -2, -1]",
 }
 
 # Endmembers per line scan for the VCA modes. With 2, the abundances sum to 1
@@ -181,11 +153,10 @@ NEGATIVE_OK_SIGNALS = {"lw", "lw_0"}
 # Gradient modes. These are restricted to the CENTRE region of the scan's own
 # shift tabletop, so they measure texture inside the cell rather than the
 # cell-edge transition, and their charts are annotated with max and mean.
-GRADIENT_SIGNALS = {"simple", "sobel", "lap",
-                    "fit_grad", "fit_sobel", "fit_lap",
-                    "bfs_grad", "bfs_sobel", "bfs_lap",
-                    "lw_grad", "lw_sobel", "lw_lap",
-                    "vca_grad", "vca_sobel", "vca_lap"}
+# Only the Sobel kernel is kept: its 5-pixel span smooths per-pixel noise,
+# where the 2- and 3-pixel [-1,1] and Laplacian kernels amplified it (measured
+# on the VCA family, edge-vs-media response was 0.095 vs 0.094 - no contrast).
+GRADIENT_SIGNALS = {"sobel"}
 
 # Averaging (see _aligned_mean). A grid point is only plotted where at least
 # this fraction of a folder's scans reach it - otherwise the ends of the mean
@@ -252,17 +223,22 @@ def _style_axes(ax):
         lbl.set_fontweight("bold")
 
 
-def _save(fig, name):
-    """Write a figure to SAVE_PATH, unless saving is switched off."""
+def _save(fig, name, subdir=None):
+    """Write a figure to SAVE_PATH, unless saving is switched off.
+
+    Per-mode figures pass subdir=<signal_key> so each mode gets its own
+    folder; the cross-mode summary passes nothing and lands alongside them.
+    """
     if not SAVE_PATH:
         return
-    os.makedirs(SAVE_PATH, exist_ok=True)
+    outdir = SAVE_PATH if subdir is None else os.path.join(SAVE_PATH, subdir)
+    os.makedirs(outdir, exist_ok=True)
     safe = "".join(c if c.isalnum() or c in "-_." else "_" for c in name)
-    fig.savefig(os.path.join(SAVE_PATH, safe + ".png"),
+    fig.savefig(os.path.join(outdir, safe + ".png"),
                 dpi=300, bbox_inches="tight")
 
 
-def _finish(fig, name, tight=True):
+def _finish(fig, name, tight=True, subdir=None):
     """Tidy layout, save, then show.
 
     Pass tight=False when the caller has already run tight_layout with a
@@ -271,7 +247,7 @@ def _finish(fig, name, tight=True):
     """
     if tight:
         fig.tight_layout()
-    _save(fig, name)
+    _save(fig, name, subdir)
     plt.show()
 
 
@@ -322,9 +298,19 @@ def _sorted_scan(spectra, freq, positions, fname, **extra):
 
 def _load_csv_scans(full, fname):
     """One CSV may hold several sweeps over the same line; split them."""
+    return _scans_from_raw_table(pd.read_csv(full), fname)
+
+
+def _scans_from_raw_table(df, fname):
+    """Split an acquisition table into one scan per sweep.
+
+    The table is the 13-column layout the instrument writes - X/Y/Z, a
+    comma-joined 'Raw Data' spectrum per row, and the frequency window. It
+    arrives either as a .csv or, for some scans, as a one-sheet .xlsx; both
+    land here so the two formats cannot drift apart.
+    """
     out = []
-    df = pd.read_csv(full)
-    lengths = df["Raw Data"].apply(lambda s: len(s.split(","))).to_numpy()
+    lengths = df["Raw Data"].apply(lambda s: len(str(s).split(","))).to_numpy()
     unique_lens = sorted(set(lengths))
     if len(unique_lens) > 1:
         print(f"  [info] {fname}: mixed Raw Data lengths {unique_lens} "
@@ -345,7 +331,7 @@ def _load_csv_scans(full, fname):
             sub_pass = sub.iloc[idx].reset_index(drop=True)
             spectra = np.vstack(
                 sub_pass["Raw Data"].apply(
-                    lambda s: np.array([float(v) for v in s.split(",")]))
+                    lambda s: np.array([float(v) for v in str(s).split(",")]))
             )
             start = sub_pass["startFrequency"].iloc[0]
             end   = sub_pass["endFrequency"].iloc[0]
@@ -355,7 +341,31 @@ def _load_csv_scans(full, fname):
     return out
 
 
-def _load_xlsx_scan(full, fname):
+def _load_workbook_scan(full, fname):
+    """Read a scan from a workbook (.xlsx or legacy .xls).
+
+    '*_Fitted.xlsx' from the acquisition software has three sheets ('Fitted',
+    'FittingData_spectrum', 'Raw Data'). Other scans are saved as the plain
+    acquisition table in a single sheet - the same columns as a CSV. Dispatch
+    on the sheet names rather than the filename, since the naming is not
+    consistent.
+    """
+    try:
+        sheets = pd.ExcelFile(full).sheet_names
+    except Exception as exc:
+        print(f"  [warn] {fname}: cannot open ({exc})")
+        return []
+    if "Raw Data" in sheets and "Fitted" in sheets:
+        return _load_xlsx_fitted(full, fname)
+    df = pd.read_excel(full, sheet_name=0)
+    if "Raw Data" not in df.columns:
+        print(f"  [warn] {fname}: no recognisable spectra "
+              f"(sheets: {sheets}) - skipped")
+        return []
+    return _scans_from_raw_table(df, fname)
+
+
+def _load_xlsx_fitted(full, fname):
     """Read a '*_Fitted.xlsx' produced by the acquisition software.
 
     Sheet 'Raw Data' holds the frequency axis in column 0 and one 512-channel
@@ -385,15 +395,32 @@ def _load_xlsx_scan(full, fname):
                          vendor_lw=None if vendor_lw is None else vendor_lw[:n])]
 
 
+# Scans arrive as CSV, as modern .xlsx, and as legacy .xls - all three hold
+# the same acquisition table. Reading .xls needs the `xlrd` package.
+SPECTRA_EXTS = (".csv", ".xlsx", ".xls")
+
+# Files that legitimately sit alongside the data and should pass without
+# comment. Anything else gets a warning rather than being dropped in silence.
+NON_DATA_EXTS = (".png", ".jpg", ".jpeg", ".tif", ".tiff", ".pdf",
+                 ".txt", ".md", ".ini", ".ds_store")
+
+
 def _load_line_scan_folder_robust(folder_path):
     out = []
     for fname in sorted(os.listdir(folder_path)):
         low = fname.lower()
         full = os.path.join(folder_path, fname)
+        # Excel lock files, dotfiles and subdirectories are never data.
+        if fname.startswith("~$") or fname.startswith(".") \
+                or os.path.isdir(full):
+            continue
         if low.endswith(".csv"):
             out.extend(_load_csv_scans(full, fname))
-        elif low.endswith(".xlsx") and not fname.startswith("~$"):
-            out.extend(_load_xlsx_scan(full, fname))
+        elif low.endswith((".xlsx", ".xls")):
+            out.extend(_load_workbook_scan(full, fname))
+        elif not low.endswith(NON_DATA_EXTS):
+            print(f"  [warn] {fname}: unrecognised file type, not loaded - "
+                  f"expected one of {SPECTRA_EXTS}")
     return out
 
 
@@ -428,6 +455,10 @@ def profile_gradient(sig, kind):
     Distinct from spectral_gradient_per_pixel, which sums differences across a
     whole spectrum. This one works on a scalar profile such as the VCA
     abundance. NaN where the kernel does not fit at the ends.
+
+    Currently unused - the profile-gradient modes it fed (bfs_*, lw_*, vca_*)
+    were pruned as noise-dominated. Kept because modes are still being added
+    and removed and this would only need rewriting.
     """
     sig = np.asarray(sig, dtype=float)
     n = len(sig)
@@ -488,6 +519,24 @@ def _vca_profile(spec_norm, region):
     return 1.0 - em if _cell_minus_media(em, region) < 0 else em
 
 
+def _ordered_edges(params):
+    """Copy of a tabletop's params with x_left <= x_right.
+
+    fit_tabletop bounds both edges to the scan range but never enforces their
+    order, and with allow_negative=True the linewidth fit can settle on
+    swapped edges with a negative amplitude - an equivalent curve, but
+    tabletop_regions computes the centre as (x > x_left + pad) & (x < x_right
+    - pad), which is empty when they are swapped. That would silently read as
+    "100% border, no centre".
+    """
+    if params is None:
+        return None
+    out = dict(params)
+    if out["x_left"] > out["x_right"]:
+        out["x_left"], out["x_right"] = out["x_right"], out["x_left"]
+    return out
+
+
 def _media_level(sig, tab_params, region):
     """The medium ('outside') level of a profile - the bottom of its tabletop.
 
@@ -521,8 +570,10 @@ def load_and_analyse(folder_path):
         bp.fold_line_scans(scans, max_shift_ghz=8))
     results = []
     for s in scans:
-        fitted_curves, params = bf.fit_all_spectra(s["shift_freq"],
-                                                   s["folded_spectra_norm"])
+        # fit_all_spectra also returns the fitted Lorentzian curves; nothing
+        # needs them now that the fitted-curve gradient mode is gone.
+        _, params = bf.fit_all_spectra(s["shift_freq"],
+                                       s["folded_spectra_norm"])
         _, shifts, linewidths, _ = bf.extract_fit_parameters(params)
         spec_norm = s["folded_spectra_norm"]
 
@@ -537,6 +588,18 @@ def load_and_analyse(folder_path):
                 s["positions"], linewidths, allow_negative=True)
         except Exception:
             tab_params_lw, tab_curve_lw = None, None
+
+        # Regions from the LINEWIDTH tabletop, so the spheroid boundary can be
+        # measured on viscosity as well as on stiffness. The BFS `region`
+        # above is left alone - alignment, gradient masking and BFS0/LW0 all
+        # share that one geometry.
+        region_lw = None
+        if tab_params_lw is not None:
+            try:
+                region_lw = bf.tabletop_regions(
+                    s["positions"], _ordered_edges(tab_params_lw), edge_pad=2.0)
+            except Exception:
+                region_lw = None
 
         bfs0 = _media_level(shifts, tab_params, region)
         lw0 = _media_level(linewidths, tab_params_lw, region)
@@ -601,51 +664,15 @@ def load_and_analyse(folder_path):
                              else (linewidths - lw0) * MHZ_PER_GHZ,
             "bfs0_level":    bfs0,
             "lw0_level":     lw0,
-            # Same kernels as simple/sobel/lap, but on the per-pixel fitted
-            # Lorentzian instead of the raw spectrum: the area between two
-            # neighbouring MODEL curves rather than between two noisy ones.
-            # Summing |difference| over bins is that area up to the constant
-            # bin width, which is identical for every file here. Fitting first
-            # strips the per-bin noise that makes the raw versions track
-            # exposure time as much as biology.
-            "fit_grad":      _centre_only(
-                                 spectral_gradient_per_pixel(fitted_curves, "simple")),
-            "fit_sobel":     _centre_only(
-                                 spectral_gradient_per_pixel(fitted_curves, "sobel")),
-            "fit_lap":       _centre_only(
-                                 spectral_gradient_per_pixel(fitted_curves, "lap")),
-            # BFS / linewidth gradients, in MHz: these follow change in peak
-            # position or width alone, where the spectral gradients above
-            # respond to any change in the spectrum.
-            "bfs_grad":      _centre_only(
-                                 profile_gradient(shifts, "simple") * MHZ_PER_GHZ),
-            "bfs_sobel":     _centre_only(
-                                 profile_gradient(shifts, "sobel") * MHZ_PER_GHZ),
-            "bfs_lap":       _centre_only(
-                                 profile_gradient(shifts, "lap") * MHZ_PER_GHZ),
-            "lw_grad":       _centre_only(
-                                 profile_gradient(linewidths, "simple") * MHZ_PER_GHZ),
-            "lw_sobel":      _centre_only(
-                                 profile_gradient(linewidths, "sobel") * MHZ_PER_GHZ),
-            "lw_lap":        _centre_only(
-                                 profile_gradient(linewidths, "lap") * MHZ_PER_GHZ),
-            "simple":        _centre_only(
-                                 spectral_gradient_per_pixel(spec_norm, "simple")),
+            # Sobel across pixels on the raw spectrum, summed over all bins.
             "sobel":         _centre_only(
                                  spectral_gradient_per_pixel(spec_norm, "sobel")),
-            "lap":           _centre_only(
-                                 spectral_gradient_per_pixel(spec_norm, "lap")),
             "vca":           vca_sig,
-            "vca_grad":      None if vca_sig is None
-                             else _centre_only(profile_gradient(vca_sig, "simple")),
-            "vca_sobel":     None if vca_sig is None
-                             else _centre_only(profile_gradient(vca_sig, "sobel")),
-            "vca_lap":       None if vca_sig is None
-                             else _centre_only(profile_gradient(vca_sig, "lap")),
             "tab_params":    tab_params,
             "tab_curve":     tab_curve,
             "tab_params_lw": tab_params_lw,
             "region":        region,
+            "region_lw":     region_lw,
         })
     return results
 
@@ -869,6 +896,74 @@ def _scan_tabletop_residual(r, signal_key):
     return float(np.mean(resid[ok] ** 2)), int(ok.sum())
 
 
+def periphery_percent(results, region_key="region"):
+    """Spheroid periphery as a percentage of the whole spheroid, per FILE.
+
+        periphery % = edge / (edge + centre) * 100
+
+    'edge' (orange on the shaded plots) and 'centre' (blue) are the regions
+    bf.tabletop_regions assigns; 'outside' (grey) is the medium and plays no
+    part. Counted in PIXELS, so the number matches exactly what is shaded,
+    including where a scan ends before its edge zone does.
+
+    region_key picks which boundary is measured:
+        'region'     the BFS tabletop - how sharply STIFFNESS transitions
+        'region_lw'  the LW tabletop  - how sharply VISCOSITY transitions
+
+    Note there is no VCA region, so a vca panel reports the BFS periphery.
+
+    A sharply delimited spheroid has a thin periphery and scores low; one whose
+    boundary fades into the medium scores high. A scan whose fit leaves no
+    plateau at all scores 100%.
+    """
+    by_file = {}
+    for r in results:
+        region = r.get(region_key)
+        if region is None:
+            continue
+        n_edge = int((region == "edge").sum())
+        n_centre = int((region == "center").sum())
+        if n_edge + n_centre == 0:
+            continue
+        by_file.setdefault(r["scan"]["filename"], []).append(
+            n_edge / (n_edge + n_centre) * 100.0)
+    return np.array([np.mean(v) for v in by_file.values()])
+
+
+def _periphery_region_key(signal_key):
+    """Which regions a signal's periphery should be counted from."""
+    return "region_lw" if signal_key in ("lw", "lw_0") else "region"
+
+
+def mean_scan_periphery(results, region_key="region"):
+    """Mean periphery over SCANS - the average of the individual tabletops.
+
+    This is what the pooled tabletop panel shows, so the number there is
+    exactly the average of the per-scan numbers on the grid panels.
+
+    Differs from periphery_percent, which averages the passes of a file
+    together first: a two-pass CSV is one spheroid measured twice, so for
+    STATISTICS it must count once. Both views are wanted - matching the plots
+    here, avoiding pseudo-replication there - so they are separate functions.
+    The two agree wherever every file is single-pass.
+    """
+    vals = [_scan_periphery(r, region_key) for r in results]
+    vals = [v for v in vals if v is not None]
+    return float(np.mean(vals)) if vals else None
+
+
+def _scan_periphery(r, region_key="region"):
+    """One scan's periphery %, or None if it has no usable regions."""
+    region = r.get(region_key)
+    if region is None:
+        return None
+    n_edge = int((region == "edge").sum())
+    n_centre = int((region == "center").sum())
+    if n_edge + n_centre == 0:
+        return None
+    return n_edge / (n_edge + n_centre) * 100.0
+
+
 def _folder_mean_residual(results, signal_key):
     """Mean of the individual per-scan tabletop variances for one folder.
 
@@ -965,8 +1060,13 @@ def plot_folder_grid(results, folder_label, signal_key, ncols=3, ylim=None):
         if sig is None:
             ax.axis("off")
             continue
+        title = os.path.splitext(r["scan"]["filename"])[0]
         if signal_key in TABLETOP_SIGNALS:
-            shade_regions(ax, positions, r["region"])
+            # Shade, measure and outline all from the SAME regions - the
+            # signal's own, so an lw panel is not shaded by the BFS boundary
+            # while its curve and periphery describe the linewidth one.
+            region_key = _periphery_region_key(signal_key)
+            shade_regions(ax, positions, r.get(region_key))
         ax.plot(positions, sig, 'k.', markersize=4)
         if signal_key in TABLETOP_SIGNALS:
             # This signal's own tabletop, not always the shift one.
@@ -976,11 +1076,14 @@ def plot_folder_grid(results, folder_label, signal_key, ncols=3, ylim=None):
             if p is not None:
                 ax.axvline(p["x_left"], color='r', linestyle='--', alpha=0.5)
                 ax.axvline(p["x_right"], color='r', linestyle='--', alpha=0.5)
+            periph = _scan_periphery(r, region_key)
+            if periph is not None:
+                title += f"\nperiphery = {periph:.1f}%"
         if signal_key in GRADIENT_SIGNALS:
             _annotate_stats(ax, sig)
         if ylim is not None:
             ax.set_ylim(*ylim)
-        ax.set_title(os.path.splitext(r["scan"]["filename"])[0], fontsize=11)
+        ax.set_title(title, fontsize=11)
         ax.set_xlabel("Position (µm)")
         ax.grid(alpha=0.3)
         _style_axes(ax)
@@ -991,7 +1094,7 @@ def plot_folder_grid(results, folder_label, signal_key, ncols=3, ylim=None):
     fig.supylabel(ylabel, fontsize=13, fontweight="bold")
     fig.suptitle(f"{DRUG} {_flabel(folder_label)}", fontsize=16,
                  fontweight="bold")
-    _finish(fig, f"{signal_key}_grid_{folder_label}")
+    _finish(fig, f"{signal_key}_grid_{folder_label}", subdir=signal_key)
 
 
 # ─────────────────────────────────────────────
@@ -1024,7 +1127,7 @@ def plot_folder_overlay(results, folder_label, color, signal_key,
     ax.grid(alpha=0.3)
     _style_axes(ax)
     if standalone:
-        _finish(fig, f"{signal_key}_overlay_{folder_label}")
+        _finish(fig, f"{signal_key}_overlay_{folder_label}", subdir=signal_key)
 
 
 # ─────────────────────────────────────────────
@@ -1068,7 +1171,8 @@ def plot_all_stacked(all_results, signal_key):
     else:
         ax.legend(title="dose", loc="best")
     _style_axes(ax)
-    _finish(fig, f"{signal_key}_all_stacked", tight=not wide_legend)
+    _finish(fig, f"{signal_key}_all_stacked", tight=not wide_legend,
+            subdir=signal_key)
 
 
 # ─────────────────────────────────────────────
@@ -1138,21 +1242,101 @@ def plot_folder_means(all_results, signal_key):
     else:
         ax.legend(title="dose", loc="best")
     _style_axes(ax)
-    _finish(fig, f"{signal_key}_average", tight=not wide_legend)
+    _finish(fig, f"{signal_key}_average", tight=not wide_legend,
+            subdir=signal_key)
 
 
-def plot_mean_panels(all_results, signal_keys=("bfs_0", "lw_0")):
-    """The baseline-corrected averages in one figure, concentrations overlaid.
+def _folder_scan_peripheries(results, region_key):
+    """Every scan's periphery % in a folder, as an array."""
+    vals = [_scan_periphery(r, region_key) for r in results]
+    return np.array([v for v in vals if v is not None])
 
-    Only BFS-BFS0 and LW-LW0 are shown: subtracting each scan's own media
-    level removes the per-scan offset, so the doses are directly comparable in
-    a way the raw BFS and linewidth are not.
+
+def _folder_scan_residuals(results, signal_key):
+    """Every scan's mean squared distance from its OWN tabletop, as an array."""
+    vals = [_scan_tabletop_residual(r, signal_key)[0] for r in results]
+    return np.array([v for v in vals if v is not None])
+
+
+def _draw_dose_series(ax, all_results, getter, ylabel, colour="tab:red",
+                      scale=1.0, label=None, show_points=True):
+    """One point per dose: mean over SCANS, +/- SEM, individuals behind.
+
+    Averaging over scans (not files) keeps every point equal to the mean of
+    the numbers printed on that dose's individual tabletop panels.
+
+    Pass a label and show_points=False to overlay several series on one axes -
+    individual dots from two series on top of each other are unreadable.
     """
-    keys = [k for k in signal_keys if k in SIGNAL_LABELS]
-    ncols = min(2, len(keys)) or 1
-    nrows = (len(keys) + ncols - 1) // ncols
+    x = np.arange(len(FOLDERS))
+    means, sems = [], []
+    for i, folder in enumerate(FOLDERS):
+        v = np.asarray(getter(all_results[folder]), dtype=float) * scale
+        v = v[np.isfinite(v)]
+        means.append(v.mean() if v.size else np.nan)
+        sems.append(v.std(ddof=1) / np.sqrt(v.size) if v.size > 1 else 0.0)
+        if v.size and show_points:
+            ax.plot(np.full(v.size, i), v, '.', color="0.6",
+                    markersize=7, zorder=1)
+    ax.errorbar(x, means, yerr=sems, marker='o', markersize=8, linewidth=2.2,
+                capsize=5, color=colour, zorder=2, label=label)
+    ax.set_xticks(x)
+    ax.set_xticklabels([_flabel(f) for f in FOLDERS])
+    ax.set_xlabel("dose")
+    ax.set_ylabel(ylabel)
+    ax.grid(alpha=0.3)
+    _style_axes(ax)
+    # The caller sets the y limits: set_ylim here would freeze autoscaling and
+    # silently clip any series drawn onto the same axes afterwards.
+    return np.array(means), np.array(sems)
+
+
+def plot_tabletop_dose_lines(all_results, signal_key):
+    """Two per-dose line charts for a tabletop mode.
+
+    Left: periphery %, how much of the spheroid is boundary rather than
+    plateau. Right: mean d^2, how far the points scatter from their own
+    fitted tabletop - a measure of how tabletop-like the profile is at all.
+    """
+    if signal_key not in TABLETOP_SIGNALS:
+        return
+    region_key = _periphery_region_key(signal_key)
+    unit, s_sq, _ = _residual_units(signal_key)
+    fig, axes = plt.subplots(1, 2, figsize=(13.5, 5.2))
+
+    _draw_dose_series(axes[0], all_results,
+                      lambda res: _folder_scan_peripheries(res, region_key),
+                      "periphery as % of whole spheroid", "tab:red")
+    axes[0].set_ylim(0, 100)
+    axes[0].set_title("Periphery vs dose", fontsize=13)
+
+    m, s = _draw_dose_series(axes[1], all_results,
+                             lambda res: _folder_scan_residuals(res, signal_key),
+                             f"mean d^2{_unit_sq(unit)}", "tab:blue",
+                             scale=s_sq)
+    axes[1].set_ylim(0, np.nanmax(m + s) * 1.12)
+    axes[1].set_title("Scatter about the tabletop vs dose", fontsize=13)
+
+    fig.suptitle(f"{DRUG} - {SIGNAL_LABELS[signal_key]}",
+                 fontsize=15, fontweight="bold")
+    _finish(fig, f"{signal_key}_dose_lines", subdir=signal_key)
+
+
+def plot_summary(all_results, line_keys=("bfs_0", "lw_0", "sobel")):
+    """One figure gathering the dose series: three average line charts plus
+    the periphery-vs-dose chart.
+
+    Top row is the baseline-corrected shift and linewidth - subtracting each
+    scan's own media level removes the per-scan offset, so doses are directly
+    comparable in a way the raw BFS and linewidth are not. Bottom row pairs
+    the spectral-gradient average (texture inside the spheroid) with how far
+    the BFS and LW points scatter from their own tabletops at each dose.
+    """
+    keys = [k for k in line_keys if k in SIGNAL_LABELS]
+    ncols = 2
+    nrows = (len(keys) + 1 + ncols - 1) // ncols
     # Reserve a fixed strip for the shared legend rather than a fixed
-    # fraction, so it does not eat the x labels when there is only one row.
+    # fraction, so it does not eat the x labels.
     legend_in = 0.8
     fig_h = nrows * 4.6 + legend_in
     fig, axes = plt.subplots(nrows, ncols,
@@ -1163,6 +1347,8 @@ def plot_mean_panels(all_results, signal_keys=("bfs_0", "lw_0")):
     for i, key in enumerate(keys):
         ax = axes[i]
         _draw_folder_means(ax, all_results, key)
+        if key in GRADIENT_SIGNALS:
+            ax.set_ylim(bottom=0.0)
         ax.set_title(SIGNAL_LABELS[key], fontsize=13)
         ax.set_xlabel(POS_LABEL)
         ax.set_ylabel(SIGNAL_LABELS[key])
@@ -1170,15 +1356,32 @@ def plot_mean_panels(all_results, signal_keys=("bfs_0", "lw_0")):
         _style_axes(ax)
         if not handles:
             handles, labels = ax.get_legend_handles_labels()
-    for j in range(len(keys), len(axes)):
+
+    # BFS and LW residuals are both in MHz^2, so they share one axis.
+    ax = axes[len(keys)]
+    unit, s_sq, _ = _residual_units("bfs")
+    tops = []
+    for key, colour, lbl in (("bfs", "tab:blue", "BFS"),
+                             ("lw", "tab:orange", "LW")):
+        m, s = _draw_dose_series(
+            ax, all_results,
+            lambda res, k=key: _folder_scan_residuals(res, k),
+            f"mean d^2{_unit_sq(unit)}", colour, scale=s_sq,
+            label=lbl, show_points=False)
+        tops.append(np.nanmax(m + s))
+    ax.set_ylim(0, max(tops) * 1.12)
+    ax.set_title("Scatter about the tabletop vs dose", fontsize=13)
+    ax.legend(loc="best", fontsize=11)
+
+    for j in range(len(keys) + 1, len(axes)):
         axes[j].axis("off")
-    fig.suptitle(f"{DRUG} dose series - average line charts",
-                 fontsize=16, fontweight="bold")
+    fig.suptitle(f"{DRUG} dose series - summary", fontsize=16,
+                 fontweight="bold")
     fig.tight_layout(rect=(0, legend_in / fig_h, 1, 1))
     if handles:
         fig.legend(handles, labels, title="dose", loc="lower center",
                    ncol=min(len(labels), 5), frameon=True)
-    _save(fig, "average_panels")
+    _save(fig, "summary")
     plt.show()
 
 
@@ -1236,11 +1439,19 @@ def plot_folder_tabletops(all_results, signal_key, ncols=2):
             unit, s_sq, _ = _residual_units(signal_key)
             mres = _folder_mean_residual(all_results[folder], signal_key)
             res_txt = ("" if mres is None else
-                       f"\nmean d^2 = {_fmt_resid(mres * s_sq)}{_unit_sq(unit)}")
+                       f"mean d^2 = {_fmt_resid(mres * s_sq)}{_unit_sq(unit)}")
+            # Average of the individual tabletops' peripheries, so this equals
+            # the mean of the per-scan numbers on the grid panels - not the
+            # periphery of this pooled curve.
+            periph = mean_scan_periphery(all_results[folder],
+                                         _periphery_region_key(signal_key))
+            per_txt = ("" if periph is None
+                       else f"   periphery = {periph:.1f}%")
             ax.set_title(f"{_flabel(folder)} (n={used})\n"
                          f"width = {width:.1f} µm   "
                          f"height = {_fmt_y(p['amplitude'], unit_y)}"
-                         f"{' ' + unit_y if unit_y else ''}{res_txt}",
+                         f"{' ' + unit_y if unit_y else ''}\n"
+                         f"{res_txt}{per_txt}",
                          fontsize=12)
         else:
             ax.set_title(f"{_flabel(folder)} (n={used})", fontsize=12)
@@ -1255,7 +1466,7 @@ def plot_folder_tabletops(all_results, signal_key, ncols=2):
         axes[j].axis("off")
     fig.suptitle(f"{DRUG} table tops - {ylabel}", fontsize=16,
                  fontweight="bold")
-    _finish(fig, f"{signal_key}_tabletops")
+    _finish(fig, f"{signal_key}_tabletops", subdir=signal_key)
 
 
 # ─────────────────────────────────────────────
@@ -1377,14 +1588,14 @@ def make_all_plots(all_results, signal_key):
     if signal_key in TABLETOP_SIGNALS:
         report_tabletop_residuals(all_results, signal_key)
         plot_folder_tabletops(all_results, signal_key)
-    # The baseline-corrected averages, regardless of SIGNAL_KIND.
-    plot_mean_panels(all_results)
+        plot_tabletop_dose_lines(all_results, signal_key)
+    # The dose-series summary, regardless of SIGNAL_KIND.
+    plot_summary(all_results)
 
 
 if __name__ == "__main__":
-    # 'bfs', 'lw', 'bfs_0', 'lw_0', 'simple', 'sobel', 'lap',
-    # 'vca', 'vca_grad', 'vca_sobel', 'vca_lap'.
-    SIGNAL_KIND = "bfs"
+    # 'bfs', 'lw', 'bfs_0', 'lw_0', 'vca', 'sobel'.
+    SIGNAL_KIND = "lw_0"
 
     all_results = {}
     for folder in FOLDERS:
