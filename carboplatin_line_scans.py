@@ -77,6 +77,10 @@ import brillouin_decomposition as bd
 # step INDICES, not microns, so positions are multiplied by this to get um.
 STEP_UM = 5.0
 
+# Untreated spheroids are the same sample for both drugs, so both dose series
+# share one control group from this folder rather than each keeping its own.
+CONTROL_DIR = "Spheroid Controls"
+
 # --- PACLITAXEL ---------------------------------------------------------
 '''
 DRUG    = "Paclitaxel"
@@ -90,6 +94,7 @@ FOLDER_COLORS = {
      "12.5 nM":  "purple",
 }
 FOLDER_LABELS = {}      # folder names are already display-ready
+FOLDER_PATHS  = {"Control": CONTROL_DIR}
 '''
 # --- CARBOPLATIN --------------------------------------------------------
 DRUG    = "Carboplatin"
@@ -101,6 +106,8 @@ FOLDER_COLORS = {
     "200um":   "orange",
     "400um":   "red",
 }
+# Anything not listed here is read from BASE/<folder> as usual.
+FOLDER_PATHS = {"control": CONTROL_DIR}
 
 
 
@@ -215,6 +222,16 @@ POS_LABEL = "Position relative to cell centre (µm)"
 def _flabel(folder):
     """Display name for a dose folder."""
     return FOLDER_LABELS.get(folder, folder)
+
+
+def folder_path(folder):
+    """Directory holding a dose group's scans.
+
+    Normally BASE/<folder>, but FOLDER_PATHS can point a group somewhere else
+    entirely - used so both drugs read their controls from the one shared
+    spheroid-control folder.
+    """
+    return FOLDER_PATHS.get(folder, os.path.join(BASE, folder))
 
 
 def _ascii(text):
@@ -1371,7 +1388,7 @@ if __name__ == "__main__":
 
     all_results = {}
     for folder in FOLDERS:
-        path = os.path.join(BASE, folder)
+        path = folder_path(folder)
         print(f"Loading {path} ...")
         all_results[folder] = load_and_analyse(path)
         print(f"  {len(all_results[folder])} scans")
