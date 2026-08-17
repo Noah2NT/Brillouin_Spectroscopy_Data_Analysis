@@ -5,266 +5,67 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c5df5ba4-58f6-412e-962a-3349b9ac54a0" name="Changes" comment="a">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Capstone.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Capstone.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/100um/100um_carboplatin_4_10s_5um.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/carboplatin_1.5.26_20x/100um/100um_carboplatin_4_10s_5um.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/100um/100umcarboplatinSia_2_8s_5um.xls" beforeDir="false" afterPath="$PROJECT_DIR$/data/carboplatin_1.5.26_20x/100um/100umcarboplatinSia_2_8s_5um.xls" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/100um/100umcarboplatin_3_8s_5um.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/carboplatin_1.5.26_20x/100um/100umcarboplatin_3_8s_5um.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/200um/200umcarboplatin_1_8s_5um.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/carboplatin_1.5.26_20x/200um/200umcarboplatin_1_8s_5um.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/200um/200umcarboplatin_2_8s_5um.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/carboplatin_1.5.26_20x/200um/200umcarboplatin_2_8s_5um.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/200um/Brillouin frequency shift (GHz)1.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/carboplatin_1.5.26_20x/200um/Brillouin frequency shift (GHz)1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/200um/Brillouin frequency shift (GHz)2.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/carboplatin_1.5.26_20x/200um/Brillouin frequency shift (GHz)2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/400um/400umcarboplatin_1.1_8s_5um.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/carboplatin_1.5.26_20x/400um/400umcarboplatin_1.1_8s_5um.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/400um/400umcarboplatin_1.2_8s_5um.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/carboplatin_1.5.26_20x/400um/400umcarboplatin_1.2_8s_5um.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/400um/400umcarboplatin_2_8s_5um.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/carboplatin_1.5.26_20x/400um/400umcarboplatin_2_8s_5um.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/400um/Brillouin frequency shift (GHz).png" beforeDir="false" afterPath="$PROJECT_DIR$/data/carboplatin_1.5.26_20x/400um/Brillouin frequency shift (GHz).png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/400um/Brillouin frequency shift (GHz)1.2.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/carboplatin_1.5.26_20x/400um/Brillouin frequency shift (GHz)1.2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/400um/Brillouin frequency shift (GHz)2.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/carboplatin_1.5.26_20x/400um/Brillouin frequency shift (GHz)2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/control/Brillouin frequency shift (GHz)1.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/carboplatin_1.5.26_20x/control/Brillouin frequency shift (GHz)1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/control/Brillouin frequency shift (GHz)2.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/carboplatin_1.5.26_20x/control/Brillouin frequency shift (GHz)2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/control/controlcarboplatin_1_8s_5um.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/carboplatin_1.5.26_20x/control/controlcarboplatin_1_8s_5um.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/control/controlcarboplatin_2_8s_5um.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/carboplatin_1.5.26_20x/control/controlcarboplatin_2_8s_5um.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Background Data Visualisations.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/misc/Background Data Visualisations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs/bfs_all_stacked.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs/bfs_all_stacked.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs/bfs_average.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs/bfs_average.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs/bfs_dose_lines.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs/bfs_dose_lines.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs/bfs_grid_100um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs/bfs_grid_100um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs/bfs_grid_200um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs/bfs_grid_200um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs/bfs_grid_400um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs/bfs_grid_400um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs/bfs_grid_control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs/bfs_grid_control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs/bfs_overlay_100um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs/bfs_overlay_100um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs/bfs_overlay_200um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs/bfs_overlay_200um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs/bfs_overlay_400um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs/bfs_overlay_400um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs/bfs_overlay_control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs/bfs_overlay_control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs/bfs_tabletops.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs/bfs_tabletops.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs_0/bfs_0_all_stacked.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs_0/bfs_0_all_stacked.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs_0/bfs_0_average.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs_0/bfs_0_average.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs_0/bfs_0_dose_lines.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs_0/bfs_0_dose_lines.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs_0/bfs_0_grid_100um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs_0/bfs_0_grid_100um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs_0/bfs_0_grid_200um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs_0/bfs_0_grid_200um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs_0/bfs_0_grid_400um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs_0/bfs_0_grid_400um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs_0/bfs_0_grid_control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs_0/bfs_0_grid_control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs_0/bfs_0_overlay_100um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs_0/bfs_0_overlay_100um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs_0/bfs_0_overlay_200um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs_0/bfs_0_overlay_200um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs_0/bfs_0_overlay_400um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs_0/bfs_0_overlay_400um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs_0/bfs_0_overlay_control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs_0/bfs_0_overlay_control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/bfs_0/bfs_0_tabletops.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/bfs_0/bfs_0_tabletops.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw/lw_all_stacked.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw/lw_all_stacked.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw/lw_average.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw/lw_average.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw/lw_dose_lines.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw/lw_dose_lines.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw/lw_grid_100um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw/lw_grid_100um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw/lw_grid_200um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw/lw_grid_200um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw/lw_grid_400um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw/lw_grid_400um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw/lw_grid_control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw/lw_grid_control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw/lw_overlay_100um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw/lw_overlay_100um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw/lw_overlay_200um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw/lw_overlay_200um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw/lw_overlay_400um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw/lw_overlay_400um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw/lw_overlay_control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw/lw_overlay_control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw/lw_tabletops.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw/lw_tabletops.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw_0/lw_0_all_stacked.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw_0/lw_0_all_stacked.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw_0/lw_0_average.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw_0/lw_0_average.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw_0/lw_0_dose_lines.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw_0/lw_0_dose_lines.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw_0/lw_0_grid_100um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw_0/lw_0_grid_100um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw_0/lw_0_grid_200um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw_0/lw_0_grid_200um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw_0/lw_0_grid_400um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw_0/lw_0_grid_400um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw_0/lw_0_grid_control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw_0/lw_0_grid_control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw_0/lw_0_overlay_100um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw_0/lw_0_overlay_100um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw_0/lw_0_overlay_200um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw_0/lw_0_overlay_200um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw_0/lw_0_overlay_400um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw_0/lw_0_overlay_400um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw_0/lw_0_overlay_control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw_0/lw_0_overlay_control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/lw_0/lw_0_tabletops.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/lw_0/lw_0_tabletops.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/sobel/sobel_all_stacked.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/sobel/sobel_all_stacked.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/sobel/sobel_average.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/sobel/sobel_average.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/sobel/sobel_grid_100um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/sobel/sobel_grid_100um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/sobel/sobel_grid_200um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/sobel/sobel_grid_200um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/sobel/sobel_grid_400um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/sobel/sobel_grid_400um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/sobel/sobel_grid_control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/sobel/sobel_grid_control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/sobel/sobel_overlay_100um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/sobel/sobel_overlay_100um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/sobel/sobel_overlay_200um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/sobel/sobel_overlay_200um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/sobel/sobel_overlay_400um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/sobel/sobel_overlay_400um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/sobel/sobel_overlay_control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/sobel/sobel_overlay_control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/summary.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/summary.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/vca/vca_all_stacked.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/vca/vca_all_stacked.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/vca/vca_average.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/vca/vca_average.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/vca/vca_dose_lines.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/vca/vca_dose_lines.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/vca/vca_grid_100um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/vca/vca_grid_100um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/vca/vca_grid_200um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/vca/vca_grid_200um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/vca/vca_grid_400um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/vca/vca_grid_400um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/vca/vca_grid_control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/vca/vca_grid_control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/vca/vca_overlay_100um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/vca/vca_overlay_100um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/vca/vca_overlay_200um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/vca/vca_overlay_200um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/vca/vca_overlay_400um.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/vca/vca_overlay_400um.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/vca/vca_overlay_control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/vca/vca_overlay_control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/vca/vca_tabletops.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Carboplatin/vca/vca_tabletops.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs/bfs_all_stacked.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs/bfs_all_stacked.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs/bfs_average.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs/bfs_average.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs/bfs_dose_lines.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs/bfs_dose_lines.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs/bfs_grid_1.52_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs/bfs_grid_1.52_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs/bfs_grid_12.5_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs/bfs_grid_12.5_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs/bfs_grid_3.125_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs/bfs_grid_3.125_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs/bfs_grid_6.25_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs/bfs_grid_6.25_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs/bfs_grid_Control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs/bfs_grid_Control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs/bfs_overlay_1.52_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs/bfs_overlay_1.52_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs/bfs_overlay_12.5_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs/bfs_overlay_12.5_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs/bfs_overlay_3.125_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs/bfs_overlay_3.125_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs/bfs_overlay_6.25_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs/bfs_overlay_6.25_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs/bfs_overlay_Control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs/bfs_overlay_Control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs/bfs_tabletops.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs/bfs_tabletops.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs_0/bfs_0_all_stacked.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs_0/bfs_0_all_stacked.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs_0/bfs_0_average.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs_0/bfs_0_average.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs_0/bfs_0_dose_lines.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs_0/bfs_0_dose_lines.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs_0/bfs_0_grid_1.52_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs_0/bfs_0_grid_1.52_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs_0/bfs_0_grid_12.5_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs_0/bfs_0_grid_12.5_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs_0/bfs_0_grid_3.125_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs_0/bfs_0_grid_3.125_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs_0/bfs_0_grid_6.25_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs_0/bfs_0_grid_6.25_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs_0/bfs_0_grid_Control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs_0/bfs_0_grid_Control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs_0/bfs_0_overlay_1.52_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs_0/bfs_0_overlay_1.52_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs_0/bfs_0_overlay_12.5_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs_0/bfs_0_overlay_12.5_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs_0/bfs_0_overlay_3.125_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs_0/bfs_0_overlay_3.125_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs_0/bfs_0_overlay_6.25_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs_0/bfs_0_overlay_6.25_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs_0/bfs_0_overlay_Control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs_0/bfs_0_overlay_Control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/bfs_0/bfs_0_tabletops.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/bfs_0/bfs_0_tabletops.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw/lw_all_stacked.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw/lw_all_stacked.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw/lw_average.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw/lw_average.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw/lw_dose_lines.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw/lw_dose_lines.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw/lw_grid_1.52_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw/lw_grid_1.52_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw/lw_grid_12.5_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw/lw_grid_12.5_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw/lw_grid_3.125_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw/lw_grid_3.125_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw/lw_grid_6.25_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw/lw_grid_6.25_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw/lw_grid_Control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw/lw_grid_Control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw/lw_overlay_1.52_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw/lw_overlay_1.52_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw/lw_overlay_12.5_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw/lw_overlay_12.5_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw/lw_overlay_3.125_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw/lw_overlay_3.125_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw/lw_overlay_6.25_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw/lw_overlay_6.25_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw/lw_overlay_Control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw/lw_overlay_Control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw/lw_tabletops.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw/lw_tabletops.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw_0/lw_0_all_stacked.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw_0/lw_0_all_stacked.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw_0/lw_0_average.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw_0/lw_0_average.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw_0/lw_0_dose_lines.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw_0/lw_0_dose_lines.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw_0/lw_0_grid_1.52_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw_0/lw_0_grid_1.52_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw_0/lw_0_grid_12.5_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw_0/lw_0_grid_12.5_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw_0/lw_0_grid_3.125_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw_0/lw_0_grid_3.125_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw_0/lw_0_grid_6.25_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw_0/lw_0_grid_6.25_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw_0/lw_0_grid_Control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw_0/lw_0_grid_Control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw_0/lw_0_overlay_1.52_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw_0/lw_0_overlay_1.52_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw_0/lw_0_overlay_12.5_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw_0/lw_0_overlay_12.5_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw_0/lw_0_overlay_3.125_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw_0/lw_0_overlay_3.125_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw_0/lw_0_overlay_6.25_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw_0/lw_0_overlay_6.25_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw_0/lw_0_overlay_Control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw_0/lw_0_overlay_Control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/lw_0/lw_0_tabletops.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/lw_0/lw_0_tabletops.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/sobel/sobel_all_stacked.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/sobel/sobel_all_stacked.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/sobel/sobel_average.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/sobel/sobel_average.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/sobel/sobel_grid_1.52_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/sobel/sobel_grid_1.52_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/sobel/sobel_grid_12.5_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/sobel/sobel_grid_12.5_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/sobel/sobel_grid_3.125_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/sobel/sobel_grid_3.125_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/sobel/sobel_grid_6.25_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/sobel/sobel_grid_6.25_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/sobel/sobel_grid_Control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/sobel/sobel_grid_Control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/sobel/sobel_overlay_1.52_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/sobel/sobel_overlay_1.52_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/sobel/sobel_overlay_12.5_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/sobel/sobel_overlay_12.5_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/sobel/sobel_overlay_3.125_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/sobel/sobel_overlay_3.125_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/sobel/sobel_overlay_6.25_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/sobel/sobel_overlay_6.25_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/sobel/sobel_overlay_Control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/sobel/sobel_overlay_Control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/summary.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/summary.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/vca/vca_all_stacked.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/vca/vca_all_stacked.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/vca/vca_average.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/vca/vca_average.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/vca/vca_dose_lines.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/vca/vca_dose_lines.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/vca/vca_grid_1.52_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/vca/vca_grid_1.52_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/vca/vca_grid_12.5_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/vca/vca_grid_12.5_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/vca/vca_grid_3.125_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/vca/vca_grid_3.125_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/vca/vca_grid_6.25_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/vca/vca_grid_6.25_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/vca/vca_grid_Control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/vca/vca_grid_Control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/vca/vca_overlay_1.52_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/vca/vca_overlay_1.52_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/vca/vca_overlay_12.5_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/vca/vca_overlay_12.5_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/vca/vca_overlay_3.125_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/vca/vca_overlay_3.125_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/vca/vca_overlay_6.25_nM.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/vca/vca_overlay_6.25_nM.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/vca/vca_overlay_Control.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/vca/vca_overlay_Control.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/vca/vca_tabletops.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/brillouin_images/Paclitaxel/vca/vca_tabletops.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cell_Col Healthy_xy_scanning30um_40um_step1um_15s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/csv/Cell_Col Healthy_xy_scanning30um_40um_step1um_15s.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DBScan Clustering Demo.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/clustering/DBScan Clustering Demo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hydrogl1_XYscan_20000_20000_step500um_10s (1).csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/csv/Hydrogl1_XYscan_20000_20000_step500um_10s (1).csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LINE SCAN ANALAYSIS.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/LINE SCAN ANALAYSIS.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control 2D/control_5um_20s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control 2D/control_5um_20s.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control/Control1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control/Control1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control/Control10.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control/Control10.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control/Control11.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control/Control11.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control/Control12.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control/Control12.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control/Control13.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control/Control13.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control/Control14.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control/Control14.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control/Control15.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control/Control15.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control/Control16.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control/Control16.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control/Control17.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control/Control17.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control/Control18.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control/Control18.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control/Control3.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control/Control3.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control/Control4.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control/Control4.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control/Control5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control/Control5.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control/Control6.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control/Control6.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control/Control7.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control/Control7.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control/Control8.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control/Control8.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Control/Control9.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Control/Control9.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Temp (scans i dont like)/Control2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Temp (scans i dont like)/Control2.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Treated/Treated1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Treated/Treated1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Treated/Treated2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Treated/Treated2.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Treated/Treated3.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Treated/Treated3.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Treated/Treated4.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Treated/Treated4.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Treated/Treated5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Treated/Treated5.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Treated/Treated6.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Treated/Treated6.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Line_scan_data (old)/Treated/Treated7.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/line_scans_old/Treated/Treated7.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PCA implementation.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/pca_vca/PCA implementation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/1.52 nM/Treated_1.52nM_1.2_5um_Kia_14s_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/1.52 nM/Treated_1.52nM_1.2_5um_Kia_14s_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/1.52 nM/Treated_1.52nM_2.1_ALTROZ_5um_14s_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/1.52 nM/Treated_1.52nM_2.1_ALTROZ_5um_14s_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/1.52 nM/Treated_1.52nM_3.1_Creta_5um_14s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/1.52 nM/Treated_1.52nM_3.1_Creta_5um_14s.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/1.52 nM/Treated_1.52nM_3.2_tata_5um_14s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/1.52 nM/Treated_1.52nM_3.2_tata_5um_14s.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/12.5 nM/treated12.5nM_1.2_20x_Magnum_13s_5um_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/12.5 nM/treated12.5nM_1.2_20x_Magnum_13s_5um_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/12.5 nM/treated12.5nM_1.3_XUV_20x_13s_5um_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/12.5 nM/treated12.5nM_1.3_XUV_20x_13s_5um_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/12.5 nM/treated12.5nM_2.1_TIA_20x_13s_5um_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/12.5 nM/treated12.5nM_2.1_TIA_20x_13s_5um_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/12.5 nM/treated12.5nM_2.2_Alto_20x_13s_5um_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/12.5 nM/treated12.5nM_2.2_Alto_20x_13s_5um_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/12.5 nM/treated_12.5nM_3_punch_5um_9s_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/12.5 nM/treated_12.5nM_3_punch_5um_9s_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/3.125 nM/treated1.52nM_1_suzuki_5um_20s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/3.125 nM/treated1.52nM_1_suzuki_5um_20s.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/3.125 nM/treated1.52nM_2_miss_5um_20s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/3.125 nM/treated1.52nM_2_miss_5um_20s.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/3.125 nM/treated1.52nM_3_sonet_5um_20s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/3.125 nM/treated1.52nM_3_sonet_5um_20s.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/3.125 nM/treated1.52nM_4_amaze_5um_20s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/3.125 nM/treated1.52nM_4_amaze_5um_20s.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/6.25 nM/6.25nM_1.1_6s_5um_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/6.25 nM/6.25nM_1.1_6s_5um_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/6.25 nM/6.25nM_1.2_6s_5um_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/6.25 nM/6.25nM_1.2_6s_5um_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/6.25 nM/6.25nM_2.1_6s_5um_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/6.25 nM/6.25nM_2.1_6s_5um_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/6.25 nM/6.25nM_3.1_9s_5um_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/6.25 nM/6.25nM_3.1_9s_5um_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/6.25 nM/6.25nM_3.2_9s_5um_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/6.25 nM/6.25nM_3.2_9s_5um_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/Control/control_1.1_Jeevan1_5um_20s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/Control/control_1.1_Jeevan1_5um_20s.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/Control/control_1.2_Jeevan2_5um_20s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/Control/control_1.2_Jeevan2_5um_20s.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/Control/control_2.1_Kwid_5um_9s_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/Control/control_2.1_Kwid_5um_9s_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/Control/control_2.2_Safari_5um_9s_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/Control/control_2.2_Safari_5um_9s_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/Control/control_3.1_Pulsar_5um_9s_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/Control/control_3.1_Pulsar_5um_9s_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/Control/control_3.2_Toyota_5um_9s_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/Control/control_3.2_Toyota_5um_9s_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/Control/control_4.1_Audi_5um_20s_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/Control/control_4.1_Audi_5um_20s_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Paclitaxel final line scans/Control/control_4.2_Mercy_5um_20s_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/paclitaxel_line_scans/Control/control_4.2_Mercy_5um_20s_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Smoothing + Clustering.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/clustering/Smoothing + Clustering.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Spheroid Controls/control_1.1_Jeevan1_5um_20s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/spheroid_controls/control_1.1_Jeevan1_5um_20s.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Spheroid Controls/control_1.2_Jeevan2_5um_20s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/spheroid_controls/control_1.2_Jeevan2_5um_20s.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Spheroid Controls/control_2.1_Kwid_5um_9s_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/spheroid_controls/control_2.1_Kwid_5um_9s_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Spheroid Controls/control_2.2_Safari_5um_9s_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/spheroid_controls/control_2.2_Safari_5um_9s_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Spheroid Controls/control_3.1_Pulsar_5um_9s_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/spheroid_controls/control_3.1_Pulsar_5um_9s_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Spheroid Controls/control_3.2_Toyota_5um_9s_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/spheroid_controls/control_3.2_Toyota_5um_9s_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Spheroid Controls/control_4.1_Audi_5um_20s_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/spheroid_controls/control_4.1_Audi_5um_20s_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Spheroid Controls/control_4.2_Mercy_5um_20s_Fitted.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/spheroid_controls/control_4.2_Mercy_5um_20s_Fitted.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VCA PCA display.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/pca_vca/VCA PCA display.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VCA implementation.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/pca_vca/VCA implementation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XY_scanning_40um_60um_step1um_10s_fixed.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/csv/XY_scanning_40um_60um_step1um_10s_fixed.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/carboplatin_line_scans.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/line_scans/carboplatin_line_scans.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/curve fitting.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/misc/curve fitting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feature_extraction.py" beforeDir="false" afterPath="$PROJECT_DIR$/feature_extraction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/line_scan_feature_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/line_scans/line_scan_feature_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/line_scan_summary.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/line_scan_summary.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/line_scan_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/line_scans/line_scan_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/masked_pca_clustering.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/pca_vca/masked_pca_clustering.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mer_reconstruction.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/mer/mer_reconstruction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mer_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/mer/mer_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/separation_scores.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/separation_scores.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test file.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/misc/test file.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testetsetsetst.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/misc/testetsetsetst.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/threshold_sweep.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/clustering/threshold_sweep.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train_classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/misc/train_classifier.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/water_plexiglass.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/csv/water_plexiglass.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/100um/100umcarboplatinSia_2_8s_5um.xls" beforeDir="false" afterPath="$PROJECT_DIR$/1.5.26 20x Carboplatin/100um/100umcarboplatinSia_2_8s_5um.xls" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_all_stacked.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_average.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_grid_100um.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_grid_200um.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_grid_400um.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_grid_control.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_overlay_100um.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_overlay_200um.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_overlay_400um.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_overlay_control.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_tabletops.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_all_stacked.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_average.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_grid_100um.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_grid_200um.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_grid_400um.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_grid_control.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_overlay_100um.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_overlay_200um.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_overlay_400um.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_overlay_control.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_tabletops.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/average_panels.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS summary.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_all_stacked.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_average.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_grid_1.52_nM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_grid_12.5_nM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_grid_3.125_nM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_grid_6.25_nM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_grid_Control.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_overlay_1.52_nM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_overlay_12.5_nM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_overlay_3.125_nM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_overlay_6.25_nM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_overlay_Control.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_tabletops.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW summary.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_all_stacked.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_average.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_grid_1.52_nM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_grid_12.5_nM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_grid_3.125_nM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_grid_6.25_nM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_grid_Control.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_overlay_1.52_nM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_overlay_12.5_nM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_overlay_3.125_nM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_overlay_6.25_nM.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_overlay_Control.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_tabletops.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/Laplacian Gradient Averages.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/Simple Gradient Averages.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/Sobel Gradient Averages.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/average_panels.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Spheroid Controls/controlcarboplatin_1_8s_5um.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Spheroid Controls/controlcarboplatin_2_8s_5um.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/carboplatin_line_scans.py" beforeDir="false" afterPath="$PROJECT_DIR$/carboplatin_line_scans.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/line_scan_feature_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/line_scan_feature_analysis.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -318,7 +119,6 @@
     "Python.VCA implementation.executor": "Run",
     "Python.brillouin_plotting.executor": "Run",
     "Python.brillouin_preprocessing.executor": "Run",
-    "Python.canny_edge_detection_demo.executor": "Run",
     "Python.carboplatin_line_scans.executor": "Run",
     "Python.control1_bfs.executor": "Run",
     "Python.curve fitting.executor": "Run",
@@ -373,6 +173,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Background Data Visualisations.py" />
@@ -393,10 +194,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="~\OneDrive\Documents\GitHub\Brillouin_Spectroscopy_Data_Analysis\.venv" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/carboplatin_line_scans.py" />
@@ -409,7 +212,6 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.canny_edge_detection_demo" />
       <item itemvalue="Python.Background Data Visualisations" />
       <item itemvalue="Python.carboplatin_line_scans" />
     </list>
@@ -417,7 +219,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-1cd77e80b48f-6d6dccd035ac-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.32098.74" />
+        <option value="bundled-python-sdk-6fa658e1df1a-5bd6d13a2a75-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-262.8665.369" />
       </set>
     </attachedChunks>
   </component>
