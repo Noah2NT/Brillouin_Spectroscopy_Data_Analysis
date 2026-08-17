@@ -8,7 +8,8 @@ from scipy.ndimage import (
     binary_erosion,
     binary_dilation,
     binary_opening,
-    binary_closing
+    binary_closing,
+    label as _cc_label,
 )
 
 def max_pool(arr, k=2):
@@ -77,50 +78,81 @@ def _non_maximum_suppression(magnitude, direction):
 
 def canny_edges(arr, sigma=1.0, low_threshold=0.1, high_threshold=0.2,
                 return_stages=False):
-    """Detect edges in a 2D numeric map using the Canny algorithm.
+    """Detect edges in a 2D map or spectral cube using multi-band Canny.
 
-    The default thresholds are fractions of the non-maximum-suppressed peak.
-    Values above 1 are interpreted as absolute gradient magnitudes. NaNs and
-    infinities are filled before filtering and never appear as output edges.
+    Accepts either a scalar 2D map ``(H, W)`` or a spectral cube
+    ``(H, W, B)`` where the last axis holds per-pixel spectra. For cube
+    input the multi-band gradient is aggregated via the Di Zenzo /
+    Cumani structure tensor: J = Σ_b (∇c_b)(∇c_b)ᵀ, whose principal
+    eigenvalue gives the edge magnitude and whose principal eigenvector
+    gives the edge direction. A 2D input is treated as a 1-band cube,
+    which reduces to the ordinary single-channel Canny result.
+
+    The default thresholds are fractions of the non-maximum-suppressed
+    peak. Values above 1 are interpreted as absolute gradient magnitudes.
+    NaNs and infinities are filled before filtering and never appear as
+    output edges.
 
     Parameters:
-        arr             : 2D array-like input image or spatial map
+        arr             : (H, W) or (H, W, B) array-like input
         sigma           : non-negative Gaussian smoothing standard deviation
+                          (spatial only; not applied across bands)
         low_threshold   : weak-edge threshold (fraction or absolute value)
         high_threshold  : strong-edge threshold (fraction or absolute value)
         return_stages   : if True, also return every intermediate result
 
     Returns:
-        edges : boolean ndarray
+        edges : boolean ndarray (H, W)
         stages : dict of ndarrays, only when return_stages=True
     """
-    image = np.asarray(arr, dtype=float)
-    if image.ndim != 2:
-        raise ValueError("canny_edges expects a 2D array")
-    if image.size == 0 or min(image.shape) < 3:
-        raise ValueError("canny_edges expects at least a 3 x 3 array")
+    cube = np.asarray(arr, dtype=float)
+    if cube.ndim == 2:
+        cube = cube[..., None]
+    if cube.ndim != 3:
+        raise ValueError("canny_edges expects a 2D map or 3D cube")
+    if cube.size == 0 or min(cube.shape[:2]) < 3:
+        raise ValueError("canny_edges expects at least a 3 x 3 spatial map")
     if sigma < 0:
         raise ValueError("sigma must be non-negative")
     if not (0 <= low_threshold < high_threshold):
         raise ValueError("thresholds must satisfy 0 <= low < high")
 
-    invalid = ~np.isfinite(image)
+    # Any pixel with a non-finite value in ANY band is treated as invalid.
+    finite_mask = np.isfinite(cube)
+    invalid = ~finite_mask.all(axis=-1)
     if invalid.all():
         raise ValueError("arr must contain at least one finite value")
-    filled = image.copy()
-    filled[invalid] = np.nanmedian(filled)
+    filled = cube.copy()
+    # Fill per-band with that band's median so blur/Sobel are well-defined.
+    for b in range(cube.shape[-1]):
+        band = filled[..., b]
+        bad = ~np.isfinite(band)
+        if bad.any():
+            band[bad] = np.nanmedian(band)
 
-    smoothed = gaussian_filter(filled, sigma=sigma, mode="reflect")
+    # Spatial blur per band; do NOT blur across bands.
+    smoothed = gaussian_filter(filled, sigma=(sigma, sigma, 0), mode="reflect")
     gradient_x = sobel(smoothed, axis=1, mode="reflect")
     gradient_y = sobel(smoothed, axis=0, mode="reflect")
-    magnitude = np.hypot(gradient_x, gradient_y)
-    direction = np.arctan2(gradient_y, gradient_x)
+
+    # Di Zenzo structure tensor summed over bands.
+    Jxx = np.sum(gradient_x * gradient_x, axis=-1)
+    Jyy = np.sum(gradient_y * gradient_y, axis=-1)
+    Jxy = np.sum(gradient_x * gradient_y, axis=-1)
+    trace = Jxx + Jyy
+    diff = Jxx - Jyy
+    disc = np.sqrt(diff * diff + 4.0 * Jxy * Jxy)
+    lam_max = 0.5 * (trace + disc)
+    magnitude = np.sqrt(np.maximum(lam_max, 0.0))
+    direction = 0.5 * np.arctan2(2.0 * Jxy, diff)
+
     suppressed = _non_maximum_suppression(magnitude, direction)
 
     peak = float(suppressed.max())
     low = low_threshold * peak if low_threshold <= 1 else low_threshold
     high = high_threshold * peak if high_threshold <= 1 else high_threshold
-    strong = suppressed >= high if peak > 0 else np.zeros_like(image, dtype=bool)
+    empty = np.zeros(cube.shape[:2], dtype=bool)
+    strong = suppressed >= high if peak > 0 else empty
     weak = ((suppressed > 0) & (suppressed >= low) & ~strong
             if peak > 0 else strong.copy())
 
@@ -138,10 +170,8 @@ def canny_edges(arr, sigma=1.0, low_threshold=0.1, high_threshold=0.2,
         return edges
 
     stages = {
-        "input": image.copy(),
-        "smoothed": smoothed,
-        "gradient_x": gradient_x,
-        "gradient_y": gradient_y,
+        "input_scalar": cube.mean(axis=-1),
+        "smoothed": smoothed.mean(axis=-1),
         "gradient_magnitude": magnitude,
         "gradient_direction": direction,
         "non_maximum_suppression": suppressed,
@@ -155,7 +185,7 @@ def canny_edges(arr, sigma=1.0, low_threshold=0.1, high_threshold=0.2,
 def plot_canny_stages(stages, figsize=(15, 8)):
     """Plot the main Canny stages returned by ``canny_edges``."""
     panels = [
-        ("input", "1. Input", "gray"),
+        ("input_scalar", "1. Input (band mean)", "gray"),
         ("smoothed", "2. Gaussian smoothing", "gray"),
         ("gradient_magnitude", "3. Sobel magnitude", "magma"),
         ("gradient_direction", "4. Gradient direction", "twilight"),
@@ -220,6 +250,17 @@ def clean_mask(mask):
     mask = binary_opening(mask.astype(bool))
     mask = binary_closing(mask.astype(bool))
     return mask.astype(int)
+
+
+def keep_largest_component(mask):
+    """Return a boolean mask containing only the largest connected component."""
+    mask = np.asarray(mask, dtype=bool)
+    labels, n = _cc_label(mask)
+    if n <= 1:
+        return mask
+    sizes = np.bincount(labels.ravel())
+    sizes[0] = 0  # background
+    return labels == int(np.argmax(sizes))
 
 
 def find_knee_point(k_range, inertias):

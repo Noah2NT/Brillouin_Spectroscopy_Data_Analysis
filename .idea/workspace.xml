@@ -5,67 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c5df5ba4-58f6-412e-962a-3349b9ac54a0" name="Changes" comment="a">
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.5.26 20x Carboplatin/100um/100umcarboplatinSia_2_8s_5um.xls" beforeDir="false" afterPath="$PROJECT_DIR$/1.5.26 20x Carboplatin/100um/100umcarboplatinSia_2_8s_5um.xls" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_all_stacked.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_average.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_grid_100um.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_grid_200um.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_grid_400um.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_grid_control.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_overlay_100um.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_overlay_200um.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_overlay_400um.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_overlay_control.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/BFS/bfs_0_tabletops.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_all_stacked.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_average.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_grid_100um.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_grid_200um.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_grid_400um.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_grid_control.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_overlay_100um.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_overlay_200um.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_overlay_400um.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_overlay_control.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/LW/lw_0_tabletops.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Carboplatin/average_panels.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS summary.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_all_stacked.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_average.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_grid_1.52_nM.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_grid_12.5_nM.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_grid_3.125_nM.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_grid_6.25_nM.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_grid_Control.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_overlay_1.52_nM.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_overlay_12.5_nM.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_overlay_3.125_nM.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_overlay_6.25_nM.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_overlay_Control.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/BFS/bfs_0_tabletops.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW summary.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_all_stacked.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_average.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_grid_1.52_nM.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_grid_12.5_nM.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_grid_3.125_nM.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_grid_6.25_nM.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_grid_Control.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_overlay_1.52_nM.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_overlay_12.5_nM.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_overlay_3.125_nM.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_overlay_6.25_nM.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_overlay_Control.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/LW/lw_0_tabletops.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/Laplacian Gradient Averages.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/Simple Gradient Averages.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/Sobel Gradient Averages.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Brillouin Images/Paclitaxel/average_panels.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Spheroid Controls/controlcarboplatin_1_8s_5um.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Spheroid Controls/controlcarboplatin_2_8s_5um.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/carboplatin_line_scans.py" beforeDir="false" afterPath="$PROJECT_DIR$/carboplatin_line_scans.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/line_scan_feature_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/line_scan_feature_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/canny_edge_detection_demo.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/canny_edge_detection_demo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/feature_extraction.py" beforeDir="false" afterPath="$PROJECT_DIR$/feature_extraction.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,6 +62,7 @@
     "Python.VCA implementation.executor": "Run",
     "Python.brillouin_plotting.executor": "Run",
     "Python.brillouin_preprocessing.executor": "Run",
+    "Python.canny_edge_detection_demo.executor": "Run",
     "Python.carboplatin_line_scans.executor": "Run",
     "Python.control1_bfs.executor": "Run",
     "Python.curve fitting.executor": "Run",
@@ -130,6 +74,7 @@
     "Python.mer_test.executor": "Run",
     "Python.test file.executor": "Run",
     "Python.testetsetsetst.executor": "Run",
+    "Python.testig testig.executor": "Run",
     "Python.testingtesting.executor": "Run",
     "Python.threshold_sweep.executor": "Run",
     "Python.threshold_sweep_multi.executor": "Run",
@@ -141,7 +86,7 @@
     "ai.playground.ignore.import.keys.banner.in.settings": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "Merging master",
     "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
     "last_opened_file_path": "C:/Users/noahk/OneDrive/Documents/GitHub/Brillouin_Spectroscopy_Data_Analysis",
@@ -173,7 +118,6 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="DEBUG_JUST_MY_CODE" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Background Data Visualisations.py" />
@@ -194,12 +138,10 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="~\OneDrive\Documents\GitHub\Brillouin_Spectroscopy_Data_Analysis\.venv" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="DEBUG_JUST_MY_CODE" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/carboplatin_line_scans.py" />
@@ -212,6 +154,7 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.canny_edge_detection_demo" />
       <item itemvalue="Python.Background Data Visualisations" />
       <item itemvalue="Python.carboplatin_line_scans" />
     </list>
@@ -219,7 +162,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-6fa658e1df1a-5bd6d13a2a75-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-262.8665.369" />
+        <option value="bundled-python-sdk-1cd77e80b48f-6d6dccd035ac-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.32098.74" />
       </set>
     </attachedChunks>
   </component>
