@@ -7,8 +7,16 @@
     <list default="true" id="c5df5ba4-58f6-412e-962a-3349b9ac54a0" name="Changes" comment="a">
       <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis/canny_edge_detection_demo.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/canny_edge_detection_demo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feature_extraction.py" beforeDir="false" afterPath="$PROJECT_DIR$/feature_extraction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analysis/pca_vca/cell_mask_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/pca_vca/cell_mask_pipeline.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputs/cell_mask_pipeline/Cell_Col Healthy_xy_scanning30um_40um_step1um_15s_bfs_in_cell.png" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/cell_mask_pipeline/Cell_Col Healthy_xy_scanning30um_40um_step1um_15s_bfs_in_cell.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputs/cell_mask_pipeline/Cell_Col Healthy_xy_scanning30um_40um_step1um_15s_nucleus_threshold_sweep.png" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/cell_mask_pipeline/Cell_Col Healthy_xy_scanning30um_40um_step1um_15s_nucleus_threshold_sweep.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputs/cell_mask_pipeline/Cell_Col Healthy_xy_scanning30um_40um_step1um_15s_vca2_in_cell.png" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/cell_mask_pipeline/Cell_Col Healthy_xy_scanning30um_40um_step1um_15s_vca2_in_cell.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputs/cell_mask_pipeline/Sample11_JiPSC-1000_Plate2_A1_FinalRawData_bfs_in_cell.png" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/cell_mask_pipeline/Sample11_JiPSC-1000_Plate2_A1_FinalRawData_bfs_in_cell.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputs/cell_mask_pipeline/Sample11_JiPSC-1000_Plate2_A1_FinalRawData_vca2_in_cell.png" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/cell_mask_pipeline/Sample11_JiPSC-1000_Plate2_A1_FinalRawData_vca2_in_cell.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputs/cell_mask_pipeline/Sample12_JiPSC-1066_Plate2_A2_data1_new_bfs_in_cell.png" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/cell_mask_pipeline/Sample12_JiPSC-1066_Plate2_A2_data1_new_bfs_in_cell.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputs/cell_mask_pipeline/Sample12_JiPSC-1066_Plate2_A2_data1_new_vca2_in_cell.png" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/cell_mask_pipeline/Sample12_JiPSC-1066_Plate2_A2_data1_new_vca2_in_cell.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputs/cell_mask_pipeline/XY_scanning_40um_60um_step1um_10s_fixed_bfs_in_cell.png" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/cell_mask_pipeline/XY_scanning_40um_60um_step1um_10s_fixed_bfs_in_cell.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputs/cell_mask_pipeline/XY_scanning_40um_60um_step1um_10s_fixed_vca2_in_cell.png" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/cell_mask_pipeline/XY_scanning_40um_60um_step1um_10s_fixed_vca2_in_cell.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,61 +58,61 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python tests.Doctests in _logistic.executor": "Run",
-    "Python.Background Data Visualisations.executor": "Run",
-    "Python.DBScan Clustering Demo.executor": "Run",
-    "Python.PCA implementation.executor": "Run",
-    "Python.Smoothing + Clustering.executor": "Run",
-    "Python.VCA PCA display.executor": "Run",
-    "Python.VCA implementation.executor": "Run",
-    "Python.brillouin_plotting.executor": "Run",
-    "Python.brillouin_preprocessing.executor": "Run",
-    "Python.canny_edge_detection_demo.executor": "Run",
-    "Python.carboplatin_line_scans.executor": "Run",
-    "Python.control1_bfs.executor": "Run",
-    "Python.curve fitting.executor": "Run",
-    "Python.feature_extraction.executor": "Run",
-    "Python.line_scan_feature_analysis.executor": "Run",
-    "Python.line_scan_test.executor": "Run",
-    "Python.masked_pca_clustering.executor": "Run",
-    "Python.mer_reconstruction.executor": "Run",
-    "Python.mer_test.executor": "Run",
-    "Python.test file.executor": "Run",
-    "Python.testetsetsetst.executor": "Run",
-    "Python.testig testig.executor": "Run",
-    "Python.testingtesting.executor": "Run",
-    "Python.threshold_sweep.executor": "Run",
-    "Python.threshold_sweep_multi.executor": "Run",
-    "Python.train_classifier.executor": "Run",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "ai.playground.ignore.import.keys.banner.in.settings": "true",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "Merging master",
-    "ignore.virus.scanning.warn.message": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/noahk/OneDrive/Documents/GitHub/Brillouin_Spectroscopy_Data_Analysis",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python tests.Doctests in _logistic.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Background Data Visualisations.executor&quot;: &quot;Run&quot;,
+    &quot;Python.DBScan Clustering Demo.executor&quot;: &quot;Run&quot;,
+    &quot;Python.PCA implementation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Smoothing + Clustering.executor&quot;: &quot;Run&quot;,
+    &quot;Python.VCA PCA display.executor&quot;: &quot;Run&quot;,
+    &quot;Python.VCA implementation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.brillouin_plotting.executor&quot;: &quot;Run&quot;,
+    &quot;Python.brillouin_preprocessing.executor&quot;: &quot;Run&quot;,
+    &quot;Python.canny_edge_detection_demo.executor&quot;: &quot;Run&quot;,
+    &quot;Python.carboplatin_line_scans.executor&quot;: &quot;Run&quot;,
+    &quot;Python.control1_bfs.executor&quot;: &quot;Run&quot;,
+    &quot;Python.curve fitting.executor&quot;: &quot;Run&quot;,
+    &quot;Python.feature_extraction.executor&quot;: &quot;Run&quot;,
+    &quot;Python.line_scan_feature_analysis.executor&quot;: &quot;Run&quot;,
+    &quot;Python.line_scan_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.masked_pca_clustering.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mer_reconstruction.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mer_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test file.executor&quot;: &quot;Run&quot;,
+    &quot;Python.testetsetsetst.executor&quot;: &quot;Run&quot;,
+    &quot;Python.testig testig.executor&quot;: &quot;Run&quot;,
+    &quot;Python.testingtesting.executor&quot;: &quot;Run&quot;,
+    &quot;Python.threshold_sweep.executor&quot;: &quot;Run&quot;,
+    &quot;Python.threshold_sweep_multi.executor&quot;: &quot;Run&quot;,
+    &quot;Python.train_classifier.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;ai.playground.ignore.import.keys.banner.in.settings&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/noahk/OneDrive/Documents/GitHub/Brillouin_Spectroscopy_Data_Analysis&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "TEXT"
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;TEXT&quot;
     ]
   }
-}]]></component>
-  <component name="RunManager">
+}</component>
+  <component name="RunManager" selected="Python.canny_edge_detection_demo">
     <configuration name="Background Data Visualisations" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Capstone" />
       <option name="ENV_FILES" value="" />

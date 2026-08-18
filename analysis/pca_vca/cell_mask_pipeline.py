@@ -39,10 +39,10 @@ INNER_THRESHOLDS = [round(t, 2) for t in np.linspace(0.1, 1.0, 10)]
 # Per-sample chosen σ for phases 2 + 3; picked after inspecting Phase-1 grids.
 # Update these once you've seen the sweeps.
 CHOSEN_SIGMA = {
-    "Cell_Col Healthy_xy_scanning30um_40um_step1um_15s.csv":       1.0,
-    "XY_scanning_40um_60um_step1um_10s_fixed.csv":                 1.5,
-    "Sample11_JiPSC-1000_Plate2_A1_FinalRawData.csv":              1.0,
-    "Sample12_JiPSC-1066_Plate2_A2_data1_new.csv":                 1.0,
+    "Cell_Col Healthy_xy_scanning30um_40um_step1um_15s.csv":       0.5,
+    "XY_scanning_40um_60um_step1um_10s_fixed.csv":                 0.5,
+    "Sample11_JiPSC-1000_Plate2_A1_FinalRawData.csv":              0.5,
+    "Sample12_JiPSC-1066_Plate2_A2_data1_new.csv":                 0.5,
 }
 
 ALIASES = {"RawData": "Raw Data", "FittingData": "Fitting Data",
@@ -162,17 +162,25 @@ def phase1_sigma_sweep(sample_name, data, out_path):
 # ─────────────────────────────────────────────
 
 def phase2_bfs_in_cell(sample_name, data, sigma, out_path):
+    """Derive the cell mask from the smoothed BFS map, but display the RAW
+    (unsmoothed) BFS map — smoothing is only used for cleaner masking."""
     ny, nx = data["valid"].shape
-    flat = smooth_cube_flat(data["folded_norm_flat"], data["y_vals"],
-                            data["x_vals"], sigma)
-    bfs = bfs_map_from_flat(flat, data["shift_freq"],
-                            data["yi"], data["xi"], (ny, nx))
-    _, cleaned, _ = mask_from_bfs(bfs, data["valid"])
-    masked = np.where(cleaned, bfs, np.nan)
+
+    # Mask selection uses the smoothed cube's BFS map.
+    flat_smoothed = smooth_cube_flat(data["folded_norm_flat"], data["y_vals"],
+                                     data["x_vals"], sigma)
+    bfs_smoothed = bfs_map_from_flat(flat_smoothed, data["shift_freq"],
+                                     data["yi"], data["xi"], (ny, nx))
+    _, cleaned, _ = mask_from_bfs(bfs_smoothed, data["valid"])
+
+    # Display uses the RAW BFS map (fit from unsmoothed spectra).
+    bfs_raw = bfs_map_from_flat(data["folded_norm_flat"], data["shift_freq"],
+                                data["yi"], data["xi"], (ny, nx))
+    masked = np.where(cleaned, bfs_raw, np.nan)
 
     fig, axes = plt.subplots(1, 2, figsize=(10, 4), constrained_layout=True)
-    im0 = axes[0].imshow(bfs, origin="lower", cmap="magma")
-    axes[0].set_title(f"BFS (sigma={sigma})")
+    im0 = axes[0].imshow(bfs_raw, origin="lower", cmap="magma")
+    axes[0].set_title(f"BFS (raw, mask via sigma={sigma})")
     fig.colorbar(im0, ax=axes[0], shrink=0.75)
     im1 = axes[1].imshow(masked, origin="lower", cmap="magma")
     axes[1].set_title(f"BFS inside cell  [{int(cleaned.sum())} px]")
@@ -182,7 +190,7 @@ def phase2_bfs_in_cell(sample_name, data, sigma, out_path):
     fig.suptitle(sample_name, fontsize=10)
     fig.savefig(out_path, dpi=140)
     plt.close(fig)
-    return cleaned, flat
+    return cleaned
 
 
 def _flat_index(mask, xi, yi):
@@ -194,16 +202,17 @@ def _flat_index(mask, xi, yi):
 # Phase 3 — VCA(2) inside the cell
 # ─────────────────────────────────────────────
 
-def phase3_vca_inside(sample_name, data, sigma, cleaned, flat, out_path):
-    """Run VCA(2) on cell-only spectra. Return (nucleus_map, endmembers, nucleus_like_idx)
-    so a downstream threshold sweep can reuse the results."""
+def phase3_vca_inside(sample_name, data, sigma, cleaned, out_path):
+    """Run VCA(2) on RAW (unsmoothed) cell-only spectra. Return
+    (nucleus_map, endmembers, nucleus_like_idx) so a downstream threshold
+    sweep can reuse the results."""
     ny, nx = data["valid"].shape
     mask_flat = _flat_index(cleaned, data["xi"], data["yi"])
     n_cell = int(mask_flat.sum())
     if n_cell < 10:
         print(f"  [warn] {sample_name}: only {n_cell} cell pixels; skipping VCA")
         return None
-    spec_in = flat[mask_flat]
+    spec_in = data["folded_norm_flat"][mask_flat]
     endmembers, _ = bd.vca(spec_in, num_endmembers=2, seed=42)
     abundances = bd.estimate_abundances(spec_in, endmembers)   # (n_cell, 2)
 
@@ -277,10 +286,13 @@ def phase4_threshold_sweep(sample_name, data, cleaned, nucleus_map,
         axes[row, 0].set_title(
             f"thr={thr}  EM{nucleus_like_idx + 1} abundance", fontsize=8)
 
-        # Column 2: cleaned nucleus mask alone
-        axes[row, 1].imshow(inner, origin="lower", cmap="gray")
+        # Column 2: nucleus abundance restricted to the kept pixels
+        # (same viridis 0-1 colouring as the full abundance panel).
+        kept_abundance = np.where(inner, nucleus_map, np.nan)
+        axes[row, 1].imshow(kept_abundance, origin="lower", cmap="viridis",
+                            vmin=0, vmax=1)
         axes[row, 1].set_title(
-            f"nucleus mask  [{int(inner.sum())} px]", fontsize=8)
+            f"kept abundance  [{int(inner.sum())} px]", fontsize=8)
 
         # Column 3: BFS overlaid with cell mask (grey) + nucleus mask (magma)
         cell_only = np.where(cleaned, bfs, np.nan)
@@ -318,12 +330,12 @@ def main():
         print(f"  phase 1 done")
 
         sigma = CHOSEN_SIGMA.get(name, 1.0)
-        cleaned, flat = phase2_bfs_in_cell(stem, data, sigma,
-                                           OUTPUT_DIR / f"{stem}_bfs_in_cell.png")
+        cleaned = phase2_bfs_in_cell(stem, data, sigma,
+                                     OUTPUT_DIR / f"{stem}_bfs_in_cell.png")
         print(f"  phase 2 done (sigma={sigma}, mask={int(cleaned.sum())} px)")
 
         vca_result = phase3_vca_inside(
-            stem, data, sigma, cleaned, flat,
+            stem, data, sigma, cleaned,
             OUTPUT_DIR / f"{stem}_vca2_in_cell.png")
         print(f"  phase 3 done")
 
