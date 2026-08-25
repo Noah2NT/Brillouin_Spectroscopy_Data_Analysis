@@ -208,7 +208,8 @@ def compose_densities(fractions, materials, instrument, exposure_s,
                 density += (0.5 * scale * w
                             * instrument.adjacent_brillouin_fraction)[:, None] * shape
 
-    density += _elastic_component(fractions, materials, instrument, bfs_offsets)
+    density += _elastic_component(
+        fractions, materials, instrument, bfs_offsets, exposure_s)
     density = apply_gaussian_response(density, instrument)
     return np.clip(density, 0.0, None)
 
@@ -257,7 +258,8 @@ def _lorentzian_rows(axis, centres, hwhm):
     return (1.0 / np.pi) * hwhm / (delta ** 2 + hwhm ** 2)
 
 
-def _elastic_component(fractions, materials, instrument, bfs_offsets):
+def _elastic_component(fractions, materials, instrument, bfs_offsets,
+                       exposure_s):
     """The Rayleigh line plus any neighbouring-order elastic lines.
 
     The central line is placed at exactly 0 GHz -- the middle of the axis --
@@ -270,10 +272,16 @@ def _elastic_component(fractions, materials, instrument, bfs_offsets):
     strength = fractions @ eta  # (n_pixels,)
 
     hwhm = max(instrument.elastic_linewidth_ghz / 2.0, 1e-6)
-    peak = float(instrument.elastic_peak_counts)
+    reference_exposure = max(
+        float(getattr(instrument, "elastic_reference_exposure_s", 15.0)),
+        1e-12,
+    )
+    peak = (float(instrument.elastic_peak_counts)
+            * max(float(exposure_s), 0.0) / reference_exposure)
     # elastic_peak_counts is the height the line should have *after* the
-    # Gaussian response is applied, so the area is calibrated against a probe
-    # that has been through the same convolution.
+    # Gaussian response at the reference exposure. Both elastic and Brillouin
+    # photons then scale linearly with integration time. The area is calibrated
+    # against a probe that has been through the same convolution.
     area = peak / _elastic_peak_per_unit_area(instrument)
 
     out = np.zeros((n_pixels, instrument.n_channels), dtype=float)

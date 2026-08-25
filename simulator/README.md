@@ -129,6 +129,11 @@ photon-counting microscope. Dark current scaled by exposure, Poisson shot
 noise, optional EMCCD excess noise, Gaussian read noise, then rounding and
 clipping at zero.
 
+The elastic peak height is calibrated at the instrument's
+`elastic_reference_exposure_s` (15 s by default) and scales linearly with
+exposure. Read noise remains a per-acquisition term, while dark counts and both
+elastic and Brillouin photons accumulate with integration time.
+
 ## How close is it to real data?
 
 Matched conditions -- 31x41 px, 1 um step, 15 s exposure -- against

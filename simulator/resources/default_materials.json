@@ -2,7 +2,7 @@
   "version": 1,
   "materials": [
     {
-      "name": "Culture medium",
+      "name": "Water",
       "color": "#1f3a5f",
       "bfs_ghz": 5.51,
       "linewidth_ghz": 0.254,
@@ -12,7 +12,7 @@
       "acoustic_velocity_ms": 1487.0,
       "acoustic_attenuation_1pm": null,
       "temperature_scaling": true,
-      "notes": "Background. Matches the water-like peak in water_plexiglass.csv."
+      "notes": "Shift measured directly from water_plexiglass.csv"
     },
     {
       "name": "Cytoplasm",
@@ -38,62 +38,10 @@
       "acoustic_velocity_ms": 1479.0,
       "acoustic_attenuation_1pm": null,
       "temperature_scaling": true,
-      "notes": "Stiffer and brighter than cytoplasm; the usual segmentation target."
+      "notes": "Stiffer and brighter than cytoplasm; the segmentation target."
     },
     {
-      "name": "Nucleolus",
-      "color": "#c9542a",
-      "bfs_ghz": 5.72,
-      "linewidth_ghz": 0.434,
-      "brillouin_efficiency": 1.5,
-      "elastic_efficiency": 1.25,
-      "refractive_index": 1.39,
-      "acoustic_velocity_ms": 1481.0,
-      "acoustic_attenuation_1pm": null,
-      "temperature_scaling": true,
-      "notes": "Small high-shift inclusion, useful for testing spatial resolution."
-    },
-    {
-      "name": "Lipid droplet",
-      "color": "#7cb342",
-      "bfs_ghz": 5.38,
-      "linewidth_ghz": 0.298,
-      "brillouin_efficiency": 0.9,
-      "elastic_efficiency": 1.4,
-      "refractive_index": 1.46,
-      "acoustic_velocity_ms": 1327.0,
-      "acoustic_attenuation_1pm": null,
-      "temperature_scaling": true,
-      "notes": "Low-shift inclusion; tests whether an algorithm can resolve both signs."
-    },
-    {
-      "name": "Collagen fibre",
-      "color": "#9c6ade",
-      "bfs_ghz": 5.95,
-      "linewidth_ghz": 0.486,
-      "brillouin_efficiency": 1.2,
-      "elastic_efficiency": 1.3,
-      "refractive_index": 1.43,
-      "acoustic_velocity_ms": 1498.0,
-      "acoustic_attenuation_1pm": null,
-      "temperature_scaling": true,
-      "notes": "Stiff extracellular structure; well separated from the cell body."
-    },
-    {
-      "name": "Polystyrene dish",
-      "color": "#ef9a9a",
-      "bfs_ghz": 10.38,
-      "linewidth_ghz": 0.3,
-      "brillouin_efficiency": 1.0,
-      "elastic_efficiency": 1.5,
-      "refractive_index": 1.59,
-      "acoustic_velocity_ms": 2351.0,
-      "acoustic_attenuation_1pm": null,
-      "temperature_scaling": false,
-      "notes": "Culture plate under the cells. Most Plate2/Plate3 scans in data/csv show a weak, near-uniform peak at 10.4-10.6 GHz, which is where polystyrene lands at this wavelength."
-    },
-    {
-      "name": "Plexiglass (PMMA)",
+      "name": "Plexiglass",
       "color": "#b0bec5",
       "bfs_ghz": 11.75,
       "linewidth_ghz": 0.188,
@@ -103,20 +51,7 @@
       "acoustic_velocity_ms": 2835.0,
       "acoustic_attenuation_1pm": null,
       "temperature_scaling": true,
-      "notes": "Shift measured directly from water_plexiglass.csv, where the peak at 11.75 GHz is anti-correlated with the water peak at r = -0.96."
-    },
-    {
-      "name": "Glass substrate",
-      "color": "#546e7a",
-      "bfs_ghz": 24.86,
-      "linewidth_ghz": 0.158,
-      "brillouin_efficiency": 1.8,
-      "elastic_efficiency": 3.0,
-      "refractive_index": 1.517,
-      "acoustic_velocity_ms": 5900.0,
-      "acoustic_attenuation_1pm": null,
-      "temperature_scaling": false,
-      "notes": "Coverslip. Its Brillouin line sits far outside the +-14.9 GHz window, so it contributes elastic signal only - which is what a real coverslip does."
+      "notes": "Shift measured directly from water_plexiglass.csv"
     }
   ]
 }

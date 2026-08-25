@@ -92,16 +92,6 @@ class ScanPanel(QtWidgets.QWidget):
     def _build_noise_tab(self, s):
         w = QtWidgets.QWidget()
         f = QtWidgets.QFormLayout(w)
-
-        note = QtWidgets.QLabel(
-            "Thermal and laser noise follow Nieves 2021 ch. 3 and 5. The "
-            "detector chain is added on top, because the thesis models a "
-            "waveguide rather than a photon-counting microscope and real "
-            "Raw Data here is integer counts.")
-        note.setWordWrap(True)
-        note.setStyleSheet("color:#8892a4; font-size:11px;")
-        f.addRow(note)
-
         self.temperature = _spin(s.temperature_k, 1.0, 1000.0, 1, " K")
         self.temperature.setToolTip(
             "Thesis Eq. (3.12): sigma = k_B * T * alpha_ac, so Brillouin\n"
@@ -231,26 +221,17 @@ class ScanPanel(QtWidgets.QWidget):
         modes = physics.speckle_mode_count(
             s.exposure_s, 0.65) if self.speckle_auto.isChecked() else self.speckle_modes.value()
         rel = 100.0 / max(modes, 1.0) ** 0.5
-        self.speckle_note.setText(
-            f"{modes:.3g} averaged realisations -> {rel:.2g}% thermal "
-            f"fluctuation. Below about 1% this is invisible next to shot noise, "
-            f"which is the physically expected result at realistic exposures.")
         self.settings_changed.emit()
 
     def _emit_instrument(self):
         self.apply_to_instrument(self.instrument)
         problems = self.instrument.validate()
         axis = self.instrument.frequency_axis()
-        text = (f"{self.instrument.bin_width_ghz:.5f} GHz per channel. "
-                f"No channel lands exactly on zero when the count is even; "
-                f"the two central ones sit at {axis[len(axis)//2 - 1]:+.5f} and "
-                f"{axis[len(axis)//2]:+.5f} GHz, matching real files.")
         if problems:
             text = "PROBLEM: " + " ".join(problems)
             self.axis_note.setStyleSheet("color:#e06c5f; font-size:11px;")
         else:
             self.axis_note.setStyleSheet("color:#8892a4; font-size:11px;")
-        self.axis_note.setText(text)
         self.instrument_changed.emit()
 
     # -- accessors -----------------------------------------------------------

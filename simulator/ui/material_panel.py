@@ -154,18 +154,6 @@ class MaterialDialog(QtWidgets.QDialog):
 
     def _refresh_width_note(self):
         floor = spectrum.instrument_linewidth_floor(self._instrument)
-        if self.observed.value() <= floor + 1e-9:
-            self.width_note.setStyleSheet("color:#e0a030; font-size:11px;")
-            self.width_note.setText(
-                f"The instrument alone broadens every line to {floor:.4f} GHz, "
-                f"so nothing can be observed narrower than that. Intrinsic "
-                f"width pinned to zero.")
-        else:
-            self.width_note.setStyleSheet("color:#8892a4; font-size:11px;")
-            self.width_note.setText(
-                f"Both are full widths at half maximum. The CSV Half Width "
-                f"column gets {self.observed.value() / 2:.4f} GHz. Instrument "
-                f"floor is {floor:.4f} GHz.")
 
     def _compute_bfs(self):
         if self.n_idx.value() <= 0 or self.v_a.value() <= 0:
@@ -233,12 +221,6 @@ class MaterialPanel(QtWidgets.QWidget):
 
         layout = QtWidgets.QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
-        hint = QtWidgets.QLabel(
-            "Left-click paints the selected material. Right-click picks one "
-            "off the canvas. The first entry is the background.")
-        hint.setWordWrap(True)
-        hint.setStyleSheet("color:#8892a4; font-size:11px;")
-        layout.addWidget(hint)
         layout.addWidget(self.list, 1)
         layout.addLayout(buttons)
 

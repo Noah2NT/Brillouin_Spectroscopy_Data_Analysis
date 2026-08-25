@@ -84,8 +84,12 @@ class Instrument:
         by Lorentzian wings.  Making it Lorentzian instead floods the Brillouin
         window with tail counts that real data does not have.
     elastic_peak_counts : float
-        Height of the central elastic line *after* the instrument response,
-        counts.  Real data: 20k-60k.
+        Height of the central elastic line *after* the instrument response at
+        ``elastic_reference_exposure_s``, counts. Real data: 20k-60k.
+    elastic_reference_exposure_s : float
+        Exposure at which ``elastic_peak_counts`` was calibrated. Elastic
+        photon counts scale linearly away from this reference, just like the
+        Brillouin photon budget.
     adjacent_order_fraction : float
         Height of the neighbouring-order elastic lines relative to the central
         one.  Real data ranges from about 0.01 to 0.25.
@@ -122,6 +126,7 @@ class Instrument:
     include_adjacent_orders: bool = True
     elastic_linewidth_ghz: float = 0.030
     elastic_peak_counts: float = 30000.0
+    elastic_reference_exposure_s: float = 15.0
     adjacent_order_fraction: float = 0.0
     adjacent_brillouin_fraction: float = 0.0
 

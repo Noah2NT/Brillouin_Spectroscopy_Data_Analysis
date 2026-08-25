@@ -72,6 +72,10 @@ class ScanSettings:
         infinite signal.  Comparing a noisy fit against the noise-free fit
         isolates the error caused by *noise* from the error caused by the
         model, which is the distinction a noise-tolerance study needs.
+    fit_max_iter : int
+        Maximum nonlinear-fit evaluations per attempt. Extreme
+        photon-starved stress tests may lower this so unconstrained fits fail
+        quickly instead of spending minutes chasing noise.
     """
 
     grid_w: int = 40
@@ -85,6 +89,7 @@ class ScanSettings:
     bfs_jitter_mhz: float = 0.0
     seed: int | None = None
     reference_fit: bool = True
+    fit_max_iter: int = 2000
 
     @property
     def n_pixels(self):
@@ -229,8 +234,10 @@ def simulate_scan(drawing, library, instrument, settings, progress=None):
     truth["bfs_ghz"] = truth["bfs_ghz"] + jitter
 
     if settings.reference_fit:
-        _, ref_params = fit_scan(density, instrument, progress=progress,
-                                 message="Fitting noise-free reference")
+        _, ref_params = fit_scan(
+            density, instrument, progress=progress,
+            message="Fitting noise-free reference",
+            max_iter=settings.fit_max_iter)
         if ref_params is None:
             return None
         truth["noisefree_area"] = ref_params[:, 0]
@@ -238,7 +245,9 @@ def simulate_scan(drawing, library, instrument, settings, progress=None):
         truth["noisefree_linewidth_ghz"] = ref_params[:, 2]
         truth["noisefree_base"] = ref_params[:, 3]
 
-    fitted_curves, fit_params = fit_scan(counts, instrument, progress=progress)
+    fitted_curves, fit_params = fit_scan(
+        counts, instrument, progress=progress,
+        max_iter=settings.fit_max_iter)
     if fitted_curves is None:
         return None
 
@@ -250,7 +259,8 @@ def simulate_scan(drawing, library, instrument, settings, progress=None):
     )
 
 
-def fit_scan(counts, instrument, progress=None, message="Fitting spectra"):
+def fit_scan(counts, instrument, progress=None, message="Fitting spectra",
+             max_iter=2000):
     """Fit every pixel's anti-Stokes peak with the project's own Lorentzian.
 
     Uses ``brillouin_fitting.fit_lorentzian_iterative`` directly rather than
@@ -280,8 +290,8 @@ def fit_scan(counts, instrument, progress=None, message="Fitting spectra"):
     for i in range(n_pixels):
         y = counts[i, mask].astype(float)
         p0, _ = bf.initial_lorentzian_guess(y, win_freq)
-        curve, popt = bf.fit_lorentzian_iterative(win_freq, y, params=p0,
-                                                  max_iter=2000)
+        curve, popt = bf.fit_lorentzian_iterative(
+            win_freq, y, params=p0, max_iter=int(max_iter))
         amp, centre, gamma, base = popt
         fitted_curves[i, mask] = curve
         # gamma from the fitter is a half width; report the full width so every

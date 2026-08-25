@@ -164,11 +164,6 @@ class BatchPanel(QtWidgets.QWidget):
 
     def _refresh_summary(self):
         spec = self.spec()
-        self.summary.setText(
-            f"{spec.n_jobs} file(s) will be written, each with a "
-            f"_truth.npz sidecar, plus a shared manifest.csv. Noise is "
-            f"different every run; the seed used for each file is recorded "
-            f"in the manifest so any of them can be regenerated.")
 
     def set_context(self, drawing, library, instrument, settings):
         self._context = (drawing, library, instrument, settings)

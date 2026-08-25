@@ -1,17 +1,5 @@
-"""Joint VCA on two samples: one shared endmember set, abundance maps side by side.
+# Joint VCA on two samples: one shared endmember set, abundance maps side by side.
 
-Both CSVs are folded, cropped to the Brillouin peak region and sum-normalised,
-then their spectra are pooled into a single matrix. VCA runs once on that pool,
-so every endmember is shared between the two samples. Abundances ("potency")
-are then unmixed per sample against that common basis, which makes the maps
-directly comparable -- endmember k means the same spectrum in both cells.
-
-Usage:
-    python analysis/pca_vca/joint_vca_two_samples.py A.csv B.csv -n 3
-    python analysis/pca_vca/joint_vca_two_samples.py        # prompts for both
-
-Bare filenames are looked up in data/csv/ as well as the current directory.
-"""
 
 from pathlib import Path
 import argparse
@@ -243,7 +231,7 @@ def parse_args():
     ap.add_argument("csv2", nargs="?", help="second scan CSV")
     ap.add_argument("-n", "--endmembers", type=int,
                     help="number of shared endmembers (>= 2)")
-    ap.add_argument("--max-shift", type=float, default=8.0,
+    ap.add_argument("--max-shift", type=float, default=13.0,
                     help="crop folded spectra above this shift, GHz (default 8)")
     ap.add_argument("--seed", type=int, default=42, help="VCA random seed")
     ap.add_argument("--out", default=str(OUTPUT_DIR),

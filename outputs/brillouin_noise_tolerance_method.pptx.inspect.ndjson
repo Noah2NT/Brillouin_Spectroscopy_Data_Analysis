@@ -1,0 +1,395 @@
+{"kind":"deck","id":"pr/xob05b","name":"Deck"}
+{"kind":"layout","layoutId":"89313493-f74c-4159-b5dd-ad348d8d30c8","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"f2545654-bd6a-4c87-9f8a-4b5fd13c4f91","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/t5l95m","slide":1,"title":"Testing how far exposure can be reduced","textShapes":9}
+{"kind":"shape","id":"sh/4bmxcjex","slide":1,"bbox":[720,0,560,720]}
+{"kind":"textbox","id":"sh/3adw3ydc","slide":1,"text":"Testing how far exposure can be reduced","textPreview":"Testing how far exposure can be reduced","textChars":39,"textLines":1,"bbox":[58,105,590,190]}
+{"kind":"textbox","id":"sh/2pkfatwr","slide":1,"text":"A known-truth water / plexiglass simulation for Brillouin spectroscopy","textPreview":"A known-truth water / plexiglass simulation for Brillouin spectroscopy","textChars":70,"textLines":1,"bbox":[58,320,560,100]}
+{"kind":"textbox","id":"sh/hobe1ov6","slide":1,"text":"Noise physics → BFS fitting → clustering → regional averaging","textPreview":"Noise physics → BFS fitting → clustering → regional averaging","textChars":61,"textLines":1,"bbox":[58,515,570,55]}
+{"kind":"textbox","id":"sh/gn2x8jel","slide":1,"text":"100 s","textPreview":"100 s","textChars":5,"textLines":1,"bbox":[768,102,220,70]}
+{"kind":"textbox","id":"sh/fmtwzed0","slide":1,"text":"to","textPreview":"to","textChars":2,"textLines":1,"bbox":[768,180,90,35]}
+{"kind":"textbox","id":"sh/ulkf69wf","slide":1,"text":"0.004 s","textPreview":"0.004 s","textChars":7,"textLines":1,"bbox":[768,218,310,70]}
+{"kind":"shape","id":"sh/tkbex4va","slide":1,"bbox":[768,320,402,0]}
+{"kind":"textbox","id":"sh/sj2x4zep","slide":1,"text":"Question","textPreview":"Question","textChars":8,"textLines":1,"bbox":[768,350,150,28]}
+{"kind":"textbox","id":"sh/q5oritc7","slide":1,"text":"Can spatial redundancy recover spectra after individual-pixel fitting fails?","textPreview":"Can spatial redundancy recover spectra after individual-pixel fitting fails?","textChars":76,"textLines":1,"bbox":[768,392,410,130]}
+{"kind":"textbox","id":"sh/r6x8ryts","slide":1,"text":"Brillouin spectroscopy noise-tolerance study","textPreview":"Brillouin spectroscopy noise-tolerance study","textChars":44,"textLines":1,"bbox":[768,625,410,26]}
+{"kind":"notes","id":"nt/t5l95m","slide":1,"text":"Frame the study as a method-development question, not a claim about the final biological limit.\n\n[Sources]\n- Local experiment output: outputs/simulated_water_plexiglass/generated_four_stage_noise_grid.png"}
+{"kind":"slide","id":"sl/i5cejp","slide":2,"title":"EXPERIMENTAL DESIGN","textShapes":28}
+{"kind":"textbox","id":"sh/etcrq14b","slide":2,"text":"EXPERIMENTAL DESIGN","textPreview":"EXPERIMENTAL DESIGN","textChars":19,"textLines":1,"bbox":[52,28,500,22]}
+{"kind":"textbox","id":"sh/1w3algnm","slide":2,"text":"A known boundary makes every recovery step measurable","textPreview":"A known boundary makes every recovery step measurable","textChars":53,"textLines":1,"bbox":[52,52,1176,70]}
+{"kind":"shape","id":"sh/gvu9sbm1","slide":2,"bbox":[52,126,1176,0]}
+{"kind":"textbox","id":"sh/3i5snq5s","slide":2,"text":"Cell Builder truth","textPreview":"Cell Builder truth","textChars":18,"textLines":1,"bbox":[52,150,420,38]}
+{"kind":"shape","id":"sh/2hwrul47","slide":2,"bbox":[52,205,420,180]}
+{"kind":"shape","id":"sh/pknap0ny","slide":2,"bbox":[52,205,420,90]}
+{"kind":"shape","id":"sh/oje9wvmd","slide":2,"bbox":[52,295,420,90]}
+{"kind":"textbox","id":"sh/jm18bm5o","slide":2,"text":"100% WATER","textPreview":"100% WATER","textChars":10,"textLines":1,"bbox":[72,225,220,45]}
+{"kind":"textbox","id":"sh/ilsrih43","slide":2,"text":"100% PLEXIGLASS","textPreview":"100% PLEXIGLASS","textChars":15,"textLines":1,"bbox":[72,315,280,45]}
+{"kind":"textbox","id":"sh/0vmdsf2d","slide":2,"text":"30 × 30 pixels • 1 μm step • exact truth sidecar","textPreview":"30 × 30 pixels • 1 μm step • exact truth sidecar","textChars":48,"textLines":1,"bbox":[52,405,420,42]}
+{"kind":"textbox","id":"sh/lgve1kjy","slide":2,"text":"Initial exposure sweep","textPreview":"Initial exposure sweep","textChars":22,"textLines":1,"bbox":[540,150,330,38]}
+{"kind":"textbox","id":"sh/yt4vq5k7","slide":2,"text":"100 s","textPreview":"100 s","textChars":5,"textLines":1,"bbox":[540,205,120,35]}
+{"kind":"shape","id":"sh/zudwza1s","slide":2,"bbox":[670,223,140,0]}
+{"kind":"textbox","id":"sh/8jmxwf29","slide":2,"text":"1.00× noise","textPreview":"1.00× noise","textChars":11,"textLines":1,"bbox":[835,205,190,35]}
+{"kind":"textbox","id":"sh/9kve5kju","slide":2,"text":"30 s","textPreview":"30 s","textChars":4,"textLines":1,"bbox":[540,261,120,35]}
+{"kind":"shape","id":"sh/mh4vupkj","slide":2,"bbox":[670,279,140,0]}
+{"kind":"textbox","id":"sh/nidw3u1o","slide":2,"text":"1.83× noise","textPreview":"1.83× noise","textChars":11,"textLines":1,"bbox":[835,261,190,35]}
+{"kind":"textbox","id":"sh/on2dkv25","slide":2,"text":"10 s","textPreview":"10 s","textChars":4,"textLines":1,"bbox":[540,317,120,35]}
+{"kind":"shape","id":"sh/pobet0jq","slide":2,"bbox":[670,335,140,0]}
+{"kind":"textbox","id":"sh/58j21sr2","slide":2,"text":"3.16× noise","textPreview":"3.16× noise","textChars":11,"textLines":1,"bbox":[835,317,190,35]}
+{"kind":"textbox","id":"sh/k7al8nqx","slide":2,"text":"3 s","textPreview":"3 s","textChars":3,"textLines":1,"bbox":[540,373,120,35]}
+{"kind":"shape","id":"sh/j61kzi9c","slide":2,"bbox":[670,391,140,0]}
+{"kind":"textbox","id":"sh/i5s36d8r","slide":2,"text":"5.77× noise","textPreview":"5.77× noise","textChars":11,"textLines":1,"bbox":[835,373,190,35]}
+{"kind":"textbox","id":"sh/tc325sre","slide":2,"text":"1 s","textPreview":"1 s","textChars":3,"textLines":1,"bbox":[540,429,120,35]}
+{"kind":"shape","id":"sh/sbalc7qt","slide":2,"bbox":[670,447,140,0]}
+{"kind":"textbox","id":"sh/7a1k3298","slide":2,"text":"10.0× noise","textPreview":"10.0× noise","textChars":11,"textLines":1,"bbox":[835,429,190,35]}
+{"kind":"textbox","id":"sh/69s3ax8n","slide":2,"text":"0.3 s","textPreview":"0.3 s","textChars":5,"textLines":1,"bbox":[540,485,120,35]}
+{"kind":"shape","id":"sh/h03m9c7a","slide":2,"bbox":[670,503,140,0]}
+{"kind":"textbox","id":"sh/gzulg7qp","slide":2,"text":"18.3× noise","textPreview":"18.3× noise","textChars":11,"textLines":1,"bbox":[835,485,190,35]}
+{"kind":"textbox","id":"sh/yloza9o7","slide":2,"text":"0.1 s","textPreview":"0.1 s","textChars":5,"textLines":1,"bbox":[540,541,120,35]}
+{"kind":"shape","id":"sh/zmx03eps","slide":2,"bbox":[670,559,140,0]}
+{"kind":"textbox","id":"sh/0n6hcj6d","slide":2,"text":"31.6× noise","textPreview":"31.6× noise","textChars":11,"textLines":1,"bbox":[835,541,190,35]}
+{"kind":"shape","id":"sh/l8fi5o7y","slide":2,"bbox":[1050,205,175,390]}
+{"kind":"textbox","id":"sh/m9oze9oj","slide":2,"text":"t","textPreview":"t","textChars":1,"textLines":1,"bbox":[1080,238,40,50]}
+{"kind":"textbox","id":"sh/nax07ep4","slide":2,"text":"=","textPreview":"=","textChars":1,"textLines":1,"bbox":[1120,238,30,50]}
+{"kind":"textbox","id":"sh/8b6hgj6p","slide":2,"text":"100","textPreview":"100","textChars":3,"textLines":1,"bbox":[1150,224,55,32]}
+{"kind":"shape","id":"sh/9cfi9o7u","slide":2,"bbox":[1148,262,60,0]}
+{"kind":"textbox","id":"sh/ad8j2tof","slide":2,"text":"m²","textPreview":"m²","textChars":2,"textLines":1,"bbox":[1150,270,55,35]}
+{"kind":"textbox","id":"sh/veh0byp0","slide":2,"text":"Signal ∝ exposure","textPreview":"Signal ∝ exposure","textChars":17,"textLines":1,"bbox":[1070,350,135,50]}
+{"kind":"textbox","id":"sh/jud0vyx4","slide":2,"text":"Relative shot noise ∝ 1/√t","textPreview":"Relative shot noise ∝ 1/√t","textChars":26,"textLines":1,"bbox":[1070,425,135,100]}
+{"kind":"textbox","id":"sh/it4zmtgj","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1175,680,52,18]}
+{"kind":"notes","id":"nt/i5cejp","slide":2,"text":"The boundary is intentionally simple: the goal is to isolate noise tolerance before returning to a cell geometry.\n\n[Sources]\n- simulator/generate_water_plexiglass_sweep.py\n- simulator/resources/materials.json\n- outputs/simulated_water_plexiglass/*_truth.npz"}
+{"kind":"slide","id":"sl/6sv63c","slide":3,"title":"HOW NOISE IS CALCULATED","textShapes":18}
+{"kind":"textbox","id":"sh/14nels7m","slide":3,"text":"HOW NOISE IS CALCULATED","textPreview":"HOW NOISE IS CALCULATED","textChars":23,"textLines":1,"bbox":[52,28,500,22]}
+{"kind":"textbox","id":"sh/e1cvqdov","slide":3,"text":"The simulator separates physical line broadening from detector noise","textPreview":"The simulator separates physical line broadening from detector noise","textChars":68,"textLines":1,"bbox":[52,52,1176,70]}
+{"kind":"shape","id":"sh/f2lwjipg","slide":3,"bbox":[52,126,1176,0]}
+{"kind":"shape","id":"sh/szudo365","slide":3,"bbox":[52,165,350,430]}
+{"kind":"textbox","id":"sh/t03eh87q","slide":3,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[74,182,55,45]}
+{"kind":"textbox","id":"sh/6xcvmd8z","slide":3,"text":"Thermal acoustic field","textPreview":"Thermal acoustic field","textChars":22,"textLines":1,"bbox":[74,235,305,62]}
+{"kind":"shape","id":"sh/rylwfypk","slide":3,"bbox":[447,165,350,430]}
+{"kind":"textbox","id":"sh/4budk3qt","slide":3,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[469,182,55,45]}
+{"kind":"textbox","id":"sh/5w3ed87e","slide":3,"text":"Laser phase noise","textPreview":"Laser phase noise","textChars":17,"textLines":1,"bbox":[469,235,305,62]}
+{"kind":"shape","id":"sh/h8bm5g7y","slide":3,"bbox":[842,165,350,430]}
+{"kind":"textbox","id":"sh/w72lwbqd","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[864,182,55,45]}
+{"kind":"textbox","id":"sh/v6t436ps","slide":3,"text":"Detector chain","textPreview":"Detector chain","textChars":14,"textLines":1,"bbox":[864,235,305,62]}
+{"kind":"textbox","id":"sh/u5k3u187","slide":3,"text":"Acoustic density follows an Ornstein–Uhlenbeck process.","textPreview":"Acoustic density follows an Ornstein–Uhlenbeck process.","textChars":55,"textLines":1,"bbox":[74,320,300,65]}
+{"kind":"textbox","id":"sh/94bm1w7m","slide":3,"text":"Thermal fluctuations average over many coherence times; at realistic exposure they become negligible speckle.","textPreview":"Thermal fluctuations average over many coherence times; at realistic exposure they become negligible speckle.","textChars":109,"textLines":1,"bbox":[74,405,300,125]}
+{"kind":"textbox","id":"sh/83ilsrqh","slide":3,"text":"φ(t) = √ΔΩ · W(t)","textPreview":"φ(t) = √ΔΩ · W(t)","textChars":17,"textLines":1,"bbox":[469,320,300,48]}
+{"kind":"textbox","id":"sh/7294z6pw","slide":3,"text":"A Brownian phase walk produces Lorentzian laser broadening. Widths add analytically to the material linewidth.","textPreview":"A Brownian phase walk produces Lorentzian laser broadening. Widths add analytically to the material linewidth.","textChars":110,"textLines":1,"bbox":[469,397,300,133]}
+{"kind":"textbox","id":"sh/m103q18b","slide":3,"text":"Poisson shot noise","textPreview":"Poisson shot noise","textChars":18,"textLines":1,"bbox":[864,320,300,38]}
+{"kind":"textbox","id":"sh/l0rmxw7q","slide":3,"text":"+ dark counts","textPreview":"+ dark counts","textChars":13,"textLines":1,"bbox":[864,372,300,38]}
+{"kind":"textbox","id":"sh/kfilorq5","slide":3,"text":"+ read noise","textPreview":"+ read noise","textChars":12,"textLines":1,"bbox":[864,424,300,38]}
+{"kind":"textbox","id":"sh/cv6d0v2d","slide":3,"text":"+ EMCCD excess noise (optional)","textPreview":"+ EMCCD excess noise (optional)","textChars":31,"textLines":1,"bbox":[864,476,300,55]}
+{"kind":"textbox","id":"sh/xwfet03y","slide":3,"text":"Exposure mainly changes detected Brillouin photons—and therefore the visible pixel-to-pixel scatter.","textPreview":"Exposure mainly changes detected Brillouin photons—and therefore the visible pixel-to-pixel scatter.","textChars":100,"textLines":1,"bbox":[52,625,1176,43]}
+{"kind":"textbox","id":"sh/at4vylk7","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1175,680,52,18]}
+{"kind":"notes","id":"nt/6sv63c","slide":3,"text":"Distinguish linewidth physics from visible detector scatter. Thermal noise sets the line; shot noise dominates these camera-like spectra.\n\n[Sources]\n- simulator/core/noise.py\n- simulator/core/spectrum.py\n- Oscar Nieves, Noise in Stimulated Brillouin Scattering, PhD thesis (2021), equations 3.12, 3.18, 3.23, 3.27, 5.13 and 5.14"}
+{"kind":"slide","id":"sl/ick8c9","slide":4,"title":"BFS FITTING","textShapes":17}
+{"kind":"textbox","id":"sh/nexwvqpg","slide":4,"text":"BFS FITTING","textPreview":"BFS FITTING","textChars":11,"textLines":1,"bbox":[52,28,500,22]}
+{"kind":"textbox","id":"sh/of6x4b61","slide":4,"text":"At 0.1 s BFS is noisier, but no longer collapses toward zero","textPreview":"At 0.1 s BFS is noisier, but no longer collapses toward zero","textChars":60,"textLines":1,"bbox":[52,52,1176,70]}
+{"kind":"shape","id":"sh/pgfexg7m","slide":4,"bbox":[52,126,1176,0]}
+{"kind":"shape","id":"sh/e94vy18z","slide":4,"bbox":[52,162,560,435]}
+{"kind":"textbox","id":"sh/fadwr6pk","slide":4,"text":"Lorentzian model","textPreview":"Lorentzian model","textChars":16,"textLines":1,"bbox":[80,190,230,30]}
+{"kind":"textbox","id":"sh/0bmd0bq5","slide":4,"text":"I(ν) = A / [1 + ((ν − νB)/γ)²] + C","textPreview":"I(ν) = A / [1 + ((ν − νB)/γ)²] + C","textChars":34,"textLines":1,"bbox":[80,245,485,65]}
+{"kind":"textbox","id":"sh/1cvetg7q","slide":4,"text":"Fit parameters","textPreview":"Fit parameters","textChars":14,"textLines":1,"bbox":[80,345,200,28]}
+{"kind":"textbox","id":"sh/y58fa5oj","slide":4,"text":"A  amplitude\nνB  Brillouin frequency shift\nγ  half-width at half maximum\nC  baseline","textPreview":"A  amplitude | νB  Brillouin frequency shift | γ  half-width at half maximum | C  baseline","textChars":84,"textLines":4,"bbox":[80,385,390,150]}
+{"kind":"textbox","id":"sh/j6hw3apo","slide":4,"text":"Corrected short-exposure behaviour","textPreview":"Corrected short-exposure behaviour","textChars":34,"textLines":1,"bbox":[675,162,510,50]}
+{"kind":"textbox","id":"sh/bu5wny18","slide":4,"text":"•","textPreview":"•","textChars":1,"textLines":1,"bbox":[682,238,24,35]}
+{"kind":"textbox","id":"sh/qtwved0n","slide":4,"text":"Only 0.1% of the 100 s photon budget remains.","textPreview":"Only 0.1% of the 100 s photon budget remains.","textChars":45,"textLines":1,"bbox":[718,230,470,60]}
+{"kind":"textbox","id":"sh/dwnep8je","slide":4,"text":"•","textPreview":"•","textChars":1,"textLines":1,"bbox":[682,320,24,35]}
+{"kind":"textbox","id":"sh/cvedg3it","slide":4,"text":"Elastic and Brillouin photons now both scale linearly with exposure.","textPreview":"Elastic and Brillouin photons now both scale linearly with exposure.","textChars":68,"textLines":1,"bbox":[718,312,470,60]}
+{"kind":"textbox","id":"sh/zy5wrih4","slide":4,"text":"•","textPreview":"•","textChars":1,"textLines":1,"bbox":[682,402,24,35]}
+{"kind":"textbox","id":"sh/yxwvid0j","slide":4,"text":"Read noise remains fixed per acquisition, so pixel-level BFS estimates become visibly less precise.","textPreview":"Read noise remains fixed per acquisition, so pixel-level BFS estimates become visibly less precise.","textChars":99,"textLines":1,"bbox":[718,394,470,60]}
+{"kind":"textbox","id":"sh/l07etsza","slide":4,"text":"•","textPreview":"•","textChars":1,"textLines":1,"bbox":[682,484,24,35]}
+{"kind":"textbox","id":"sh/0zyxknip","slide":4,"text":"The two fitted regions remain centred near 5.51 and 11.75 GHz rather than collapsing to the lower bound.","textPreview":"The two fitted regions remain centred near 5.51 and 11.75 GHz rather than collapsing to the lower bound.","textChars":104,"textLines":1,"bbox":[718,476,470,60]}
+{"kind":"shape","id":"sh/nmpwvihg","slide":4,"bbox":[675,574,510,58]}
+{"kind":"textbox","id":"sh/m1gfmx0v","slide":4,"text":"The earlier low-BFS expansion was a fixed-elastic-peak simulation artefact.","textPreview":"The earlier low-BFS expansion was a fixed-elastic-peak simulation artefact.","textChars":75,"textLines":1,"bbox":[696,583,468,40]}
+{"kind":"textbox","id":"sh/ih0zuhk3","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1175,680,52,18]}
+{"kind":"notes","id":"nt/ick8c9","slide":4,"text":"Emphasise that the plotting range exposes fit failure. It is not a rendering bug and not proof that all spatial information has vanished.\n\n[Sources]\n- brillouin_fitting.py: lorentzian and fit_lorentzian_iterative\n- simulator/core/scan.py: fit_scan\n- outputs/simulated_water_plexiglass/half_water_half_plexiglass_noise_31.6228x.csv"}
+{"kind":"slide","id":"sl/0tp9kt","slide":5,"title":"GROUPING MATERIAL REGIONS","textShapes":20}
+{"kind":"textbox","id":"sh/2pkb6d8n","slide":5,"text":"GROUPING MATERIAL REGIONS","textPreview":"GROUPING MATERIAL REGIONS","textChars":25,"textLines":1,"bbox":[52,28,500,22]}
+{"kind":"textbox","id":"sh/psvu1sry","slide":5,"text":"Clustering uses spectral shape, so it survives after single-pixel BFS fails","textPreview":"Clustering uses spectral shape, so it survives after single-pixel BFS fails","textChars":75,"textLines":1,"bbox":[52,52,1176,70]}
+{"kind":"shape","id":"sh/or2t8nqt","slide":5,"bbox":[52,126,1176,0]}
+{"kind":"shape","id":"sh/budc3294","slide":5,"bbox":[52,190,205,285]}
+{"kind":"textbox","id":"sh/qt4vax8j","slide":5,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[70,208,45,32]}
+{"kind":"textbox","id":"sh/dwvu5sra","slide":5,"text":"Fold","textPreview":"Fold","textChars":4,"textLines":1,"bbox":[70,263,170,40]}
+{"kind":"textbox","id":"sh/cvmdc7qp","slide":5,"text":"Average Stokes and anti-Stokes sides","textPreview":"Average Stokes and anti-Stokes sides","textChars":36,"textLines":1,"bbox":[70,330,170,110]}
+{"kind":"shape","id":"sh/7y9cry90","slide":5,"bbox":[257,332,30,0]}
+{"kind":"shape","id":"sh/6x0byt8f","slide":5,"bbox":[287,190,205,285]}
+{"kind":"textbox","id":"sh/wzexszmd","slide":5,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[305,208,45,32]}
+{"kind":"textbox","id":"sh/xk7e14ni","slide":5,"text":"Trim","textPreview":"Trim","textChars":4,"textLines":1,"bbox":[305,263,170,40]}
+{"kind":"textbox","id":"sh/axwfqpo7","slide":5,"text":"Remove Rayleigh tail; retain ≤13.3 GHz","textPreview":"Remove Rayleigh tail; retain ≤13.3 GHz","textChars":38,"textLines":1,"bbox":[305,330,170,110]}
+{"kind":"shape","id":"sh/by5wzu5s","slide":5,"bbox":[492,332,30,0]}
+{"kind":"shape","id":"sh/knyxwzm9","slide":5,"bbox":[522,190,205,285]}
+{"kind":"textbox","id":"sh/lo7e54nu","slide":5,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[540,208,45,32]}
+{"kind":"textbox","id":"sh/ylgfu943","slide":5,"text":"Normalise","textPreview":"Normalise","textChars":9,"textLines":1,"bbox":[540,263,170,40]}
+{"kind":"textbox","id":"sh/jmpw3e5o","slide":5,"text":"Subtract baseline and L1-normalise each pixel","textPreview":"Subtract baseline and L1-normalise each pixel","textChars":45,"textLines":1,"bbox":[540,330,170,110]}
+{"kind":"shape","id":"sh/0rudkf65","slide":5,"bbox":[727,332,30,0]}
+{"kind":"shape","id":"sh/1s3etknq","slide":5,"bbox":[757,190,205,285]}
+{"kind":"textbox","id":"sh/hovuxgfe","slide":5,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[775,208,45,32]}
+{"kind":"textbox","id":"sh/gnmtobyt","slide":5,"text":"Cluster","textPreview":"Cluster","textChars":7,"textLines":1,"bbox":[775,263,170,40]}
+{"kind":"textbox","id":"sh/fmdcv6x8","slide":5,"text":"K-means with k = 2 on the full spectrum","textPreview":"K-means with k = 2 on the full spectrum","textChars":39,"textLines":1,"bbox":[775,330,170,110]}
+{"kind":"shape","id":"sh/ul4bm1gn","slide":5,"bbox":[962,332,30,0]}
+{"kind":"shape","id":"sh/psfu1gfa","slide":5,"bbox":[992,190,205,285]}
+{"kind":"textbox","id":"sh/4r6dsbyp","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1010,208,45,32]}
+{"kind":"textbox","id":"sh/3qxcz6xk","slide":5,"text":"Match truth","textPreview":"Match truth","textChars":11,"textLines":1,"bbox":[1010,263,170,40]}
+{"kind":"textbox","id":"sh/2pobq1gz","slide":5,"text":"Resolve label swapping against known material truth","textPreview":"Resolve label swapping against known material truth","textChars":51,"textLines":1,"bbox":[1010,330,170,110]}
+{"kind":"textbox","id":"sh/dgzu50fm","slide":5,"text":"Why it works","textPreview":"Why it works","textChars":12,"textLines":1,"bbox":[52,535,180,32]}
+{"kind":"textbox","id":"sh/cf6dwvy1","slide":5,"text":"Water and plexiglass peaks are separated by ~6.24 GHz. Even when each peak centre is too noisy to fit precisely, the complete spectral shape still carries enough information to separate the two groups.","textPreview":"Water and plexiglass peaks are separated by ~6.24 GHz. Even when each peak centre is too noisy to fit precisely, the complete spectral sh...","textChars":201,"textLines":1,"bbox":[250,522,925,82]}
+{"kind":"textbox","id":"sh/apgzats7","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1175,680,52,18]}
+{"kind":"notes","id":"nt/0tp9kt","slide":5,"text":"This is deliberately an easy two-material case. The next experiment should reduce spectral separation and add mixed regions.\n\n[Sources]\n- analysis/generated_water_plexiglass_grid.py\n- brillouin_preprocessing.py\n- scikit-learn KMeans algorithm used locally"}
+{"kind":"slide","id":"sl/g7xpzs","slide":6,"title":"REGENERATING THE CURVES","textShapes":4}
+{"kind":"textbox","id":"sh/1czq9wvu","slide":6,"text":"REGENERATING THE CURVES","textPreview":"REGENERATING THE CURVES","textChars":23,"textLines":1,"bbox":[52,28,500,22]}
+{"kind":"textbox","id":"sh/e9o7ehw3","slide":6,"text":"Regional averaging reconstructs the peaks from many weak measurements","textPreview":"Regional averaging reconstructs the peaks from many weak measurements","textChars":69,"textLines":1,"bbox":[52,52,1176,70]}
+{"kind":"shape","id":"sh/fax87mdo","slide":6,"bbox":[52,126,1176,0]}
+{"kind":"shape","id":"sh/pgzqdwvq","slide":6,"bbox":[52,625,1176,50]}
+{"kind":"textbox","id":"sh/2d87i1cz","slide":6,"text":"Average all spectra assigned to a region → independent noise falls approximately as 1/√N → refit or inspect the recovered material curve","textPreview":"Average all spectra assigned to a region → independent noise falls approximately as 1/√N → refit or inspect the recovered material curve","textChars":136,"textLines":1,"bbox":[73,632,1134,34]}
+{"kind":"textbox","id":"sh/3eh8b6dk","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1175,680,52,18]}
+{"kind":"image","id":"im/hofud0bu","slide":6,"name":"","alt":"Four-stage exposure sweep showing raw spectra, fitted BFS maps, clustered regions and regional averages","bbox":[48,142,1184,470]}
+{"kind":"notes","id":"nt/g7xpzs","slide":6,"text":"Read the figure by rows. At 0.1 s the pixel BFS map collapses, but clustering still finds the boundary and the averaged peaks remain visible.\n\n[Sources]\n- outputs/simulated_water_plexiglass/generated_four_stage_noise_grid.png\n- analysis/generated_water_plexiglass_grid.py"}
+{"kind":"slide","id":"sl/f2u2gj","slide":7,"title":"WHY THIS IS PRACTICAL","textShapes":18}
+{"kind":"textbox","id":"sh/of6h4zix","slide":7,"text":"WHY THIS IS PRACTICAL","textPreview":"WHY THIS IS PRACTICAL","textChars":21,"textLines":1,"bbox":[52,28,500,22]}
+{"kind":"textbox","id":"sh/3exgvu1c","slide":7,"text":"Regional recovery could trade exposure for throughput","textPreview":"Regional recovery could trade exposure for throughput","textChars":53,"textLines":1,"bbox":[52,52,1176,70]}
+{"kind":"shape","id":"sh/2d4z2p0r","slide":7,"bbox":[52,126,1176,0]}
+{"kind":"textbox","id":"sh/dkfi14je","slide":7,"text":"If the information can be accurately reproduced after grouping and averaging:","textPreview":"If the information can be accurately reproduced after grouping and averaging:","textChars":77,"textLines":1,"bbox":[52,155,900,45]}
+{"kind":"textbox","id":"sh/cj6h8zit","slide":7,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[62,225,48,40]}
+{"kind":"shape","id":"sh/bixgze18","slide":7,"bbox":[120,245,50,0]}
+{"kind":"textbox","id":"sh/qhoz690n","slide":7,"text":"Reduce exposure time per pixel without immediately losing material-level spectra.","textPreview":"Reduce exposure time per pixel without immediately losing material-level spectra.","textChars":81,"textLines":1,"bbox":[195,223,815,50]}
+{"kind":"textbox","id":"sh/tovypkja","slide":7,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[62,297,48,40]}
+{"kind":"shape","id":"sh/snmhwfip","slide":7,"bbox":[120,317,50,0]}
+{"kind":"textbox","id":"sh/2dgni14n","slide":7,"text":"Generate more samples—or scan larger fields—in the same instrument time.","textPreview":"Generate more samples—or scan larger fields—in the same instrument time.","textChars":72,"textLines":1,"bbox":[195,295,815,50]}
+{"kind":"textbox","id":"sh/3ep4b658","slide":7,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[62,369,48,40]}
+{"kind":"shape","id":"sh/ofy5krmt","slide":7,"bbox":[120,389,50,0]}
+{"kind":"textbox","id":"sh/pg7mdwne","slide":7,"text":"Use known-truth simulations to choose an exposure before committing biological samples.","textPreview":"Use known-truth simulations to choose an exposure before committing biological samples.","textChars":87,"textLines":1,"bbox":[195,367,815,50]}
+{"kind":"textbox","id":"sh/q1gnm14z","slide":7,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[62,441,48,40]}
+{"kind":"shape","id":"sh/b2pof654","slide":7,"bbox":[120,461,50,0]}
+{"kind":"textbox","id":"sh/c3i5obmp","slide":7,"text":"Define acceptance thresholds for region accuracy, BFS error and Lorentzian fit quality.","textPreview":"Define acceptance thresholds for region accuracy, BFS error and Lorentzian fit quality.","textChars":87,"textLines":1,"bbox":[195,439,815,50]}
+{"kind":"textbox","id":"sh/d4r6hgna","slide":7,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[62,513,48,40]}
+{"kind":"shape","id":"sh/y50nql4v","slide":7,"bbox":[120,533,50,0]}
+{"kind":"textbox","id":"sh/z69ojq5g","slide":7,"text":"Validate the selected exposure on real repeated scans before adopting it experimentally.","textPreview":"Validate the selected exposure on real repeated scans before adopting it experimentally.","textChars":88,"textLines":1,"bbox":[195,511,815,50]}
+{"kind":"shape","id":"sh/vat47q1o","slide":7,"bbox":[1040,177,188,390]}
+{"kind":"textbox","id":"sh/a903elk3","slide":7,"text":"4–5 ms","textPreview":"4–5 ms","textChars":6,"textLines":1,"bbox":[1052,215,164,65]}
+{"kind":"textbox","id":"sh/xcbm90je","slide":7,"text":"observed boundary in this binary test","textPreview":"observed boundary in this binary test","textChars":37,"textLines":1,"bbox":[1060,290,148,72]}
+{"kind":"shape","id":"sh/wb25gv2t","slide":7,"bbox":[1064,380,140,0]}
+{"kind":"textbox","id":"sh/n694361c","slide":7,"text":"Next decision","textPreview":"Next decision","textChars":13,"textLines":1,"bbox":[1060,405,148,30]}
+{"kind":"textbox","id":"sh/m503a1kr","slide":7,"text":"What is the shortest exposure that remains reliable for less-separated biological materials?","textPreview":"What is the shortest exposure that remains reliable for less-separated biological materials?","textChars":92,"textLines":1,"bbox":[1060,448,148,105]}
+{"kind":"textbox","id":"sh/98rm5gji","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1175,680,52,18]}
+{"kind":"notes","id":"nt/f2u2gj","slide":7,"text":"End with a proposal: retain the workflow, but move from a binary easy case to progressively harder material separations and mixed boundaries.\n\n[Sources]\n- outputs/simulated_water_plexiglass/manifest.csv\n- outputs/simulated_water_plexiglass/generated_four_stage_noise_grid.png"}
+{"kind":"slide","id":"sl/f6b3ml","slide":8,"title":"PARAMETER AUDIT • 1 OF 2","textShapes":44}
+{"kind":"textbox","id":"sh/wb2xs3yd","slide":8,"text":"PARAMETER AUDIT • 1 OF 2","textPreview":"PARAMETER AUDIT • 1 OF 2","textChars":24,"textLines":1,"bbox":[52,28,500,22]}
+{"kind":"textbox","id":"sh/vatgjyx8","slide":8,"text":"Every stochastic and acquisition control used in the limit test","textPreview":"Every stochastic and acquisition control used in the limit test","textChars":63,"textLines":1,"bbox":[52,52,1176,70]}
+{"kind":"shape","id":"sh/u9kfqtgn","slide":8,"bbox":[52,126,1176,0]}
+{"kind":"shape","id":"sh/9obyhof2","slide":8,"bbox":[52,155,260,46]}
+{"kind":"textbox","id":"sh/8n2xo3yh","slide":8,"text":"Parameter","textPreview":"Parameter","textChars":9,"textLines":1,"bbox":[64,158,236,38]}
+{"kind":"shape","id":"sh/7mtgfyxw","slide":8,"bbox":[330,155,242,46]}
+{"kind":"textbox","id":"sh/ml0fmtgb","slide":8,"text":"Value used","textPreview":"Value used","textChars":10,"textLines":1,"bbox":[342,158,218,38]}
+{"kind":"shape","id":"sh/tkvytsf6","slide":8,"bbox":[590,155,312,46]}
+{"kind":"textbox","id":"sh/sjmh0nyl","slide":8,"text":"Where it enters","textPreview":"Where it enters","textChars":15,"textLines":1,"bbox":[602,158,288,38]}
+{"kind":"shape","id":"sh/utoz6pon","slide":8,"bbox":[920,155,308,46]}
+{"kind":"textbox","id":"sh/vuxgzup8","slide":8,"text":"Status","textPreview":"Status","textChars":6,"textLines":1,"bbox":[932,158,284,38]}
+{"kind":"shape","id":"sh/gv6h8z6t","slide":8,"bbox":[52,201,260,47]}
+{"kind":"textbox","id":"sh/hwzy1kny","slide":8,"text":"Exposure time","textPreview":"Exposure time","textChars":13,"textLines":1,"bbox":[64,204,236,41]}
+{"kind":"shape","id":"sh/6poz25ob","slide":8,"bbox":[330,201,242,47]}
+{"kind":"textbox","id":"sh/7qxgvapw","slide":8,"text":"0.030 → 0.004 s","textPreview":"0.030 → 0.004 s","textChars":15,"textLines":1,"bbox":[342,204,218,41]}
+{"kind":"shape","id":"sh/8r6h4f6h","slide":8,"bbox":[590,201,312,47]}
+{"kind":"textbox","id":"sh/tsfyxk72","slide":8,"text":"Signal + dark accumulation","textPreview":"Signal + dark accumulation","textChars":26,"textLines":1,"bbox":[602,204,288,41]}
+{"kind":"shape","id":"sh/ql8ze9ov","slide":8,"bbox":[920,201,308,47]}
+{"kind":"textbox","id":"sh/rmh07e5g","slide":8,"text":"Test variable","textPreview":"Test variable","textChars":13,"textLines":1,"bbox":[932,204,284,41]}
+{"kind":"shape","id":"sh/n6twz65s","slide":8,"bbox":[52,250,260,47]}
+{"kind":"textbox","id":"sh/m50vq147","slide":8,"text":"Temperature","textPreview":"Temperature","textChars":11,"textLines":1,"bbox":[64,253,236,41]}
+{"kind":"shape","id":"sh/98be1wny","slide":8,"bbox":[330,250,242,47]}
+{"kind":"textbox","id":"sh/o72dsbmd","slide":8,"text":"300 K (26.85 °C)","textPreview":"300 K (26.85 °C)","textChars":16,"textLines":1,"bbox":[342,253,218,41]}
+{"kind":"shape","id":"sh/batw365o","slide":8,"bbox":[590,250,312,47]}
+{"kind":"textbox","id":"sh/a9kvu143","slide":8,"text":"Thermal signal scaling","textPreview":"Thermal signal scaling","textChars":22,"textLines":1,"bbox":[602,253,288,41]}
+{"kind":"shape","id":"sh/xwbe5gnu","slide":8,"bbox":[920,250,308,47]}
+{"kind":"textbox","id":"sh/wv2dwbm9","slide":8,"text":"Plausible ambient","textPreview":"Plausible ambient","textChars":17,"textLines":1,"bbox":[932,253,284,41]}
+{"kind":"shape","id":"sh/jydw7ql0","slide":8,"bbox":[52,299,260,47]}
+{"kind":"textbox","id":"sh/yx4fyl4f","slide":8,"text":"Thermal speckle modes","textPreview":"Thermal speckle modes","textChars":21,"textLines":1,"bbox":[64,302,236,41]}
+{"kind":"shape","id":"sh/g3mdov2d","slide":8,"bbox":[330,299,242,47]}
+{"kind":"textbox","id":"sh/h4fux0jy","slide":8,"text":"Auto: t / coherence time","textPreview":"Auto: t / coherence time","textChars":24,"textLines":1,"bbox":[342,302,218,41]}
+{"kind":"shape","id":"sh/u14vmlkn","slide":8,"bbox":[590,299,312,47]}
+{"kind":"textbox","id":"sh/v2dcvq1s","slide":8,"text":"Gamma-distributed OU power","textPreview":"Gamma-distributed OU power","textChars":26,"textLines":1,"bbox":[602,302,288,41]}
+{"kind":"shape","id":"sh/8zmdkb2h","slide":8,"bbox":[920,299,308,47]}
+{"kind":"textbox","id":"sh/t0vutgj2","slide":8,"text":"Physics-derived","textPreview":"Physics-derived","textChars":15,"textLines":1,"bbox":[932,302,284,41]}
+{"kind":"shape","id":"sh/6x4vi1kb","slide":8,"bbox":[52,348,260,47]}
+{"kind":"textbox","id":"sh/7ydcr61w","slide":8,"text":"BFS jitter / slow drift","textPreview":"BFS jitter / slow drift","textChars":23,"textLines":1,"bbox":[64,351,236,41]}
+{"kind":"shape","id":"sh/kb2dgb25","slide":8,"bbox":[330,348,242,47]}
+{"kind":"textbox","id":"sh/lcbupgjq","slide":8,"text":"0 MHz rms","textPreview":"0 MHz rms","textChars":9,"textLines":1,"bbox":[342,351,218,41]}
+{"kind":"shape","id":"sh/p47i18vm","slide":8,"bbox":[590,348,312,47]}
+{"kind":"textbox","id":"sh/o3y183e1","slide":8,"text":"Per-pixel common shift","textPreview":"Per-pixel common shift","textChars":22,"textLines":1,"bbox":[602,351,288,41]}
+{"kind":"shape","id":"sh/32p0zydg","slide":8,"bbox":[920,348,308,47]}
+{"kind":"textbox","id":"sh/21gj6dwv","slide":8,"text":"Disabled to isolate SNR","textPreview":"Disabled to isolate SNR","textChars":23,"textLines":1,"bbox":[932,351,284,41]}
+{"kind":"shape","id":"sh/dsr25svi","slide":8,"bbox":[52,397,260,47]}
+{"kind":"textbox","id":"sh/c7y1cnex","slide":8,"text":"Random seeds","textPreview":"Random seeds","textChars":12,"textLines":1,"bbox":[64,400,236,41]}
+{"kind":"shape","id":"sh/b6pk3idc","slide":8,"bbox":[330,397,242,47]}
+{"kind":"textbox","id":"sh/q5gjadwr","slide":8,"text":"20260824 + level index","textPreview":"20260824 + level index","textChars":22,"textLines":1,"bbox":[342,400,218,41]}
+{"kind":"shape","id":"sh/twnitove","slide":8,"bbox":[590,397,312,47]}
+{"kind":"textbox","id":"sh/sbe10jet","slide":8,"text":"All stochastic draws","textPreview":"All stochastic draws","textChars":20,"textLines":1,"bbox":[602,400,288,41]}
+{"kind":"shape","id":"sh/ihcfapcb","slide":8,"bbox":[920,397,308,47]}
+{"kind":"textbox","id":"sh/j2lg3utw","slide":8,"text":"Recorded / reproducible","textPreview":"Recorded / reproducible","textChars":23,"textLines":1,"bbox":[932,400,284,41]}
+{"kind":"shape","id":"sh/43uhczuh","slide":8,"bbox":[52,446,260,47]}
+{"kind":"textbox","id":"sh/543y54b2","slide":8,"text":"PSF FWHM","textPreview":"PSF FWHM","textChars":8,"textLines":1,"bbox":[64,449,236,41]}
+{"kind":"shape","id":"sh/65cze9cn","slide":8,"bbox":[330,446,242,47]}
+{"kind":"textbox","id":"sh/r6lg7et8","slide":8,"text":"0.60 μm","textPreview":"0.60 μm","textChars":7,"textLines":1,"bbox":[342,449,218,41]}
+{"kind":"shape","id":"sh/s7uhgzut","slide":8,"bbox":[590,446,312,47]}
+{"kind":"textbox","id":"sh/t83y94be","slide":8,"text":"Boundary mixing","textPreview":"Boundary mixing","textChars":15,"textLines":1,"bbox":[602,449,288,41]}
+{"kind":"shape","id":"sh/m98f25cj","slide":8,"bbox":[920,446,308,47]}
+{"kind":"textbox","id":"sh/7a1gvato","slide":8,"text":"Plausible confocal spot","textPreview":"Plausible confocal spot","textChars":23,"textLines":1,"bbox":[932,449,284,41]}
+{"kind":"shape","id":"sh/bexc369g","slide":8,"bbox":[52,495,260,47]}
+{"kind":"textbox","id":"sh/adovu1sb","slide":8,"text":"Grid / step","textPreview":"Grid / step","textChars":11,"textLines":1,"bbox":[64,498,236,41]}
+{"kind":"shape","id":"sh/xgfe5grm","slide":8,"bbox":[330,495,242,47]}
+{"kind":"textbox","id":"sh/cf6dwba1","slide":8,"text":"30 × 30 / 1 μm","textPreview":"30 × 30 / 1 μm","textChars":14,"textLines":1,"bbox":[342,498,218,41]}
+{"kind":"shape","id":"sh/nqxcz69k","slide":8,"bbox":[590,495,312,47]}
+{"kind":"textbox","id":"sh/2p4vq1sz","slide":8,"text":"900 spectra per scan","textPreview":"900 spectra per scan","textChars":20,"textLines":1,"bbox":[602,498,288,41]}
+{"kind":"shape","id":"sh/pcfu1wrq","slide":8,"bbox":[920,495,308,47]}
+{"kind":"textbox","id":"sh/or6dsra5","slide":8,"text":"Experimental design","textPreview":"Experimental design","textChars":19,"textLines":1,"bbox":[932,498,284,41]}
+{"kind":"shape","id":"sh/7mhwbq9o","slide":8,"bbox":[52,544,260,47]}
+{"kind":"textbox","id":"sh/ml8v2ls3","slide":8,"text":"Temperature scaling","textPreview":"Temperature scaling","textChars":19,"textLines":1,"bbox":[64,547,236,41]}
+{"kind":"shape","id":"sh/4r29wnql","slide":8,"bbox":[330,544,242,47]}
+{"kind":"textbox","id":"sh/5sba5s76","slide":8,"text":"Enabled","textPreview":"Enabled","textChars":7,"textLines":1,"bbox":[342,547,218,41]}
+{"kind":"shape","id":"sh/ip0rud8v","slide":8,"bbox":[590,544,312,47]}
+{"kind":"textbox","id":"sh/jq9s3ipg","slide":8,"text":"Material peak area ∝ T","textPreview":"Material peak area ∝ T","textChars":22,"textLines":1,"bbox":[602,547,288,41]}
+{"kind":"shape","id":"sh/sv2t07qx","slide":8,"bbox":[920,544,308,47]}
+{"kind":"textbox","id":"sh/twba9s7i","slide":8,"text":"Thermal model","textPreview":"Thermal model","textChars":13,"textLines":1,"bbox":[932,547,284,41]}
+{"kind":"shape","id":"sh/6tkbyx8r","slide":8,"bbox":[52,593,260,47]}
+{"kind":"textbox","id":"sh/ruts72pc","slide":8,"text":"Conserve peak area","textPreview":"Conserve peak area","textChars":18,"textLines":1,"bbox":[64,596,236,41]}
+{"kind":"shape","id":"sh/gjmt47qt","slide":8,"bbox":[330,593,242,47]}
+{"kind":"textbox","id":"sh/1kvadc7e","slide":8,"text":"False","textPreview":"False","textChars":5,"textLines":1,"bbox":[342,596,218,41]}
+{"kind":"shape","id":"sh/pkj6lwv6","slide":8,"bbox":[590,593,312,47]}
+{"kind":"textbox","id":"sh/oja5srel","slide":8,"text":"Material efficiencies retained","textPreview":"Material efficiencies retained","textChars":30,"textLines":1,"bbox":[602,596,288,41]}
+{"kind":"shape","id":"sh/3i1ojmd0","slide":8,"bbox":[920,593,308,47]}
+{"kind":"textbox","id":"sh/2hsnq1wv","slide":8,"text":"Realistic brightness contrast","textPreview":"Realistic brightness contrast","textChars":29,"textLines":1,"bbox":[932,596,284,41]}
+{"kind":"shape","id":"sh/1gzmhwfa","slide":8,"bbox":[52,658,1176,25]}
+{"kind":"textbox","id":"sh/gfq5orep","slide":8,"text":"Drift = 0 is an intentional controlled-test assumption—not a claim that the real laser has zero drift.","textPreview":"Drift = 0 is an intentional controlled-test assumption—not a claim that the real laser has zero drift.","textChars":102,"textLines":1,"bbox":[65,659,1150,22]}
+{"kind":"textbox","id":"sh/feh4fmx4","slide":8,"text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1175,680,52,18]}
+{"kind":"notes","id":"nt/f6b3ml","slide":8,"text":"The limit test isolates photon statistics. A later robustness study should sweep measured laser drift rather than inventing it.\n\n[Sources]\n- simulator/core/scan.py\n- simulator/core/noise.py\n- simulator/generate_water_plexiglass_sweep.py\n- NIST temperature reference: https://www.nist.gov/pml/owm/si-units-temperature"}
+{"kind":"slide","id":"sl/22ccev","slide":9,"title":"PARAMETER AUDIT • 2 OF 2","textShapes":59}
+{"kind":"textbox","id":"sh/18f65kv2","slide":9,"text":"PARAMETER AUDIT • 2 OF 2","textPreview":"PARAMETER AUDIT • 2 OF 2","textChars":24,"textLines":1,"bbox":[52,28,500,22]}
+{"kind":"textbox","id":"sh/e547upcb","slide":9,"text":"Optical response and detector values are explicit—and not equally validated","textPreview":"Optical response and detector values are explicit—and not equally validated","textChars":75,"textLines":1,"bbox":[52,52,1176,70]}
+{"kind":"shape","id":"sh/f6do3adw","slide":9,"bbox":[52,126,1176,0]}
+{"kind":"textbox","id":"sh/s3mpsful","slide":9,"text":"Optical and spectral response","textPreview":"Optical and spectral response","textChars":29,"textLines":1,"bbox":[52,145,540,32]}
+{"kind":"shape","id":"sh/d4v61kv6","slide":9,"bbox":[52,188,195,38]}
+{"kind":"textbox","id":"sh/q14nq5cf","slide":9,"text":"Parameter","textPreview":"Parameter","textChars":9,"textLines":1,"bbox":[60,190,179,34]}
+{"kind":"shape","id":"sh/r2dozad0","slide":9,"bbox":[257,188,170,38]}
+{"kind":"textbox","id":"sh/cz6p4zup","slide":9,"text":"Value","textPreview":"Value","textChars":5,"textLines":1,"bbox":[265,190,154,34]}
+{"kind":"shape","id":"sh/x0z6d4va","slide":9,"bbox":[437,188,155,38]}
+{"kind":"textbox","id":"sh/h4j6h43y","slide":9,"text":"Evidence status","textPreview":"Evidence status","textChars":15,"textLines":1,"bbox":[445,190,139,34]}
+{"kind":"shape","id":"sh/w3ap8z2d","slide":9,"bbox":[52,226,195,49]}
+{"kind":"textbox","id":"sh/v21ofuls","slide":9,"text":"Laser wavelength","textPreview":"Laser wavelength","textChars":16,"textLines":1,"bbox":[60,229,179,43]}
+{"kind":"shape","id":"sh/u1s76pk7","slide":9,"bbox":[257,226,170,49]}
+{"kind":"textbox","id":"sh/90j6dk32","slide":9,"text":"720 nm","textPreview":"720 nm","textChars":6,"textLines":1,"bbox":[265,229,154,43]}
+{"kind":"shape","id":"sh/8zq54z2h","slide":9,"bbox":[437,226,155,49]}
+{"kind":"textbox","id":"sh/7yhobulw","slide":9,"text":"Back-solved assumption","textPreview":"Back-solved assumption","textChars":22,"textLines":1,"bbox":[445,229,139,43]}
+{"kind":"shape","id":"sh/mx8n2pkb","slide":9,"bbox":[52,277,195,49]}
+{"kind":"textbox","id":"sh/tw36po36","slide":9,"text":"Scattering angle","textPreview":"Scattering angle","textChars":16,"textLines":1,"bbox":[60,280,179,43]}
+{"kind":"shape","id":"sh/svupgj2l","slide":9,"bbox":[257,277,170,49]}
+{"kind":"textbox","id":"sh/cz29snax","slide":9,"text":"180°","textPreview":"180°","textChars":4,"textLines":1,"bbox":[265,280,154,43]}
+{"kind":"shape","id":"sh/d0bqlsri","slide":9,"bbox":[437,277,155,49]}
+{"kind":"textbox","id":"sh/qdkrqxsr","slide":9,"text":"Backscatter geometry","textPreview":"Backscatter geometry","textChars":20,"textLines":1,"bbox":[445,280,139,43]}
+{"kind":"shape","id":"sh/ret8ji9c","slide":9,"bbox":[52,328,195,49]}
+{"kind":"textbox","id":"sh/4bi9onal","slide":9,"text":"Laser linewidth","textPreview":"Laser linewidth","textChars":15,"textLines":1,"bbox":[60,331,179,43]}
+{"kind":"shape","id":"sh/pcbqhsr6","slide":9,"bbox":[257,328,170,49]}
+{"kind":"textbox","id":"sh/290rmdsv","slide":9,"text":"0.10 MHz FWHM","textPreview":"0.10 MHz FWHM","textChars":13,"textLines":1,"bbox":[265,331,154,43]}
+{"kind":"shape","id":"sh/3a98fit0","slide":9,"bbox":[437,328,155,49]}
+{"kind":"textbox","id":"sh/g7ipk3ap","slide":9,"text":"Plausible narrow laser","textPreview":"Plausible narrow laser","textChars":22,"textLines":1,"bbox":[445,331,139,43]}
+{"kind":"shape","id":"sh/h8rqd8ba","slide":9,"bbox":[52,379,195,49]}
+{"kind":"textbox","id":"sh/j2psnydw","slide":9,"text":"Spectrometer Lorentzian","textPreview":"Spectrometer Lorentzian","textChars":23,"textLines":1,"bbox":[60,382,179,43]}
+{"kind":"shape","id":"sh/i1grutcb","slide":9,"bbox":[257,379,170,49]}
+{"kind":"textbox","id":"sh/547ap8v2","slide":9,"text":"0.040 GHz FWHM","textPreview":"0.040 GHz FWHM","textChars":14,"textLines":1,"bbox":[265,382,154,43]}
+{"kind":"shape","id":"sh/k3y9w3uh","slide":9,"bbox":[437,379,155,49]}
+{"kind":"textbox","id":"sh/769srid8","slide":9,"text":"Model choice","textPreview":"Model choice","textChars":12,"textLines":1,"bbox":[445,382,139,43]}
+{"kind":"shape","id":"sh/650rydcn","slide":9,"bbox":[52,430,195,49]}
+{"kind":"textbox","id":"sh/t8ratsvy","slide":9,"text":"Spectrometer Gaussian","textPreview":"Spectrometer Gaussian","textChars":21,"textLines":1,"bbox":[60,433,179,43]}
+{"kind":"shape","id":"sh/s7i90nud","slide":9,"bbox":[257,430,170,49]}
+{"kind":"textbox","id":"sh/fa9svid4","slide":9,"text":"0.400 GHz FWHM","textPreview":"0.400 GHz FWHM","textChars":14,"textLines":1,"bbox":[265,433,154,43]}
+{"kind":"shape","id":"sh/u90r2dcj","slide":9,"bbox":[437,430,155,49]}
+{"kind":"textbox","id":"sh/eps3elo7","slide":9,"text":"Fit to local line shape","textPreview":"Fit to local line shape","textChars":23,"textLines":1,"bbox":[445,433,139,43]}
+{"kind":"shape","id":"sh/zq1knqps","slide":9,"bbox":[52,481,195,49]}
+{"kind":"textbox","id":"sh/0ralgv6x","slide":9,"text":"Elastic intrinsic width","textPreview":"Elastic intrinsic width","textChars":23,"textLines":1,"bbox":[60,484,179,43]}
+{"kind":"shape","id":"sh/1sj2p07i","slide":9,"bbox":[257,481,170,49]}
+{"kind":"textbox","id":"sh/mtc3i5o3","slide":9,"text":"0.030 GHz FWHM","textPreview":"0.030 GHz FWHM","textChars":14,"textLines":1,"bbox":[265,484,154,43]}
+{"kind":"shape","id":"sh/nulkra5o","slide":9,"bbox":[437,481,155,49]}
+{"kind":"textbox","id":"sh/ofulkf69","slide":9,"text":"Model choice","textPreview":"Model choice","textChars":12,"textLines":1,"bbox":[445,484,139,43]}
+{"kind":"shape","id":"sh/9g3mt0nu","slide":9,"bbox":[52,532,195,49]}
+{"kind":"textbox","id":"sh/2x8361oz","slide":9,"text":"Frequency axis","textPreview":"Frequency axis","textChars":14,"textLines":1,"bbox":[60,535,179,43]}
+{"kind":"shape","id":"sh/3yhkf6pk","slide":9,"bbox":[257,532,170,49]}
+{"kind":"textbox","id":"sh/5cn6l4r2","slide":9,"text":"−14.9 to +14.9 GHz","textPreview":"−14.9 to +14.9 GHz","textChars":18,"textLines":1,"bbox":[265,535,154,43]}
+{"kind":"shape","id":"sh/kbe5czqh","slide":9,"bbox":[437,532,155,49]}
+{"kind":"textbox","id":"sh/ja5oje9w","slide":9,"text":"Matched local CSVs","textPreview":"Matched local CSVs","textChars":18,"textLines":1,"bbox":[445,535,139,43]}
+{"kind":"shape","id":"sh/i9wna98b","slide":9,"bbox":[52,583,195,49]}
+{"kind":"textbox","id":"sh/tg76po7y","slide":9,"text":"Fit markers","textPreview":"Fit markers","textChars":11,"textLines":1,"bbox":[60,586,179,43]}
+{"kind":"shape","id":"sh/sfy5gjqd","slide":9,"bbox":[257,583,170,49]}
+{"kind":"textbox","id":"sh/7eponeps","slide":9,"text":"3.0 to 13.2 GHz","textPreview":"3.0 to 13.2 GHz","textChars":15,"textLines":1,"bbox":[265,586,154,43]}
+{"kind":"shape","id":"sh/6dgne98n","slide":9,"bbox":[437,583,155,49]}
+{"kind":"textbox","id":"sh/9k36dkru","slide":9,"text":"Expanded for PMMA","textPreview":"Expanded for PMMA","textChars":17,"textLines":1,"bbox":[445,586,139,43]}
+{"kind":"textbox","id":"sh/8ju54fq9","slide":9,"text":"Photon and detector chain","textPreview":"Photon and detector chain","textChars":25,"textLines":1,"bbox":[680,145,540,32]}
+{"kind":"shape","id":"sh/03y50zy5","slide":9,"bbox":[680,188,195,38]}
+{"kind":"textbox","id":"sh/1o76tkzq","slide":9,"text":"Parameter","textPreview":"Parameter","textChars":9,"textLines":1,"bbox":[688,190,179,34]}
+{"kind":"shape","id":"sh/e1gnypgz","slide":9,"bbox":[885,188,170,38]}
+{"kind":"textbox","id":"sh/f2poruhk","slide":9,"text":"Value","textPreview":"Value","textChars":5,"textLines":1,"bbox":[893,190,154,34]}
+{"kind":"shape","id":"sh/ori54zy1","slide":9,"bbox":[1065,188,155,38]}
+{"kind":"textbox","id":"sh/9sr6x4zm","slide":9,"text":"Evidence status","textPreview":"Evidence status","textChars":15,"textLines":1,"bbox":[1073,190,139,34]}
+{"kind":"shape","id":"sh/mpgn2pgb","slide":9,"bbox":[680,226,195,49]}
+{"kind":"textbox","id":"sh/nq9ovuhg","slide":9,"text":"Brillouin photon rate","textPreview":"Brillouin photon rate","textChars":21,"textLines":1,"bbox":[688,229,179,43]}
+{"kind":"shape","id":"sh/wvip8jyd","slide":9,"bbox":[885,226,170,49]}
+{"kind":"textbox","id":"sh/xwr61ozy","slide":9,"text":"1900 counts s⁻¹","textPreview":"1900 counts s⁻¹","textChars":15,"textLines":1,"bbox":[893,229,154,43]}
+{"kind":"shape","id":"sh/7qd8ri10","slide":9,"bbox":[1065,226,155,49]}
+{"kind":"textbox","id":"sh/6p4ryd0f","slide":9,"text":"Calibrated to local scans","textPreview":"Calibrated to local scans","textChars":25,"textLines":1,"bbox":[1073,229,139,43]}
+{"kind":"shape","id":"sh/tsvqt8j6","slide":9,"bbox":[680,277,195,49]}
+{"kind":"textbox","id":"sh/8rm90nil","slide":9,"text":"Elastic peak","textPreview":"Elastic peak","textChars":12,"textLines":1,"bbox":[688,280,179,43]}
+{"kind":"shape","id":"sh/jmt8ny1o","slide":9,"bbox":[885,277,170,49]}
+{"kind":"textbox","id":"sh/ylkrut0j","slide":9,"text":"30,000 counts @ 15 s","textPreview":"30,000 counts @ 15 s","textChars":20,"textLines":1,"bbox":[893,280,154,43]}
+{"kind":"shape","id":"sh/lobqp8ju","slide":9,"bbox":[1065,277,155,49]}
+{"kind":"textbox","id":"sh/kn29w3i9","slide":9,"text":"Calibrated; scales with t","textPreview":"Calibrated; scales with t","textChars":25,"textLines":1,"bbox":[1073,280,139,43]}
+{"kind":"shape","id":"sh/3ixsz2h8","slide":9,"bbox":[680,328,195,49]}
+{"kind":"textbox","id":"sh/ihor6x0n","slide":9,"text":"Dark/background rate","textPreview":"Dark/background rate","textChars":20,"textLines":1,"bbox":[688,331,179,43]}
+{"kind":"shape","id":"sh/etkfipkf","slide":9,"bbox":[885,328,170,49]}
+{"kind":"textbox","id":"sh/futgbul0","slide":9,"text":"0.12 count ch⁻¹ s⁻¹","textPreview":"0.12 count ch⁻¹ s⁻¹","textChars":19,"textLines":1,"bbox":[893,331,154,43]}
+{"kind":"shape","id":"sh/0v2hkz2l","slide":9,"bbox":[1065,328,155,49]}
+{"kind":"textbox","id":"sh/1wvydk36","slide":9,"text":"Conservative effective value","textPreview":"Conservative effective value","textChars":28,"textLines":1,"bbox":[1073,331,139,43]}
+{"kind":"shape","id":"sh/qpkfe5kj","slide":9,"bbox":[680,379,195,49]}
+{"kind":"textbox","id":"sh/rqtg7al4","slide":9,"text":"Read noise","textPreview":"Read noise","textChars":10,"textLines":1,"bbox":[688,382,179,43]}
+{"kind":"shape","id":"sh/sr2xgf2p","slide":9,"bbox":[885,379,170,49]}
+{"kind":"textbox","id":"sh/dsby9k3a","slide":9,"text":"0.8 count rms / read","textPreview":"0.8 count rms / read","textChars":20,"textLines":1,"bbox":[893,382,154,43]}
+{"kind":"shape","id":"sh/i10fa5kn","slide":9,"bbox":[1065,379,155,49]}
+{"kind":"textbox","id":"sh/329g3als","slide":9,"text":"Plausible with EM gain","textPreview":"Plausible with EM gain","textChars":22,"textLines":1,"bbox":[1073,382,139,43]}
+{"kind":"shape","id":"sh/lgzip8na","slide":9,"bbox":[680,430,195,49]}
+{"kind":"textbox","id":"sh/kf61g3m5","slide":9,"text":"Excess noise factor","textPreview":"Excess noise factor","textChars":19,"textLines":1,"bbox":[688,433,179,43]}
+{"kind":"shape","id":"sh/zex0ny5k","slide":9,"bbox":[885,430,170,49]}
+{"kind":"textbox","id":"sh/ytojet4z","slide":9,"text":"1.0","textPreview":"1.0","textChars":3,"textLines":1,"bbox":[893,433,154,43]}
+{"kind":"shape","id":"sh/xsfilone","slide":9,"bbox":[1065,430,155,49]}
+{"kind":"textbox","id":"sh/cr61cjmt","slide":9,"text":"Photon-counting idealisation","textPreview":"Photon-counting idealisation","textChars":28,"textLines":1,"bbox":[1073,433,139,43]}
+{"kind":"shape","id":"sh/bqx0jy58","slide":9,"bbox":[680,481,195,49]}
+{"kind":"textbox","id":"sh/apojat4n","slide":9,"text":"Baseline offset","textPreview":"Baseline offset","textChars":15,"textLines":1,"bbox":[688,484,179,43]}
+{"kind":"shape","id":"sh/pofihoni","slide":9,"bbox":[885,481,170,49]}
+{"kind":"textbox","id":"sh/onm18jmx","slide":9,"text":"0 count","textPreview":"0 count","textChars":7,"textLines":1,"bbox":[893,484,154,43]}
+{"kind":"shape","id":"sh/tk36t8vq","slide":9,"bbox":[1065,481,155,49]}
+{"kind":"textbox","id":"sh/sju5k3u5","slide":9,"text":"Disabled","textPreview":"Disabled","textChars":8,"textLines":1,"bbox":[1073,484,139,43]}
+{"kind":"shape","id":"sh/ril4ryd0","slide":9,"bbox":[680,532,195,49]}
+{"kind":"textbox","id":"sh/6hcnitcf","slide":9,"text":"Shot noise","textPreview":"Shot noise","textChars":10,"textLines":1,"bbox":[688,535,179,43]}
+{"kind":"shape","id":"sh/5gjmpovu","slide":9,"bbox":[885,532,170,49]}
+{"kind":"textbox","id":"sh/kfa5gju9","slide":9,"text":"Poisson(signal + dark)","textPreview":"Poisson(signal + dark)","textChars":22,"textLines":1,"bbox":[893,535,154,43]}
+{"kind":"shape","id":"sh/je14nydo","slide":9,"bbox":[1065,532,155,49]}
+{"kind":"textbox","id":"sh/itsnetc3","slide":9,"text":"Active","textPreview":"Active","textChars":6,"textLines":1,"bbox":[1073,535,139,43]}
+{"kind":"shape","id":"sh/pcn61svy","slide":9,"bbox":[680,583,195,49]}
+{"kind":"textbox","id":"sh/obe5snud","slide":9,"text":"Digitisation","textPreview":"Digitisation","textChars":12,"textLines":1,"bbox":[688,586,179,43]}
+{"kind":"shape","id":"sh/mxo3mpsv","slide":9,"bbox":[885,583,170,49]}
+{"kind":"textbox","id":"sh/nyhkvutg","slide":9,"text":"Round; clip at zero","textPreview":"Round; clip at zero","textChars":19,"textLines":1,"bbox":[893,586,154,43]}
+{"kind":"shape","id":"sh/8zqlofa1","slide":9,"bbox":[1065,583,155,49]}
+{"kind":"textbox","id":"sh/9kz2xkbm","slide":9,"text":"Active","textPreview":"Active","textChars":6,"textLines":1,"bbox":[1073,586,139,43]}
+{"kind":"textbox","id":"sh/ytoji5cz","slide":9,"text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[1175,680,52,18]}
+{"kind":"notes","id":"nt/22ccev","slide":9,"text":"The exact camera and laser models used experimentally are not yet documented in the repository. These values are defensible for simulation, but hardware datasheets should replace analogues.\n\n[Sources]\n- simulator/core/instrument.py\n- simulator/core/spectrum.py\n- simulator/README.md\n- Oxford Instruments iXon Ultra specifications: https://andor.oxinst.com/downloads/uploads/andor-ixon-ultra-emccd-specifications.pdf\n- Oxford Instruments EMCCD microscopy specifications (<1 e− with EM gain): https://andor.oxinst.com/products/ixon-emccd-cameras-for-life-science\n- HighFinesse/TOPTICA LWA-100k: https://www.toptica.com/fileadmin/Editors_English/06_company/01_news/02_press/2019/20191206_HighFinesse_100k/LWA-100k_EN.pdf"}
+{"kind":"slide","id":"sl/f0tuk5","slide":10,"title":"WHAT “REALISTIC” MEANS HERE","textShapes":11}
+{"kind":"textbox","id":"sh/tk7yxkn6","slide":10,"text":"WHAT “REALISTIC” MEANS HERE","textPreview":"WHAT “REALISTIC” MEANS HERE","textChars":27,"textLines":1,"bbox":[52,28,500,22]}
+{"kind":"textbox","id":"sh/6xwz2p4v","slide":10,"text":"The model is physically plausible; the instrument-specific audit is still required","textPreview":"The model is physically plausible; the instrument-specific audit is still required","textChars":82,"textLines":1,"bbox":[52,52,1176,70]}
+{"kind":"shape","id":"sh/ri5gvu5g","slide":10,"bbox":[52,126,1176,0]}
+{"kind":"shape","id":"sh/4veh0fmp","slide":10,"bbox":[52,165,350,415]}
+{"kind":"shape","id":"sh/5wnytkna","slide":10,"bbox":[465,165,350,415]}
+{"kind":"shape","id":"sh/itwzy54j","slide":10,"bbox":[878,165,350,415]}
+{"kind":"textbox","id":"sh/ju5gra54","slide":10,"text":"SUPPORTED","textPreview":"SUPPORTED","textChars":9,"textLines":1,"bbox":[78,192,280,38]}
+{"kind":"textbox","id":"sh/wruxwfmt","slide":10,"text":"Local frequency axis\nWater / PMMA BFS\nPeak-count calibration\nExposure scaling\nPoisson statistics","textPreview":"Local frequency axis | Water / PMMA BFS | Peak-count calibration | Exposure scaling | Poisson statistics","textChars":96,"textLines":5,"bbox":[78,255,280,190]}
+{"kind":"textbox","id":"sh/hs3yp0ny","slide":10,"text":"PLAUSIBLE","textPreview":"PLAUSIBLE","textChars":9,"textLines":1,"bbox":[491,192,280,38]}
+{"kind":"textbox","id":"sh/lsvexgne","slide":10,"text":"300 K temperature\n100 kHz laser linewidth\n0.8-count read noise\n0.6 μm PSF\nVoigt response","textPreview":"300 K temperature | 100 kHz laser linewidth | 0.8-count read noise | 0.6 μm PSF | Voigt response","textChars":88,"textLines":5,"bbox":[491,255,280,190]}
+{"kind":"textbox","id":"sh/krmx4b6t","slide":10,"text":"NOT YET VALIDATED","textPreview":"NOT YET VALIDATED","textChars":17,"textLines":1,"bbox":[904,192,280,38]}
+{"kind":"textbox","id":"sh/z6dwv658","slide":10,"text":"Actual camera model\nMeasured dark/background rate\nMeasured laser drift\nInstrument response split\n720 nm wavelength","textPreview":"Actual camera model | Measured dark/background rate | Measured laser drift | Instrument response split | 720 nm wavelength","textChars":114,"textLines":5,"bbox":[904,255,280,210]}
+{"kind":"textbox","id":"sh/y5kf21on","slide":10,"text":"Required before claiming a real exposure limit","textPreview":"Required before claiming a real exposure limit","textChars":46,"textLines":1,"bbox":[52,615,460,30]}
+{"kind":"textbox","id":"sh/x4betwn2","slide":10,"text":"Record hardware specifications and dark frames; measure repeated-reference BFS drift; refit the simulator; then repeat the threshold sweep with replicates.","textPreview":"Record hardware specifications and dark frames; measure repeated-reference BFS drift; refit the simulator; then repeat the threshold swee...","textChars":155,"textLines":1,"bbox":[525,600,703,62]}
+{"kind":"textbox","id":"sh/c32x0r6x","slide":10,"text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[1175,680,52,18]}
+{"kind":"notes","id":"nt/f0tuk5","slide":10,"text":"This is the defensible conclusion: realistic enough to test algorithms and design calibration experiments, not yet sufficient to claim the instrument's true minimum exposure.\n\n[Sources]\n- simulator/README.md: calibration tiers and caveats\n- Oxford Instruments iXon Ultra specifications: https://andor.oxinst.com/downloads/uploads/andor-ixon-ultra-emccd-specifications.pdf\n- HighFinesse/TOPTICA LWA-100k: https://www.toptica.com/fileadmin/Editors_English/06_company/01_news/02_press/2019/20191206_HighFinesse_100k/LWA-100k_EN.pdf"}

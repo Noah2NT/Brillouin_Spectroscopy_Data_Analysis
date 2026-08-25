@@ -1,0 +1,13 @@
+{
+  "reference": "C:\\Users\\noahk\\OneDrive\\Documents\\GitHub\\Brillouin_Spectroscopy_Data_Analysis\\data\\csv\\water_plexiglass.csv",
+  "seed": 20260824,
+  "material_reference_centers_ghz": {
+    "water": 5.598174481302004,
+    "plexiglass": 11.816558032992214
+  },
+  "criteria": {
+    "matched_accuracy": 0.9,
+    "minimum_lorentzian_r2": 0.9
+  },
+  "first_failed_noise_multiplier": 110.0
+}
