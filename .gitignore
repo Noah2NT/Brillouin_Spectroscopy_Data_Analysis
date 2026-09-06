@@ -1,3 +1,4 @@
 __pycache__/
 *.pyc
 simulator/resources/materials.json
+.codex_tmp/

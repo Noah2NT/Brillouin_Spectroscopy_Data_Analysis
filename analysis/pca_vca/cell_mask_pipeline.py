@@ -4,6 +4,9 @@ Three phases per sample:
   1. σ sweep: visualise how mask cleanliness varies with pre-blur σ.
   2. BFS-in-cell: show the Brillouin shift map restricted to the mask.
   3. VCA(2) inside: run VCA on cell-only spectra; scatter abundances back.
+  4. Nucleus threshold sweep on the nucleus-like abundance map.
+  5. Confident background: pixels far enough from the cell, in value and in
+     space, that no cell signal is mixed in.
 """
 
 from pathlib import Path
@@ -12,7 +15,8 @@ import sys, os, glob
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from scipy.ndimage import binary_fill_holes
+from matplotlib.colors import ListedColormap
+from scipy.ndimage import binary_fill_holes, label as cc_label
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT))
@@ -190,7 +194,7 @@ def phase2_bfs_in_cell(sample_name, data, sigma, out_path):
     fig.suptitle(sample_name, fontsize=10)
     fig.savefig(out_path, dpi=140)
     plt.close(fig)
-    return cleaned
+    return cleaned, bfs_raw, bfs_smoothed
 
 
 def _flat_index(mask, xi, yi):
@@ -259,12 +263,13 @@ def phase3_vca_inside(sample_name, data, sigma, cleaned, out_path):
 # ─────────────────────────────────────────────
 
 def phase4_threshold_sweep(sample_name, data, cleaned, nucleus_map,
-                           nucleus_like_idx, sigma, out_path):
+                           nucleus_like_idx, sigma, out_path, bfs=None):
     """Sweep 10 thresholds on the nucleus-like abundance; render a grid so
     the user can pick which cutoff best captures the nucleus."""
     ny, nx = data["valid"].shape
-    bfs = bfs_map_from_flat(data["folded_norm_flat"], data["shift_freq"],
-                            data["yi"], data["xi"], (ny, nx))
+    if bfs is None:
+        bfs = bfs_map_from_flat(data["folded_norm_flat"], data["shift_freq"],
+                                data["yi"], data["xi"], (ny, nx))
 
     n = len(INNER_THRESHOLDS)
     fig, axes = plt.subplots(n, 3, figsize=(10, 2.6 * n),
@@ -310,6 +315,167 @@ def phase4_threshold_sweep(sample_name, data, cleaned, nucleus_map,
 
 
 # ─────────────────────────────────────────────
+# Confident background (NOT just "not the cell")
+# ─────────────────────────────────────────────
+
+BG_K_MAD = 2.0     # robust sigmas above the background median still called background
+BG_MARGIN = 2      # pixels of exclusion grown around anything not clearly background
+BG_MIN_SIZE = 12   # drop background components smaller than this many pixels
+
+# (k_mad, margin) combos rendered by the phase-5 sweep.
+BG_SWEEP = [(k, m) for k in (1.0, 2.0, 3.0) for m in (1, 2, 3)]
+
+
+def _robust_background_level(values, thr):
+    """Median + MAD of the sub-threshold (background side) part of `values`."""
+    v = values[np.isfinite(values)]
+    if v.size == 0:
+        return 0.0, 1e-9
+    low = v[v <= thr]
+    if low.size < 5:
+        low = v
+    med = float(np.median(low))
+    mad = 1.4826 * float(np.median(np.abs(low - med)))
+    if mad <= 0:
+        mad = float(np.std(low)) or 1e-9
+    return med, mad
+
+
+def _keep_components_at_least(mask, min_size):
+    """Drop connected components smaller than `min_size` pixels."""
+    mask = np.asarray(mask, dtype=bool)
+    if min_size <= 1 or not mask.any():
+        return mask
+    labels, n = cc_label(mask)
+    if n == 0:
+        return mask
+    sizes = np.bincount(labels.ravel())
+    keep = np.zeros(sizes.size, dtype=bool)
+    keep[1:] = sizes[1:] >= min_size
+    return keep[labels]
+
+
+def confident_background_mask(bfs_raw, bfs_smoothed, valid, cell_mask=None,
+                              k_mad=BG_K_MAD, margin=BG_MARGIN,
+                              min_size=BG_MIN_SIZE):
+    """Pixels we are CONFIDENT are pure background.
+
+    `mask_from_bfs` is tight on the cell side, so its complement still holds the
+    boundary ring where cell and background mix — those pixels must not be used
+    as a background reference. The background side is therefore built with its
+    own, independently conservative, rule:
+
+      1. Robust background level (median + k_mad·MAD of the sub-Otsu pixels)
+         applied to BOTH the raw and the smoothed BFS map: a pixel has to look
+         like background in both to qualify. The smoothed map spreads any cell
+         signal into its neighbours, so a mixed pixel fails there even when
+         noise pushed its raw value down.
+      2. Everything failing that test — plus the cell mask itself and any
+         invalid pixel — is treated as suspicious and dilated by `margin`,
+         which throws away the mixed ring around the cell.
+      3. Components smaller than `min_size` are dropped as specks.
+
+    Returns (background, uncertain, info).
+    """
+    valid = np.asarray(valid, dtype=bool)
+    finite = valid & np.isfinite(bfs_raw) & np.isfinite(bfs_smoothed)
+
+    thr_raw = otsu_threshold(bfs_raw[valid])
+    thr_sm = otsu_threshold(bfs_smoothed[valid])
+    med_raw, mad_raw = _robust_background_level(bfs_raw[valid], thr_raw)
+    med_sm, mad_sm = _robust_background_level(bfs_smoothed[valid], thr_sm)
+    cut_raw = med_raw + k_mad * mad_raw
+    cut_sm = med_sm + k_mad * mad_sm
+
+    background_like = finite & (bfs_raw <= cut_raw) & (bfs_smoothed <= cut_sm)
+
+    suspicious = ~background_like          # includes every invalid / non-finite pixel
+    if cell_mask is not None:
+        suspicious = suspicious | np.asarray(cell_mask, dtype=bool)
+    if margin > 0:
+        suspicious = fe.dilate_mask(suspicious, iterations=int(margin)).astype(bool)
+
+    background = background_like & ~suspicious
+    background = _keep_components_at_least(background, min_size)
+
+    known = background.copy()
+    if cell_mask is not None:
+        known = known | np.asarray(cell_mask, dtype=bool)
+    uncertain = valid & ~known
+
+    info = dict(thr_raw=thr_raw, thr_smoothed=thr_sm,
+                cut_raw=cut_raw, cut_smoothed=cut_sm,
+                med_raw=med_raw, mad_raw=mad_raw,
+                k_mad=k_mad, margin=margin, min_size=min_size,
+                n_background=int(background.sum()),
+                n_uncertain=int(uncertain.sum()))
+    return background, uncertain, info
+
+
+def background_spectrum(data, background):
+    """Mean spectrum over the confident-background pixels (None if empty)."""
+    sel = _flat_index(background, data["xi"], data["yi"])
+    if not sel.any():
+        return None
+    return data["folded_norm_flat"][sel].mean(axis=0)
+
+
+# ─────────────────────────────────────────────
+# Phase 5 — confident-background sweep
+# ─────────────────────────────────────────────
+
+TRIMAP_CMAP = ListedColormap(["#d9d9d9", "#c0392b", "#2c7fb8"])  # uncertain / cell / bg
+
+
+def phase5_background_sweep(sample_name, data, bfs_raw, bfs_smoothed, cleaned,
+                            sigma, out_path):
+    """Sweep (k_mad, margin) and render cell / uncertain / background trimaps
+    so the confidence cutoff can be picked by eye. Returns the mask built with
+    the module defaults."""
+    valid = data["valid"]
+    n = len(BG_SWEEP)
+    fig, axes = plt.subplots(n, 3, figsize=(10, 2.6 * n),
+                             constrained_layout=True, squeeze=False)
+    for row, (k_mad, margin) in enumerate(BG_SWEEP):
+        bg, unc, info = confident_background_mask(
+            bfs_raw, bfs_smoothed, valid, cell_mask=cleaned,
+            k_mad=k_mad, margin=margin)
+
+        trimap = np.zeros(valid.shape, dtype=int)   # 0 = uncertain
+        trimap[cleaned] = 1
+        trimap[bg] = 2
+
+        axes[row, 0].imshow(bfs_raw, origin="lower", cmap="magma")
+        if bg.any():
+            axes[row, 0].contour(bg.astype(float), levels=[0.5],
+                                 colors="cyan", linewidths=0.8)
+        axes[row, 0].contour(cleaned.astype(float), levels=[0.5],
+                             colors="red", linewidths=0.8)
+        axes[row, 0].set_title(
+            f"k={k_mad}, margin={margin}  cut={info['cut_raw']:.3f}", fontsize=8)
+
+        axes[row, 1].imshow(trimap, origin="lower", cmap=TRIMAP_CMAP,
+                            vmin=0, vmax=2, interpolation="nearest")
+        axes[row, 1].set_title(
+            f"cell {int(cleaned.sum())} | unc {info['n_uncertain']} | "
+            f"bg {info['n_background']}", fontsize=8)
+
+        axes[row, 2].imshow(np.where(bg, bfs_raw, np.nan), origin="lower",
+                            cmap="magma")
+        axes[row, 2].set_title("BFS inside confident background", fontsize=8)
+
+        for ax in axes[row]:
+            ax.set_xticks([]); ax.set_yticks([])
+    fig.suptitle(f"{sample_name} — confident-background sweep (sigma={sigma})",
+                 fontsize=10)
+    fig.savefig(out_path, dpi=140)
+    plt.close(fig)
+
+    return confident_background_mask(bfs_raw, bfs_smoothed, valid,
+                                     cell_mask=cleaned)
+
+
+# ─────────────────────────────────────────────
 # Driver
 # ─────────────────────────────────────────────
 
@@ -330,8 +496,8 @@ def main():
         print(f"  phase 1 done")
 
         sigma = CHOSEN_SIGMA.get(name, 1.0)
-        cleaned = phase2_bfs_in_cell(stem, data, sigma,
-                                     OUTPUT_DIR / f"{stem}_bfs_in_cell.png")
+        cleaned, bfs_raw, bfs_smoothed = phase2_bfs_in_cell(
+            stem, data, sigma, OUTPUT_DIR / f"{stem}_bfs_in_cell.png")
         print(f"  phase 2 done (sigma={sigma}, mask={int(cleaned.sum())} px)")
 
         vca_result = phase3_vca_inside(
@@ -343,8 +509,19 @@ def main():
             nucleus_map, _endmembers, nucleus_like = vca_result
             phase4_threshold_sweep(
                 stem, data, cleaned, nucleus_map, nucleus_like, sigma,
-                OUTPUT_DIR / f"{stem}_nucleus_threshold_sweep.png")
+                OUTPUT_DIR / f"{stem}_nucleus_threshold_sweep.png",
+                bfs=bfs_raw)
             print(f"  phase 4 done")
+
+        background, uncertain, info = phase5_background_sweep(
+            stem, data, bfs_raw, bfs_smoothed, cleaned, sigma,
+            OUTPUT_DIR / f"{stem}_background_sweep.png")
+        print(f"  phase 5 done (background={info['n_background']} px, "
+              f"uncertain={info['n_uncertain']} px)")
+
+        np.savez(OUTPUT_DIR / f"{stem}_masks.npz", cell=cleaned,
+                 background=background, uncertain=uncertain, valid=data["valid"],
+                 bfs_raw=bfs_raw, sigma=sigma)
 
 
 if __name__ == "__main__":

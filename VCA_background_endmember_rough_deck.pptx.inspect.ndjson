@@ -1,0 +1,184 @@
+{"kind":"deck","id":"pr/kmwwhv","name":"Deck"}
+{"kind":"layout","layoutId":"ce355201-17c9-414a-a98e-b028a302763c","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"b7218976-537a-4340-8b0c-8fd688f58200","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/ohzv7j","slide":1,"title":"A “new” VCA idea","textShapes":4}
+{"kind":"textbox","id":"sh/kzedc3ut","slide":1,"name":"text","text":"A “new” VCA idea","textPreview":"A “new” VCA idea","textChars":16,"textLines":1,"bbox":[65,112,1010,90]}
+{"kind":"textbox","id":"sh/jy5c3yd8","slide":1,"name":"text","text":"make cleaner endmembers by averaging lots of matching pixels","textPreview":"make cleaner endmembers by averaging lots of matching pixels","textChars":60,"textLines":1,"bbox":[92,220,980,62]}
+{"kind":"textbox","id":"sh/idwvatcn","slide":1,"name":"text","text":"CURRENTLY: trying to isolate the background","textPreview":"CURRENTLY: trying to isolate the background","textChars":43,"textLines":1,"bbox":[72,375,750,55]}
+{"kind":"textbox","id":"sh/xcnu1ov2","slide":1,"name":"text","text":"Brillouin spectroscopy data analysis","textPreview":"Brillouin spectroscopy data analysis","textChars":36,"textLines":1,"bbox":[810,610,390,32]}
+{"kind":"notes","id":"nt/ohzv7j","slide":1,"text":"[Sources]\n- User-provided project description and methodology (September 2026)."}
+{"kind":"slide","id":"sl/kbgdpl","slide":2,"title":"The normal VCA endmember can just be one noisy pixel","textShapes":4}
+{"kind":"textbox","id":"sh/wbe90vap","slide":2,"name":"slide-title","text":"The normal VCA endmember can just be one noisy pixel","textPreview":"The normal VCA endmember can just be one noisy pixel","textChars":52,"textLines":1,"bbox":[48,24,1150,60]}
+{"kind":"textbox","id":"sh/va5s7qt4","slide":2,"name":"text","text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[1205,655,35,28]}
+{"kind":"shape","id":"sh/a9wrylsj","slide":2,"name":"scan-grid","bbox":[72,150,210,210]}
+{"kind":"shape","id":"sh/5g7ad0b6","slide":2,"name":"pixel","bbox":[83,161,24,24]}
+{"kind":"shape","id":"sh/kfy94val","slide":2,"name":"pixel","bbox":[83,192,24,24]}
+{"kind":"shape","id":"sh/je5sbqt0","slide":2,"name":"pixel","bbox":[83,223,24,24]}
+{"kind":"shape","id":"sh/idwr2lsv","slide":2,"name":"pixel","bbox":[83,254,24,24]}
+{"kind":"shape","id":"sh/tk7ahkbi","slide":2,"name":"pixel","bbox":[83,285,24,24]}
+{"kind":"shape","id":"sh/sjyt8fax","slide":2,"name":"pixel","bbox":[83,316,24,24]}
+{"kind":"shape","id":"sh/e9sza1sz","slide":2,"name":"pixel","bbox":[114,161,24,24]}
+{"kind":"shape","id":"sh/zu1g36tk","slide":2,"name":"pixel","bbox":[114,192,24,24]}
+{"kind":"shape","id":"sh/0vahcba5","slide":2,"name":"pixel","bbox":[114,223,24,24]}
+{"kind":"shape","id":"sh/1wjy5gbq","slide":2,"name":"pixel","bbox":[114,254,24,24]}
+{"kind":"shape","id":"sh/mxszelsv","slide":2,"name":"pixel","bbox":[114,285,24,24]}
+{"kind":"shape","id":"sh/ny1g7qtg","slide":2,"name":"pixel","bbox":[114,316,24,24]}
+{"kind":"shape","id":"sh/ozahgva1","slide":2,"name":"pixel","bbox":[145,161,24,24]}
+{"kind":"shape","id":"sh/903y90bm","slide":2,"name":"pixel","bbox":[145,192,24,24]}
+{"kind":"shape","id":"sh/21of2hsr","slide":2,"name":"pixel","bbox":[145,223,24,24]}
+{"kind":"shape","id":"sh/32hgvmtc","slide":2,"name":"pixel","bbox":[145,254,24,24]}
+{"kind":"shape","id":"sh/76dw3i94","slide":2,"name":"pixel","bbox":[145,285,24,24]}
+{"kind":"shape","id":"sh/654vud8j","slide":2,"name":"pixel","bbox":[145,316,24,24]}
+{"kind":"shape","id":"sh/t8ve5sra","slide":2,"name":"pixel","bbox":[176,161,24,24]}
+{"kind":"shape","id":"sh/s7mdwnqp","slide":2,"name":"pixel","bbox":[176,192,24,24]}
+{"kind":"shape","id":"sh/jidwzi98","slide":2,"name":"pixel","bbox":[176,223,24,24]}
+{"kind":"shape","id":"sh/ihkvqd8n","slide":2,"name":"pixel","bbox":[176,254,24,24]}
+{"kind":"shape","id":"sh/54ve1sry","slide":2,"name":"pixel","bbox":[176,285,24,24]}
+{"kind":"shape","id":"sh/kjmdsnqd","slide":2,"name":"pixel","bbox":[176,316,24,24]}
+{"kind":"shape","id":"sh/3exwb29c","slide":2,"name":"pixel","bbox":[207,161,24,24]}
+{"kind":"shape","id":"sh/2dov2h8r","slide":2,"name":"pixel","bbox":[207,192,24,24]}
+{"kind":"shape","id":"sh/0jitwz69","slide":2,"name":"pixel","bbox":[207,223,24,24]}
+{"kind":"shape","id":"sh/lkra547u","slide":2,"name":"pixel","bbox":[207,254,24,24]}
+{"kind":"shape","id":"sh/ehgbu9o3","slide":2,"name":"pixel","bbox":[207,285,24,24]}
+{"kind":"shape","id":"sh/zips3upo","slide":2,"name":"pixel","bbox":[207,316,24,24]}
+{"kind":"shape","id":"sh/8nit0j65","slide":2,"name":"pixel","bbox":[238,161,24,24]}
+{"kind":"shape","id":"sh/9ora9o7q","slide":2,"name":"pixel","bbox":[238,192,24,24]}
+{"kind":"shape","id":"sh/ml0by9of","slide":2,"name":"pixel","bbox":[238,223,24,24]}
+{"kind":"shape","id":"sh/nm9s7ep0","slide":2,"name":"pixel","bbox":[238,254,24,24]}
+{"kind":"shape","id":"sh/wb2t4j6h","slide":2,"name":"pixel","bbox":[238,285,24,24]}
+{"kind":"shape","id":"sh/xcbudo72","slide":2,"name":"pixel","bbox":[238,316,24,24]}
+{"kind":"textbox","id":"sh/h8j2xk7q","slide":2,"name":"text","text":"one selected pixel","textPreview":"one selected pixel","textChars":18,"textLines":1,"bbox":[80,380,230,34]}
+{"kind":"shape","id":"sh/w7al4f6l","slide":2,"name":"arrow-line","bbox":[320,246,130,8]}
+{"kind":"shape","id":"sh/v6hkvap0","slide":2,"name":"arrow-head","bbox":[440,235,30,30]}
+{"kind":"textbox","id":"sh/9kz2tk7u","slide":2,"name":"text","text":"Problem: exposure time drives noise, so one pixel is a pretty bad definition of “pure”.","textPreview":"Problem: exposure time drives noise, so one pixel is a pretty bad definition of “pure”.","textChars":87,"textLines":1,"bbox":[110,515,1040,78]}
+{"kind":"chart","id":"ch/u187290b","slide":2,"name":"","chartType":"line","bbox":[500,150,640,300]}
+{"kind":"notes","id":"nt/kbgdpl","slide":2,"text":"[Sources]\n- User-provided project description and methodology (September 2026)."}
+{"kind":"slide","id":"sl/hyummr","slide":3,"title":"Instead: find 3 “pure” spectra using groups of matching pixels","textShapes":12}
+{"kind":"textbox","id":"sh/w7q1o32h","slide":3,"name":"slide-title","text":"Instead: find 3 “pure” spectra using groups of matching pixels","textPreview":"Instead: find 3 “pure” spectra using groups of matching pixels","textChars":62,"textLines":1,"bbox":[48,24,1150,60]}
+{"kind":"textbox","id":"sh/b6h0fy1w","slide":3,"name":"text","text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[1205,655,35,28]}
+{"kind":"shape","id":"sh/al8zmtkr","slide":3,"name":"endmember-0","bbox":[90,180,290,270]}
+{"kind":"textbox","id":"sh/lcjil8je","slide":3,"name":"text","text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[108,192,55,52]}
+{"kind":"textbox","id":"sh/kba1s32t","slide":3,"name":"text","text":"BACKGROUND","textPreview":"BACKGROUND","textChars":10,"textLines":1,"bbox":[124,270,225,55]}
+{"kind":"textbox","id":"sh/jah0jy18","slide":3,"name":"text","text":"working now","textPreview":"working now","textChars":11,"textLines":1,"bbox":[174,365,125,35]}
+{"kind":"shape","id":"sh/y98jqtkn","slide":3,"name":"endmember-1","bbox":[480,180,290,270]}
+{"kind":"textbox","id":"sh/tgjipsja","slide":3,"name":"text","text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[498,192,55,52]}
+{"kind":"textbox","id":"sh/8fa1wn2p","slide":3,"name":"text","text":"CYTOPLASM (?)","textPreview":"CYTOPLASM (?)","textChars":13,"textLines":1,"bbox":[514,270,225,55]}
+{"kind":"textbox","id":"sh/exgne9kz","slide":3,"name":"text","text":"later","textPreview":"later","textChars":5,"textLines":1,"bbox":[564,365,125,35]}
+{"kind":"shape","id":"sh/fyp47e1k","slide":3,"name":"endmember-2","bbox":[870,180,290,270]}
+{"kind":"textbox","id":"sh/gjy5gj25","slide":3,"name":"text","text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[888,192,55,52]}
+{"kind":"textbox","id":"sh/1k7m9ojq","slide":3,"name":"text","text":"NUCLEUS (?)","textPreview":"NUCLEUS (?)","textChars":11,"textLines":1,"bbox":[904,270,225,55]}
+{"kind":"textbox","id":"sh/2lgnitkv","slide":3,"name":"text","text":"later","textPreview":"later","textChars":5,"textLines":1,"bbox":[954,365,125,35]}
+{"kind":"textbox","id":"sh/3mp4by1g","slide":3,"name":"text","text":"many similar pixels  →  add spectra together  →  less noise","textPreview":"many similar pixels  →  add spectra together  →  less noise","textChars":59,"textLines":1,"bbox":[178,525,925,56]}
+{"kind":"notes","id":"nt/hyummr","slide":3,"text":"[Sources]\n- User-provided project description and methodology (September 2026)."}
+{"kind":"slide","id":"sl/pb111b","slide":4,"title":"Step 1: define “probably background” from BFS values","textShapes":18}
+{"kind":"textbox","id":"sh/nm54vexc","slide":4,"name":"slide-title","text":"Step 1: define “probably background” from BFS values","textPreview":"Step 1: define “probably background” from BFS values","textChars":52,"textLines":1,"bbox":[48,24,1150,60]}
+{"kind":"textbox","id":"sh/8ne54jyx","slide":4,"name":"text","text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[1205,655,35,28]}
+{"kind":"shape","id":"sh/9on6xofi","slide":4,"name":"histogram-axis","bbox":[70,470,520,3]}
+{"kind":"shape","id":"sh/apgn6tg3","slide":4,"name":"hist-bar-0","bbox":[85,445,34,25]}
+{"kind":"shape","id":"sh/vqpozexo","slide":4,"name":"hist-bar-1","bbox":[131,380,34,90]}
+{"kind":"shape","id":"sh/wry58jyt","slide":4,"name":"hist-bar-2","bbox":[177,260,34,210]}
+{"kind":"shape","id":"sh/xs761ofe","slide":4,"name":"hist-bar-3","bbox":[223,205,34,265]}
+{"kind":"shape","id":"sh/idgnatgz","slide":4,"name":"hist-bar-4","bbox":[269,265,34,205]}
+{"kind":"shape","id":"sh/jepo3yxk","slide":4,"name":"hist-bar-5","bbox":[315,360,34,110]}
+{"kind":"shape","id":"sh/fal832d4","slide":4,"name":"hist-bar-6","bbox":[361,415,34,55]}
+{"kind":"shape","id":"sh/e9c7axcj","slide":4,"name":"hist-bar-7","bbox":[407,385,34,85]}
+{"kind":"shape","id":"sh/1w3q5cva","slide":4,"name":"hist-bar-8","bbox":[453,290,34,180]}
+{"kind":"shape","id":"sh/0bupc7up","slide":4,"name":"hist-bar-9","bbox":[499,345,34,125]}
+{"kind":"textbox","id":"sh/r618zid8","slide":4,"name":"text","text":"background / medium","textPreview":"background / medium","textChars":19,"textLines":1,"bbox":[115,478,245,28]}
+{"kind":"textbox","id":"sh/q5s76dcn","slide":4,"name":"text","text":"cell","textPreview":"cell","textChars":4,"textLines":1,"bbox":[430,478,100,28]}
+{"kind":"shape","id":"sh/d8jq1svy","slide":4,"name":"otsu-line","bbox":[390,175,5,300]}
+{"kind":"textbox","id":"sh/s7ap8nud","slide":4,"name":"text","text":"Otsu line","textPreview":"Otsu line","textChars":9,"textLines":1,"bbox":[345,130,130,35]}
+{"kind":"textbox","id":"sh/b258bmtc","slide":4,"name":"text","text":"take values BELOW this","textPreview":"take values BELOW this","textChars":22,"textLines":1,"bbox":[75,505,350,38]}
+{"kind":"textbox","id":"sh/a1w7ihcr","slide":4,"name":"text","text":"1. sub-Otsu","textPreview":"1. sub-Otsu","textChars":11,"textLines":1,"bbox":[675,132,470,36]}
+{"kind":"textbox","id":"sh/690jq50b","slide":4,"name":"text","text":"rough background sample","textPreview":"rough background sample","textChars":23,"textLines":1,"bbox":[700,174,450,34]}
+{"kind":"textbox","id":"sh/7a9kza1w","slide":4,"name":"text","text":"↓","textPreview":"↓","textChars":1,"textLines":1,"bbox":[875,207,40,30]}
+{"kind":"textbox","id":"sh/sbi1sfih","slide":4,"name":"text","text":"2. median","textPreview":"2. median","textChars":9,"textLines":1,"bbox":[675,244,470,36]}
+{"kind":"textbox","id":"sh/tcr21kzm","slide":4,"name":"text","text":"typical background BFS","textPreview":"typical background BFS","textChars":22,"textLines":1,"bbox":[700,286,450,34]}
+{"kind":"textbox","id":"sh/uxkjup07","slide":4,"name":"text","text":"↓","textPreview":"↓","textChars":1,"textLines":1,"bbox":[875,319,40,30]}
+{"kind":"textbox","id":"sh/fytk3uhs","slide":4,"name":"text","text":"3. MAD × 1.4826","textPreview":"3. MAD × 1.4826","textChars":15,"textLines":1,"bbox":[675,356,470,36]}
+{"kind":"textbox","id":"sh/gz21wzid","slide":4,"name":"text","text":"background noise width","textPreview":"background noise width","textChars":22,"textLines":1,"bbox":[700,398,450,34]}
+{"kind":"textbox","id":"sh/h0b254zy","slide":4,"name":"text","text":"↓","textPreview":"↓","textChars":1,"textLines":1,"bbox":[875,431,40,30]}
+{"kind":"textbox","id":"sh/a1gjil03","slide":4,"name":"text","text":"4. median + k·MAD","textPreview":"4. median + k·MAD","textChars":17,"textLines":1,"bbox":[675,468,470,36]}
+{"kind":"textbox","id":"sh/v2p0rq1o","slide":4,"name":"text","text":"final cutoff (k = 2)","textPreview":"final cutoff (k = 2)","textChars":20,"textLines":1,"bbox":[700,510,450,34]}
+{"kind":"textbox","id":"sh/dwfmx8j6","slide":4,"name":"text","text":"qualifies = inside the normal wobble of real background","textPreview":"qualifies = inside the normal wobble of real background","textChars":55,"textLines":1,"bbox":[670,592,500,45]}
+{"kind":"notes","id":"nt/pb111b","slide":4,"text":"[Sources]\n- User-provided project description and methodology (September 2026).\n- Histogram is a schematic visual, not measured project data."}
+{"kind":"slide","id":"sl/h6j6ln","slide":5,"title":"All qualifying background pixels become ONE endmember","textShapes":13}
+{"kind":"textbox","id":"sh/elsjah83","slide":5,"name":"slide-title","text":"All qualifying background pixels become ONE endmember","textPreview":"All qualifying background pixels become ONE endmember","textChars":53,"textLines":1,"bbox":[48,24,1150,60]}
+{"kind":"textbox","id":"sh/1o325w7e","slide":5,"name":"text","text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[1205,655,35,28]}
+{"kind":"shape","id":"sh/0nu1crqt","slide":5,"name":"background-pixel","bbox":[60,145,120,100]}
+{"kind":"textbox","id":"sh/ry1kzmpc","slide":5,"name":"text","text":"bg 1","textPreview":"bg 1","textChars":4,"textLines":1,"bbox":[85,180,70,28]}
+{"kind":"shape","id":"sh/qxsj6h8r","slide":5,"name":"background-pixel","bbox":[210,145,120,100]}
+{"kind":"textbox","id":"sh/d0j21c7i","slide":5,"name":"text","text":"bg 2","textPreview":"bg 2","textChars":4,"textLines":1,"bbox":[235,180,70,28]}
+{"kind":"shape","id":"sh/cza187qx","slide":5,"name":"background-pixel","bbox":[360,145,120,100]}
+{"kind":"textbox","id":"sh/3uhkv29g","slide":5,"name":"text","text":"bg 3","textPreview":"bg 3","textChars":4,"textLines":1,"bbox":[385,180,70,28]}
+{"kind":"shape","id":"sh/2t8j2x8v","slide":5,"name":"background-pixel","bbox":[510,145,120,100]}
+{"kind":"textbox","id":"sh/kne1cfq9","slide":5,"name":"text","text":"bg 4","textPreview":"bg 4","textChars":4,"textLines":1,"bbox":[535,180,70,28]}
+{"kind":"shape","id":"sh/58nilkru","slide":5,"name":"background-pixel","bbox":[60,290,120,100]}
+{"kind":"textbox","id":"sh/ylwja583","slide":5,"name":"text","text":"bg 5","textPreview":"bg 5","textChars":4,"textLines":1,"bbox":[85,325,70,28]}
+{"kind":"shape","id":"sh/jm50ja9o","slide":5,"name":"background-pixel","bbox":[210,290,120,100]}
+{"kind":"textbox","id":"sh/wju18vqd","slide":5,"name":"text","text":"bg 6","textPreview":"bg 6","textChars":4,"textLines":1,"bbox":[235,325,70,28]}
+{"kind":"shape","id":"sh/xknih0ry","slide":5,"name":"background-pixel","bbox":[360,290,120,100]}
+{"kind":"textbox","id":"sh/ahcj6l87","slide":5,"name":"text","text":"bg 7","textPreview":"bg 7","textChars":4,"textLines":1,"bbox":[385,325,70,28]}
+{"kind":"shape","id":"sh/bil0fq9s","slide":5,"name":"background-pixel","bbox":[510,290,120,100]}
+{"kind":"textbox","id":"sh/gfy1kzqh","slide":5,"name":"text","text":"bg 8","textPreview":"bg 8","textChars":4,"textLines":1,"bbox":[535,325,70,28]}
+{"kind":"shape","id":"sh/hg72t472","slide":5,"name":"arrow-line","bbox":[665,262,125,8]}
+{"kind":"shape","id":"sh/pkjah0vu","slide":5,"name":"arrow-head","bbox":[780,251,30,30]}
+{"kind":"textbox","id":"sh/4ja9ove9","slide":5,"name":"text","text":"SUM","textPreview":"SUM","textChars":3,"textLines":1,"bbox":[680,206,90,36]}
+{"kind":"textbox","id":"sh/2hsrmlwj","slide":5,"name":"text","text":"“pure” background endmember","textPreview":"“pure” background endmember","textChars":27,"textLines":1,"bbox":[825,470,375,40]}
+{"kind":"textbox","id":"sh/hwjadgvy","slide":5,"name":"text","text":"same background chemistry, effectively more exposure time","textPreview":"same background chemistry, effectively more exposure time","textChars":57,"textLines":1,"bbox":[205,570,860,55]}
+{"kind":"chart","id":"ch/vydo76p8","slide":5,"name":"","chartType":"line","bbox":[830,130,370,315]}
+{"kind":"notes","id":"nt/h6j6ln","slide":5,"text":"[Sources]\n- User-provided project description and methodology (September 2026).\n- Spectrum is schematic, not measured project data."}
+{"kind":"slide","id":"sl/id2ss4","slide":6,"title":"Quick test: does the constructed background behave better?","textShapes":9}
+{"kind":"textbox","id":"sh/xc7alsnq","slide":6,"name":"slide-title","text":"Quick test: does the constructed background behave better?","textPreview":"Quick test: does the constructed background behave better?","textChars":58,"textLines":1,"bbox":[48,24,1150,60]}
+{"kind":"textbox","id":"sh/a9wbad4z","slide":6,"name":"text","text":"6","textPreview":"6","textChars":1,"textLines":1,"bbox":[1205,655,35,28]}
+{"kind":"textbox","id":"sh/ba5sji5k","slide":6,"name":"text","text":"A","textPreview":"A","textChars":1,"textLines":1,"bbox":[75,120,48,48]}
+{"kind":"textbox","id":"sh/kzytgnm1","slide":6,"name":"text","text":"3 random dataset endmembers","textPreview":"3 random dataset endmembers","textChars":27,"textLines":1,"bbox":[130,122,450,44]}
+{"kind":"shape","id":"sh/507upsnm","slide":6,"name":"image-placeholder-a","bbox":[75,180,500,330]}
+{"kind":"textbox","id":"sh/ydgbex4b","slide":6,"name":"text","text":"INSERT RESULT IMAGE\n(random + random + random)","textPreview":"INSERT RESULT IMAGE | (random + random + random)","textChars":46,"textLines":2,"bbox":[135,285,380,90]}
+{"kind":"textbox","id":"sh/jepcn25w","slide":6,"name":"text","text":"B","textPreview":"B","textChars":1,"textLines":1,"bbox":[680,120,48,48]}
+{"kind":"textbox","id":"sh/03ut43mx","slide":6,"name":"text","text":"2 random + constructed background","textPreview":"2 random + constructed background","textChars":33,"textLines":1,"bbox":[735,122,480,44]}
+{"kind":"shape","id":"sh/14nad8ni","slide":6,"name":"image-placeholder-b","bbox":[680,180,500,330]}
+{"kind":"textbox","id":"sh/t8ve94ry","slide":6,"name":"text","text":"INSERT RESULT IMAGE\n(random + random + summed BG)","textPreview":"INSERT RESULT IMAGE | (random + random + summed BG)","textChars":49,"textLines":2,"bbox":[735,285,390,90]}
+{"kind":"textbox","id":"sh/s7md0zqt","slide":6,"name":"text","text":"Observed: the constructed endmember has much higher average potency in background pixels.","textPreview":"Observed: the constructed endmember has much higher average potency in background pixels.","textChars":89,"textLines":1,"bbox":[126,560,1020,65]}
+{"kind":"notes","id":"nt/id2ss4","slide":6,"text":"[Sources]\n- User-provided project description and methodology (September 2026)."}
+{"kind":"slide","id":"sl/ecqgbq","slide":7,"title":"So far: background looks like a real, reusable component","textShapes":9}
+{"kind":"textbox","id":"sh/58b6l8nm","slide":7,"name":"slide-title","text":"So far: background looks like a real, reusable component","textPreview":"So far: background looks like a real, reusable component","textChars":56,"textLines":1,"bbox":[48,24,1150,60]}
+{"kind":"textbox","id":"sh/il0nadob","slide":7,"name":"text","text":"7","textPreview":"7","textChars":1,"textLines":1,"bbox":[1205,655,35,28]}
+{"kind":"textbox","id":"sh/j69oji5w","slide":7,"name":"text","text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[90,180,70,70]}
+{"kind":"textbox","id":"sh/sb25gn6d","slide":7,"name":"text","text":"background selected by a robust BFS cutoff","textPreview":"background selected by a robust BFS cutoff","textChars":42,"textLines":1,"bbox":[175,190,900,55]}
+{"kind":"textbox","id":"sh/tcb6psny","slide":7,"name":"text","text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[90,305,70,70]}
+{"kind":"textbox","id":"sh/69knedo7","slide":7,"name":"text","text":"many background spectra combined to reduce noise","textPreview":"many background spectra combined to reduce noise","textChars":48,"textLines":1,"bbox":[175,315,920,55]}
+{"kind":"textbox","id":"sh/ratoni5s","slide":7,"name":"text","text":"✓","textPreview":"✓","textChars":1,"textLines":1,"bbox":[90,430,70,70]}
+{"kind":"textbox","id":"sh/8fy54369","slide":7,"name":"text","text":"higher background potency than random-only VCA test","textPreview":"higher background potency than random-only VCA test","textChars":51,"textLines":1,"bbox":[175,440,930,55]}
+{"kind":"textbox","id":"sh/9grmdone","slide":7,"name":"text","text":"still exploratory / not finished","textPreview":"still exploratory / not finished","textChars":32,"textLines":1,"bbox":[805,580,350,45]}
+{"kind":"notes","id":"nt/ecqgbq","slide":7,"text":"[Sources]\n- User-provided project description and methodology (September 2026)."}
+{"kind":"slide","id":"sl/c5as66","slide":8,"title":"Next: subtract the background spectrum","textShapes":8}
+{"kind":"textbox","id":"sh/atkvalwz","slide":8,"name":"slide-title","text":"Next: subtract the background spectrum","textPreview":"Next: subtract the background spectrum","textChars":38,"textLines":1,"bbox":[48,24,1150,60]}
+{"kind":"textbox","id":"sh/xwbu50vq","slide":8,"name":"text","text":"8","textPreview":"8","textChars":1,"textLines":1,"bbox":[1205,655,35,28]}
+{"kind":"textbox","id":"sh/cv2dcve5","slide":8,"name":"text","text":"measured pixel spectrum","textPreview":"measured pixel spectrum","textChars":23,"textLines":1,"bbox":[75,160,310,44]}
+{"kind":"textbox","id":"sh/jytc7adw","slide":8,"name":"text","text":"−","textPreview":"−","textChars":1,"textLines":1,"bbox":[450,245,55,55]}
+{"kind":"textbox","id":"sh/yxkve5wb","slide":8,"name":"text","text":"background endmember","textPreview":"background endmember","textChars":20,"textLines":1,"bbox":[565,160,330,44]}
+{"kind":"textbox","id":"sh/l0be90v2","slide":8,"name":"text","text":"=","textPreview":"=","textChars":1,"textLines":1,"bbox":[945,245,55,55]}
+{"kind":"shape","id":"sh/614vi5w7","slide":8,"name":"future-result","bbox":[1030,220,165,270]}
+{"kind":"textbox","id":"sh/sz210z6l","slide":8,"name":"text","text":"CELL-ONLY\nSPECTRUM\n(?)","textPreview":"CELL-ONLY | SPECTRUM | (?)","textChars":22,"textLines":3,"bbox":[1042,300,140,100]}
+{"kind":"textbox","id":"sh/t0bi9k76","slide":8,"name":"text","text":"Goal: remove the medium/background contribution before finding the other two endmembers.","textPreview":"Goal: remove the medium/background contribution before finding the other two endmembers.","textChars":88,"textLines":1,"bbox":[130,565,1020,58]}
+{"kind":"chart","id":"ch/w7a1g3e5","slide":8,"name":"","chartType":"line","bbox":[55,225,360,260]}
+{"kind":"chart","id":"ch/julkryxg","slide":8,"name":"","chartType":"line","bbox":[535,225,360,260]}
+{"kind":"notes","id":"nt/c5as66","slide":8,"text":"[Sources]\n- User-provided project description and methodology (September 2026).\n- Spectra are schematic, not measured project data."}
+{"kind":"slide","id":"sl/gmqx4c","slide":9,"title":"Then isolate nucleus + cytoplasm, and rebuild the whole cell","textShapes":12}
+{"kind":"textbox","id":"sh/61cnu9g7","slide":9,"name":"slide-title","text":"Then isolate nucleus + cytoplasm, and rebuild the whole cell","textPreview":"Then isolate nucleus + cytoplasm, and rebuild the whole cell","textChars":60,"textLines":1,"bbox":[48,24,1150,60]}
+{"kind":"textbox","id":"sh/t43m54fy","slide":9,"name":"text","text":"9","textPreview":"9","textChars":1,"textLines":1,"bbox":[1205,655,35,28]}
+{"kind":"shape","id":"sh/83u5wzyd","slide":9,"name":"future-0","bbox":[75,145,320,250]}
+{"kind":"textbox","id":"sh/jyl4zuhw","slide":9,"name":"text","text":"BACKGROUND","textPreview":"BACKGROUND","textChars":10,"textLines":1,"bbox":[95,180,280,42]}
+{"kind":"textbox","id":"sh/yxcnqpgb","slide":9,"name":"text","text":"spectrum","textPreview":"spectrum","textChars":8,"textLines":1,"bbox":[150,275,170,38]}
+{"kind":"textbox","id":"sh/l03m14f2","slide":9,"name":"text","text":"+","textPreview":"+","textChars":1,"textLines":1,"bbox":[405,245,55,55]}
+{"kind":"shape","id":"sh/kzu5szyh","slide":9,"name":"future-1","bbox":[470,145,320,250]}
+{"kind":"textbox","id":"sh/3u5obex0","slide":9,"name":"text","text":"CYTOPLASM","textPreview":"CYTOPLASM","textChars":9,"textLines":1,"bbox":[490,180,280,42]}
+{"kind":"textbox","id":"sh/2twn2tgf","slide":9,"name":"text","text":"spectrum","textPreview":"spectrum","textChars":8,"textLines":1,"bbox":[545,275,170,38]}
+{"kind":"textbox","id":"sh/4vux0je5","slide":9,"name":"text","text":"+","textPreview":"+","textChars":1,"textLines":1,"bbox":[800,245,55,55]}
+{"kind":"shape","id":"sh/5w3etovq","slide":9,"name":"future-2","bbox":[865,145,320,250]}
+{"kind":"textbox","id":"sh/itcfytwf","slide":9,"name":"text","text":"NUCLEUS","textPreview":"NUCLEUS","textChars":7,"textLines":1,"bbox":[885,180,280,42]}
+{"kind":"textbox","id":"sh/julwryd0","slide":9,"name":"text","text":"spectrum","textPreview":"spectrum","textChars":8,"textLines":1,"bbox":[940,275,170,38]}
+{"kind":"textbox","id":"sh/w7axwje9","slide":9,"name":"text","text":"entire cell = sum of 3 spectra","textPreview":"entire cell = sum of 3 spectra","textChars":30,"textLines":1,"bbox":[260,475,760,70]}
+{"kind":"textbox","id":"sh/hs3epofu","slide":9,"name":"text","text":"unfinished questions: separation rule? validation? potency stability across scans?","textPreview":"unfinished questions: separation rule? validation? potency stability across scans?","textChars":82,"textLines":1,"bbox":[205,585,870,38]}
+{"kind":"notes","id":"nt/gmqx4c","slide":9,"text":"[Sources]\n- User-provided project description and methodology (September 2026)."}
