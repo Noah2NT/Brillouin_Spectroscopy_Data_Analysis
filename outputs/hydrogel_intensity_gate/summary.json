@@ -1,0 +1,15 @@
+{
+  "pixels": 1155,
+  "minimum_lorentzian_fraction": 0.2,
+  "decision_counts": {
+    "background_only": 876,
+    "mixture_retained": 279
+  },
+  "median_single_rmse": 80.00535594921661,
+  "median_previous_mixture_rmse": 25.51517045814276,
+  "median_gated_rmse": 29.12613303655385,
+  "median_reduction_pct": 62.15295725262543,
+  "median_rmse_increase_on_suppressed": 3.6573993077875677,
+  "active_subchannel_lorentzians": 0,
+  "nonconverged": 0
+}

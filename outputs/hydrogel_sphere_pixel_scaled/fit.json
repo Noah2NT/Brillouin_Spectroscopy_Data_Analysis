@@ -1,0 +1,92 @@
+{
+  "parameters": {
+    "x0": -0.015560459356665361,
+    "y0": -0.21548385047644109,
+    "z0": 0.5910165642103696,
+    "dx": 0.1,
+    "dy": 0.1,
+    "bfs_center": 7.989432410176122,
+    "bfs_edge": 5.600771798149911,
+    "bfs_power": 0.2548222123343158,
+    "lw_center": 2.9999999999999996,
+    "lw_edge": 0.5803902309169885,
+    "lw_power": 0.2982798121451742,
+    "int_center": 6602.882560970838,
+    "int_edge": 38074.6060197841,
+    "int_power": 0.8872236591944065,
+    "water_intensity": 42272.58187467739,
+    "radius_scale": 1.1300648895747265
+  },
+  "fit_names": [
+    "x0",
+    "y0",
+    "z0",
+    "bfs_center",
+    "bfs_edge",
+    "bfs_power",
+    "lw_center",
+    "lw_edge",
+    "lw_power",
+    "radius_scale"
+  ],
+  "reference_radius_um": 5000.0,
+  "fitted_radius_um": 5650.324447873632,
+  "center_um": [
+    -77.80229678332681,
+    -1077.4192523822055,
+    2955.082821051848
+  ],
+  "step_um": [
+    500.0,
+    500.0
+  ],
+  "psf_fwhm_um": [
+    2.0,
+    2.0,
+    100.0
+  ],
+  "initial_mse": 7025.205228265234,
+  "final_mse": 497.833701218799,
+  "success": true,
+  "initial_rmse": 83.81649735144767,
+  "final_rmse": 22.312187280022524,
+  "pixel_scaling": true,
+  "scaling_only_rmse": 23.25246194588398,
+  "initial_file": "outputs\\hydrogel_sphere\\fit.json",
+  "message": "`ftol` termination condition is satisfied.",
+  "nfev": 70,
+  "finer_quadrature_rmse": 0.01851666583995768,
+  "jacobian_singular_values": [
+    216.53207561776472,
+    109.97980499040425,
+    102.32940335808877,
+    74.30763563398682,
+    53.164283532919605,
+    36.5970524142543,
+    13.009011546937199,
+    2.16535609921059,
+    0.05195971592312795,
+    0.013427946730945162
+  ],
+  "active_bounds": [
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0
+  ],
+  "scan": "C:\\Users\\noahk\\OneDrive\\Documents\\GitHub\\Brillouin_Spectroscopy_Data_Analysis\\data\\csv\\Hydrogl1_XYscan_20000_20000_step500um_10s (1).csv",
+  "background": "C:\\Users\\noahk\\OneDrive\\Documents\\GitHub\\Brillouin_Spectroscopy_Data_Analysis\\outputs\\background_endmember\\Hydrogl1_XYscan_20000_20000_step500um_10s (1)_background_endmember.csv",
+  "limitations": [
+    "Gaussian FWHM interpretation of reported spatial resolution is assumed.",
+    "Single-plane depth sign is unidentifiable; z0 represents absolute depth.",
+    "LW is effective observed FWHM; no intrinsic linewidth claim.",
+    "Local optimization, not proof of unique parameters or spherical geometry.",
+    "Pixel gains scale both hydrogel and water; radial intensity parameters are fixed reference values, not newly inferred. RMSE is in-sample."
+  ]
+}

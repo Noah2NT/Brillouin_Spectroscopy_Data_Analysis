@@ -1,0 +1,623 @@
+\documentclass[11pt]{article}
+
+% =========================
+% Packages
+% =========================
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{setspace}
+\usepackage{wrapfig}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+% =========================
+% Drafting helper
+% =========================
+
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+
+% =========================
+% Bibliography
+% =========================
+
+\bibliographystyle{apalike}
+
+% =========================
+% Section Formatting
+% =========================
+
+\titleformat{\section}
+{\normalfont\Large\bfseries} {\thesection}{1em}{}
+
+\titleformat{\subsection}
+{\normalfont\large\bfseries} {\thesubsection}{1em}{}
+
+\titleformat{\subsubsection}
+{\normalfont\normalsize\bfseries} {\thesubsubsection}{1em}{}
+
+% =========================
+% Paragraph and Caption Formatting
+% =========================
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+\captionsetup{font=footnotesize, labelfont=bf}
+
+% =========================
+% Notation
+% =========================
+
+\newcommand{\wg}{w_{\mathrm g}}
+\newcommand{\wmax}{w_{\max}}
+
+% =========================
+% Document
+% =========================
+
+\begin{document}
+\hypersetup{pageanchor=false}
+% =========================
+% Title Page
+% =========================
+
+\begin{titlepage}
+\centering\vspace*{3cm}
+{\Huge\bfseries Separating Sample and Medium in Brillouin Microscopy\par}
+\vspace{2cm}{\Large Noah Klugman\par}
+\vspace{0.3cm}{\large Student ID: 24948806\par}
+\vfill{\large 32931 Technology Research Preparation\par}
+\vspace{0.3cm}{\large University of Technology Sydney\par}
+\vspace{1cm}{\large \today\par}
+\end{titlepage}
+\hypersetup{pageanchor=true}
+
+% =========================
+% List of Symbols
+% =========================
+
+\section*{List of Symbols}
+Frequency variables are ordinary frequencies, expressed in GHz in the simulations; they are not angular frequencies. Indices $i$, $k$ and $m$ denote scan positions, spectral components and frequency bins. Hats denote estimates.
+\small
+\begin{longtable}{@{}p{0.25\textwidth}p{0.69\textwidth}@{}}
+\toprule Symbol & Meaning \\ \midrule\endfirsthead
+\toprule Symbol & Meaning \\ \midrule\endhead
+$f$, $f_{\mathrm B}$ & Frequency shift coordinate and positive Brillouin frequency shift (BFS). \\
+$\Gamma$, $\Gamma_h$ & Intrinsic Brillouin FWHM and instrument-response FWHM. \\
+$A$, $A_0$ & Integrated local spectral response and its water reference value. \\
+$n$, $v_{\mathrm L}$, $\lambda_0$, $\theta$ & Refractive index, longitudinal acoustic phase velocity, vacuum laser wavelength and scattering angle. \\
+$\rho$, $M'$, $M''$, $E$ & Density, longitudinal storage and loss moduli, and Young's modulus. \\
+$K'$, $G'$ & Bulk and shear storage moduli in the mechanical-interpretation appendix. \\
+$\wg$, $\wmax$ & Glycerol mass fraction and maximum prescribed mass fraction. \\
+$a$, $b$, $\delta_A$ & Coefficients controlling BFS, linewidth and integrated intensity. \\
+$\mathbf r$, $r_s$, $d$, $\beta$ & Spatial coordinate, sample radius, normalised radius and concentration-profile exponent. \\
+$W_i(z)$, $L_z$ & Normalised axial collection weighting and collection length. \\
+$R(f;\wg)$, $s_i(f)$ & Local spectral response and depth-averaged ideal spectrum. \\
+$h$, $*$, $b_i(f)$ & Unit-area instrument line-spread function, convolution and additive spectral background. \\
+$a_{ik}$, $p_{ik}$ & Collection-weighted component coefficient and normalised coefficient. \\
+$\mathbf Y$, $\mathbf C$, $\mathbf S$, $\mathbf D$ & Dataset matrix, coefficients, component spectra and reference dictionary. \\
+$\mu_{im}$, $N_{im}$ & Expected and sampled photon counts. \\
+$t_i$, $\kappa$, $P$ & Acquisition time, conversion to photon rate and reference photon budget. \\
+$\nu_i$, $\pi_{ij}$ & Collection-weighted concentration probability measure and discretised bin mass. \\
+$\eta$, $\mathbf L$ & Regularisation strength and second-difference matrix. \\
+$G(f_{\mathrm B})$, $H(f_{\mathrm B})$ & Unknown linewidth and integrated-intensity relationships. \\
+$F_i$, $\widehat F_i$, $W_{1,i}$ & True and recovered cumulative distributions and Wasserstein distance. \\
+MAE, NRMSE & Mean absolute error and relative spectral root mean square error. \\
+\bottomrule
+\end{longtable}
+\normalsize
+
+% =========================
+% Contents
+% =========================
+
+\clearpage
+\tableofcontents
+\clearpage
+
+
+% =========================
+% Introduction
+% =========================
+
+\section{Introduction}
+\label{sec:introduction}
+
+% =========================
+% Biological Background
+% =========================
+
+\subsection{Mechanical information beyond appearance}
+
+The appearance of a cell does not always tell us how it behaves. Two cells can look almost identical under a microscope, yet respond very differently when pushed, stretched or compressed. These differences arise from their mechanical properties, which describe how a material responds to forces acting upon it. In biological samples, changes in these properties can provide valuable information about how cells function, develop and respond to disease \citep{cross2007,discher2005,suresh2007}.
+
+Previous studies have demonstrated the value of mechanical measurements in biological research. For example, \citet{cross2007} used atomic force microscopy (AFM) to compare cells collected from patients with suspected cancer. AFM uses a small probe to press into a sample and measure its deformation under an applied force. The metastatic cancer cells examined in that study were softer than benign cells from the same samples, despite similarities in their appearance. Figure~\ref{fig:healthy-cancer} illustrates how different mechanical responses can be distinguished using this approach. Additionally, \citet{engler2006} showed that the elasticity of the material surrounding stem cells influenced the cell types into which they developed. These examples show why mechanical properties are relevant to both identifying differences between cells and understanding their behaviour.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.72\linewidth]{figures/01_cell_mechanics.pdf}
+    \caption{Similar appearances can conceal different mechanical responses. An AFM probe applies force to a cell; at the same force, the higher stiffness response has less indentation.}
+    \label{fig:healthy-cancer}
+\end{figure}
+
+Different measurement techniques provide different types of mechanical information. AFM measures how a sample deforms under direct contact, whereas Brillouin microscopy uses scattered light to investigate the behaviour of sound waves within the sample \citep{prevedel2019}. Because these techniques examine different responses over different timescales, their results cannot automatically be interpreted as the same measure of stiffness. For Brillouin microscopy, this creates an important analysis problem: understanding what contributes to the measured optical signal before using it to draw conclusions about the sample. This study focuses on separating those contributions when signals from the sample and its surrounding medium are collected together.
+
+% =========================
+% From scattered light to spectra
+% =========================
+
+\subsection{What Brillouin microscopy measures}
+\label{sec:brillouin}
+
+Brillouin microscopy detects small changes in the frequency of light scattered by a sample. These changes arise because light exchanges energy with thermally excited acoustic waves: the scattered light can have a slightly lower or higher frequency than the incident light. This process is called \emph{spontaneous Brillouin scattering}, and the lower- and higher-frequency features are called the Stokes and anti-Stokes peaks, respectively \citep{prevedel2019}. An instrument measures the amount of scattered light across a range of frequencies to produce a \emph{spectrum}. Repeating this measurement at neighbouring positions produces a spatial image in which every pixel contains a spectrum, as illustrated in Figure~\ref{fig:brillouin_setup}.
+
+% Figure 02: brillouin measurement
+\begin{figure}[htbp]
+    \centering
+\includegraphics[width=1.0\linewidth]{figures/02_brillouin_measurement.pdf}
+\caption{How Brillouin microscopy produces a spectral image. (a) Incident light is focused into a sample and backscattered light is directed to a separate spectrometer and detector. Acoustic-wave motifs are symbolic. (b) Each spatial scan position contains a spectrum. (c) Expanding guides connect one pixel to its cartoon photon-count spectrum. The peaks, geometry and counts are schematic; the angle is ideal backscattering.}
+\label{fig:brillouin_setup}
+\end{figure}
+
+Three features describe the spectral peaks used in this study: their position, width and integrated intensity. The Brillouin frequency shift (BFS), denoted $f_{\mathrm B}$, is the distance in frequency from the incident-light peak to a Brillouin peak. The linewidth $\Gamma$ describes how broad that peak is, measured at half its maximum height; this definition is called the full width at half maximum (FWHM). Integrated intensity is the area under a peak, rather than its height alone. Figure~\ref{fig:brillouin_spectrum} distinguishes a change in peak position from a change in peak width. The simulations will use the positive-shift Brillouin band, so each local spectrum will contain one modelled Brillouin peak.
+
+For a uniform material, the frequency shift depends on the speed of the acoustic wave, the material's refractive index and the optical arrangement:
+\begin{equation}
+ f_{\mathrm B}=\frac{2nv_{\mathrm L}}{\lambda_0}\sin\left(\frac{\theta}{2}\right).
+ \label{eq:intro_brillouin_shift}
+\end{equation}
+Here $v_{\mathrm L}$ is the speed of acoustic waves that compress the material as they travel (longitudinal waves), $n$ is refractive index, $\lambda_0$ is the incident wavelength in vacuum and $\theta$ is the scattering angle. When light is collected back towards its source, $\theta=180^\circ$ and the sine term equals one. The shift and linewidth are expressed as ordinary frequencies throughout this thesis. Their simulated values are in gigahertz (GHz), corresponding to billions of cycles per second.
+
+% Figure 03: spectral features
+\begin{figure}[htbp]
+    \centering
+\includegraphics[width=1.0\linewidth]{figures/03_spectral_features.pdf}
+\caption{Reading a Brillouin spectrum. (a) BFS is the separation from the incident-light frequency, and FWHM is the width at half peak height. The lower panels distinguish (b) a centre shift from (c) increased linewidth. Curves are schematic; the simulation models only the positive-shift Brillouin band.}
+\label{fig:brillouin_spectrum}
+\end{figure}
+
+A Brillouin shift needs to be interpreted in the context of the material and the measurement. Because the optical signal probes acoustic behaviour at GHz frequencies, it cannot be treated as the same stiffness measured by slowly pressing into a cell \citep{bouvet2025}. Appendix~\ref{app:mechanical_interpretation} explains the corresponding mechanical quantities and their relationships. Composition also matters: \citet{wu2018} demonstrated a strong influence of water content on Brillouin measurements of hydrated materials. This thesis will therefore focus on recovering spectral features and their contributions to a mixture. Converting those features into mechanical moduli would require additional material information and is outside the study's scope.
+
+Different materials can have different spectral signatures, providing a possible way to distinguish their contributions. Figure~\ref{fig:water_plexiglas} illustrates this idea using separated water and Plexiglass peaks. It introduces material contrast rather than defining the materials used in the simulation. The more difficult case arises when contributions overlap, so that the measured spectrum no longer shows a clearly separated peak for each material.
+
+% Figure 04: material contrast
+\begin{figure}[htbp]
+    \centering
+\includegraphics[width=1.0\linewidth]{figures/04_material_contrast.pdf}
+\caption{Different materials can have separated Brillouin responses. These schematic water and Plexiglass peaks introduce material contrast; they are not the water--glycerol simulation calibration.}
+\label{fig:water_plexiglas}
+\end{figure}
+
+% =========================
+% The mixing and measurement problem
+% =========================
+
+\subsection{Why one pixel can contain several contributions}
+
+One pixel in a Brillouin image can contain light from both the sample and its surrounding medium. The instrument collects light from a finite region, called the collection volume, which can extend through several parts of the sample along the collection direction. The resulting spectrum combines their contributions, as shown in Figure~\ref{fig:collection_volume}. A change between neighbouring pixels may therefore arise because the instrument collects different proportions of the same materials. Interpreting every change in the measured peak as a change in the sample's local properties would overlook this mixing. Section~\ref{sec:geometry} specifies the collection geometry used to investigate the problem computationally.
+
+% Figure 05: collection volume
+\begin{figure}[htbp]
+    \centering
+\includegraphics[width=1.0\linewidth]{figures/05_collection_volume.pdf}
+\caption{A finite collection volume can include sample and surrounding medium. Their weighted local responses combine into one measured spectrum. The colours identify contributions, not separate reconstructed depth positions.}
+\label{fig:collection_volume}
+\end{figure}
+
+Overlapping peaks make the mixture difficult to interpret, and the instrument can blur them further. Two nearby peaks can combine into one broad or asymmetric feature, making the individual components hard to recognise. The instrument's finite spectral resolution also changes the measured shape. This broadening can be included in a model of the measurement, although noise limits how accurately the original linewidth can be recovered \citep{bouvet2025}. The simulations will treat instrumental broadening separately from random noise so that their effects can be examined under controlled conditions.
+
+Collecting fewer photons makes the measured spectrum more irregular. Even under otherwise unchanged conditions, the number of photons detected in each frequency interval fluctuates from one measurement to the next; these counting fluctuations are called photon shot noise. A shorter exposure at a fixed photon rate gives fewer counts and larger fluctuations relative to the expected signal. Figure~\ref{fig:noise} illustrates this effect using raw photon counts. The primary simulations will isolate shot noise. Detector electronics, background light and changes in the instrument over time can also affect a physical measurement, but they will be excluded from the initial comparison rather than combined into an unspecified noise term.
+
+% Figure 06: exposure and shot noise
+\begin{figure}[htbp]
+    \centering
+\includegraphics[width=1.0\linewidth]{figures/06_exposure_and_shot_noise.pdf}
+\caption{Shorter exposure increases relative photon shot noise. Connected orange lines show independent Poisson-count realisations, with faint blue expected traces. The underlying mixed response and photon rate are fixed; only exposure changes. Raw-count axes change scale between panels. The illustrative scale is 1000 expected water-reference photons per second in the displayed 5.25--7.35 GHz band; these times are not an experimental calibration.}
+\label{fig:noise}
+\end{figure}
+
+% =========================
+% Recovering the components
+% =========================
+
+\subsection{Separating the spectra in a mixture}
+
+\emph{Spectral unmixing} aims to estimate which spectra contribute to a measurement and how much each contributes. The starting assumption is that the measured spectrum is a weighted sum of component spectra. When the component shapes are fixed, this can be written as
+\begin{equation}
+ y_i(f)=\sum_{k=1}^{K}a_{ik}R_k(f)+b_i(f)+\varepsilon_i(f),\qquad a_{ik}\geq0.
+ \label{eq:linear_mixture}
+\end{equation}
+Here $f$ is frequency shift, $i$ labels the measurement position and $K$ is the number of components. The measured spectrum is $y_i(f)$, $R_k(f)$ is the spectrum of component $k$, and $a_{ik}$ is its nonnegative weight. The terms $b_i(f)$ and $\varepsilon_i(f)$ represent additive background and random measurement fluctuations, respectively. Each $R_k$ includes the instrument's broadening when the model is fitted to recorded spectra. Surrounding water is treated as a material component with its own spectrum. A component's weight depends on both the collection geometry and how its spectrum is scaled; it is therefore not automatically the glycerol concentration or the fraction of the sample occupied by that component.
+
+Fitting a single peak to a mixture can describe its overall appearance without separating its components. The fitted centre may fall between the component centres, and the fitted width may reflect both the individual linewidths and the separation between them. Figure~\ref{fig:single_peak_fit} shows an example in which one peak cannot reproduce the mixture accurately. The study will use a single-Lorentzian fit as a baseline, where a Lorentzian is the peak shape used in the forward model. Agreement with the measured curve will be assessed separately from successful recovery of the spectra and weights used to generate it.
+
+% Figure 07: single peak fit limit
+\begin{figure}[htbp]
+    \centering
+\includegraphics[width=1.0\linewidth]{figures/07_single_peak_fit_limit.pdf}
+\caption{A single peak misses the shape of this chosen two-component mixture. (a) The true components and their sum. (b) The same sum and its best single-Lorentzian least-squares fit. The panels have common frequency and intensity scales. Stronger overlap can make the mismatch less apparent.}
+\label{fig:single_peak_fit}
+\end{figure}
+
+Knowing the component spectra makes the recovery task simpler because only their weights need to be fitted. Nonnegative least squares (NNLS) will provide this baseline by choosing nonnegative weights that minimise the difference between the model and the measured spectrum. When the spectra are unknown, the analysis must also learn their shapes from changes across many pixels. Principal component analysis (PCA) summarises the main patterns of variation in a dataset, and reconstructed observations near its extremes can provide candidate component spectra \citep{mahmodi2024}. The patterns identified by PCA are not themselves material spectra, and extreme observations may still be mixtures when no pure component is measured. Figure~\ref{fig:known_unknown_unmixing} compares the tasks of fitting supplied spectra and estimating unknown spectra.
+
+Other approaches make different assumptions about how unknown spectra can be found. Vertex component analysis (VCA) searches the outer limits of a spectral dataset for component spectra and, in its standard form, assumes that pure-component observations are present \citep{nascimento2005}. Multivariate curve resolution--alternating least squares (MCR-ALS) instead adjusts the component spectra and their weights together, subject to constraints such as nonnegativity \citep{dejuan2014}. These constraints can help identify plausible solutions without guaranteeing that the solution is unique. Simulated data make it possible to check whether a method recovers the true components, including cases where several different mixtures reproduce the observed spectra well.
+
+% Figure 08: spectral unmixing
+\begin{figure}[htbp]
+    \centering
+\includegraphics[width=1.0\linewidth]{figures/08_spectral_unmixing.pdf}
+\caption{Known and unknown spectral unmixing. Known references permit fitting of contributions; unknown references must be estimated from variation across mixed measurements. Each small spectrum is one continuous curve in the Brillouin band. Recovered outputs are illustrative, not benchmark results.}
+\label{fig:known_unknown_unmixing}
+\end{figure}
+
+A sample with continuously changing composition introduces another level of difficulty because it contains a range of local spectra. Published Brillouin measurements of water--glycerol solutions show shifts and linewidths that depend on composition \citep{adichtchev2019}, motivating their use as a model system here. The initial simulations will cover 0--10\% glycerol by mass. This is a starting range, subject to revision if pilot simulations give too little contrast for a useful comparison or make recovery too easy to distinguish the methods. Any revision will be documented before final evaluation. If the spectrum at each concentration is supplied, the analysis can estimate a distribution of contributing concentrations. If that relationship is unknown, the analysis must also investigate how the local spectra vary, and an absolute concentration cannot be assigned without a calibration linking concentration to the spectral features.
+
+% =========================
+% Research question and scope
+% =========================
+
+\subsection{Research question and scope}
+\label{sec:aims}
+
+This study asks how reliably the contributions to mixed Brillouin spectra can be recovered as spectral overlap, photon counts and prior knowledge change. It will compare four simulation configurations, organised around whether the sample has fixed or varying local spectra and whether those spectra are supplied to the analysis. The configurations are (1) fixed components with known spectra, (2) fixed components with unknown spectra, (3) varying concentrations with a known spectrum--concentration relationship and (4) varying concentrations with an unknown relationship. Figure~\ref{fig:study-design} summarises the information provided and the recovery target in each case. The comparison will distinguish reproducing the measured spectra from recovering the components and contributions that generated them.
+
+The investigation is a simulation study of spectral recovery, with no experimental data collection. Three-dimensional concentration fields will generate two-dimensional scans, providing known spectra and collection weights against which recovery can be tested. The analysis will estimate spectral contributions within each collection volume; it will not reconstruct where those contributions originated along the collection direction. Experimental validation and conversion to mechanical moduli are also outside scope. For unknown concentration-dependent spectra, the study will examine what can be recovered in frequency-shift coordinates and what requires additional calibration, rather than assume that every spectral relationship has a unique solution. The following methodology defines the sample models, measurement assumptions and comparisons needed to test these questions.
+
+% Figure 09: study design
+\begin{figure}[htbp]
+    \centering
+\includegraphics[width=1.0\linewidth]{figures/09_study_design.pdf}
+\caption{Four simulation configurations and their recovery targets. (1) Known fixed spectra are used to estimate mixture weights. (2) Unknown fixed spectra require estimation of component spectra and weights. (3) Known concentration-dependent spectra are used to estimate a concentration distribution. (4) Unknown varying spectra require estimation of contributions and spectral relationships. The final panel illustrates the prescribed BFS (blue dashed line, left axis) and intrinsic linewidth (orange solid line, right axis) versus glycerol mass percentage. All example outputs are schematic, not recovery results. Unknown-spectrum weights require intensity calibration to represent collection fractions; the final configuration does not imply uniquely recoverable absolute concentration.}
+\label{fig:study-design}
+\end{figure}
+
+
+
+\clearpage
+% =========================
+% Methodology
+% =========================
+
+\section{Methodology}
+% =========================
+% Simulation design and baseline conditions
+% =========================
+
+\subsection{Simulation design and baseline conditions}
+
+Two datasets will be generated from the same prescribed geometry: a homogeneous glycerol-containing region in water and a region whose concentration varies continuously. Each will be analysed with known and unknown responses, giving the four configurations in Section~\ref{sec:aims}. Conditions will be varied in controlled comparisons, and all methods within a comparison will receive the same simulated observations. The initial baseline in Table~\ref{tab:conditions} defines a reproducible example, including the figures in this draft; these are proposed computational conditions rather than measured experimental settings.
+
+\begin{table}[htbp]\centering\small
+\caption{Proposed baseline simulation conditions. Sensitivity settings are specified in the text.}
+\label{tab:conditions}
+\begin{tabular}{@{}p{0.40\linewidth}p{0.53\linewidth}@{}}\toprule
+Quantity & Baseline value \\ \midrule
+Glycerol mass fraction & $0\leq\wg\leq0.10$ \\
+Temperature and vacuum wavelength & 296 K and 660 nm \\
+Scattering geometry & Ideal backscattering, $\theta=180^\circ$ \\
+Sample and scan & Sphere of radius $r_s=20\,\mu\mathrm m$; $x,y=-25,\ldots,25\,\mu\mathrm m$ at $1\,\mu\mathrm m$ spacing \\
+Axial collection & Uniform over $0\leq z\leq30\,\mu\mathrm m$; unit integral \\
+Depth quadrature & 120 midpoint samples at $0.25\,\mu\mathrm m$ spacing \\
+Frequency bins & 401 centres from 4.50 to 8.50 GHz; width 0.01 GHz \\
+Local water response & $f_{\mathrm B0}=6.05$ GHz, $\Gamma_0=0.20$ GHz, $A_0=1$ arbitrary area unit \\
+Composition coefficients & $a=0.85$, $b=2.0$, $\delta_A=+0.20$ \\
+Instrument model & Unit-area Lorentzian; $\Gamma_h=0.276$ GHz \\
+Concentration exponent & $\beta=1$ for baseline illustrations \\
+Noise and background & Shot noise only; $b_i=0$ initially; noiseless reference retained \\
+Photon budgets & $P=10^2,10^3,10^4,10^5$ expected water-reference photons per retained band \\
+Noise repetitions & 30 independent realisations per condition \\
+\bottomrule\end{tabular}\normalsize
+\end{table}
+
+The 660 nm wavelength and elongated collection geometry are motivated by the reference microscope described by \citet{mahmodi2024}, which used a six-pass tandem scanning Fabry--Perot interferometer. That work reports approximate collection dimensions of $2\times2\times100\,\mu\mathrm m$ for the $20\times$ objective and $0.5\times0.5\times10\,\mu\mathrm m$ for the $60\times$ objective, and a spectral resolution of approximately 276 MHz. Here the illustrative baseline collection length is 30 $\mu\mathrm m$, while a Lorentzian instrument response of FWHM 276 MHz is an assumed approximation. The axial top-hat weighting, numerical sampling and sphere size are simulation choices; they are not a measured point-spread function. The numerical frequency step of 10 MHz is not an assertion of 10 MHz instrument resolution.
+
+% =========================
+% Sample composition and local spectral response
+% =========================
+
+\subsection{Sample composition and local spectral response}
+
+Glycerol concentration will be expressed as mass fraction,
+\begin{equation}
+ \wg=\frac{m_{\mathrm g}}{m_{\mathrm g}+m_{\mathrm w}},\qquad 100\wg=\text{glycerol percentage by mass},
+ \label{eq:glycerol_fraction}
+\end{equation}
+where $m_{\mathrm g}$ and $m_{\mathrm w}$ denote glycerol and water masses. The subscript $\mathrm g$ identifies glycerol. For a spherical region centred at the origin, let $d(\mathbf r)=\|\mathbf r\|/r_s$. The two prescribed concentration fields are
+\begin{align}
+ w_{\mathrm{fixed}}(\mathbf r)&=
+ \begin{cases}\wmax,&d<1,\\0,&d\geq1,\end{cases} \\
+ w_{\mathrm{varying}}(\mathbf r)&=
+ \begin{cases}\wmax(1-d)^\beta,&d<1,\\0,&d\geq1,\end{cases}
+ \qquad \beta>0.
+ \label{eq:concentration_profile}
+\end{align}
+Figure~\ref{fig:sample_models_3d} shows both prescribed fields in three dimensions and identifies the collection range.
+
+% Figure 10: sample models
+\begin{figure}[htbp]
+    \centering
+\includegraphics[width=1.0\linewidth]{figures/10_sample_models.pdf}
+\caption{Three-dimensional sample definitions. A uniform 10\% solution and a radial gradient are surrounded by water. The gradient cutaway reveals prescribed internal concentration. The red array shows collection regions at representative lateral scan positions, each spanning the 30 $\mu\mathrm m$ axial collection range, from the sample centre at $z=0$ to $z=30\,\mu\mathrm m$. These are simulation test objects, not reconstructed volumes or diffusion predictions.}
+\label{fig:sample_models_3d}
+\end{figure}
+
+These fields define mathematical test objects, not equilibrium droplets or physical diffusion models. Water and a homogeneous 10\% glycerol solution are the two spectral components in the fixed case; the dissolved glycerol and water inside that homogeneous solution are not assigned separate pure-material peaks. In the varying case, a continuum of homogeneous local solution responses contributes to each spectrum. Profiles with $\beta=0.5,1,2$ will test different rates of spatial variation.
+
+The local positive-shift Brillouin band will be represented by a Lorentzian,
+\begin{equation}
+ R(f;\wg)=\frac{A(\wg)}{\pi}
+ \frac{\Gamma(\wg)/2}{[f-f_{\mathrm B}(\wg)]^2+[\Gamma(\wg)/2]^2},
+ \qquad \int_{-\infty}^{\infty}R(f;\wg)\,df=A(\wg).
+ \label{eq:component_spectrum}
+\end{equation}
+Its parameters are BFS, intrinsic FWHM and integrated intensity. Integrated intensity is the peak area, not the peak height: the height is $2A/(\pi\Gamma)$ and falls as linewidth increases when area is held fixed. The retained finite frequency band captures only part of the Lorentzian area, which will be accounted for in the count calculation. Neither the Rayleigh peak nor the negative-shift Brillouin band is included in this simulation.
+
+The baseline composition dependence is prescribed as
+\begin{align}
+ f_{\mathrm B}(\wg)&=f_{\mathrm B0}(1+a\wg), \label{eq:bfs_model}\\
+ \Gamma(\wg)&=\Gamma_0\left[\left(\frac{f_{\mathrm B}(\wg)}{f_{\mathrm B0}}\right)^2+b\wg\right], \label{eq:linewidth_model}\\
+ A(\wg)&=A_0\left(1+\delta_A\frac{\wg}{\wmax}\right). \label{eq:intensity_model}
+\end{align}
+Published solution measurements motivate a concentration-dependent response \citep{adichtchev2019}, but the coefficients in Table~\ref{tab:conditions} are provisional model choices retained from the working draft. They are not a fit to that paper's data at 660 nm and 296 K. In particular, Equation~\ref{eq:linewidth_model} is a phenomenological simulation law, not a universal relation between glycerol concentration and damping. At 10\% by mass the prescribed BFS is 6.56425 GHz and intrinsic linewidth is approximately 0.27545 GHz, compared with 6.05 GHz and 0.20 GHz for water.
+
+Integrated intensity will increase linearly in the baseline, with $\delta_A=+0.20$, so that the 10\% solution has 1.20 times the full-band area of water. This is a prescribed simulation choice because no verified intensity calibration has been supplied. Constant-area ($\delta_A=0$) and decreasing-area ($\delta_A=-0.20$) cases can test sensitivity to this assumption; none is presented as a measured trend. Figure~\ref{fig:concentration_parameters} shows all three prescribed quantities. Wider concentration ranges, if adopted after pilot evaluation, will require reconsidering the response laws rather than assuming that these approximations remain valid indefinitely.
+
+% Figure 11: concentration relationships
+\begin{figure}[htbp]
+    \centering
+\includegraphics[width=1.0\linewidth]{figures/11_concentration_relationships.pdf}
+\caption{Here $w$ denotes glycerol mass fraction (percentage divided by 100). Prescribed response laws over the initial 0--10\% glycerol mass range. BFS and intrinsic linewidth follow the provisional model. Integrated intensity is chosen to increase linearly by 20\% across this range. The curves are simulation inputs, not measured or fitted calibrations; integrated intensity means peak area.}
+\label{fig:concentration_parameters}
+\end{figure}
+
+% =========================
+% Collection model and noiseless dataset
+% =========================
+
+\subsection{Collection model and noiseless dataset}
+\label{sec:geometry}
+
+Each scan position will collect a weighted combination of responses along the optical axis. Neglecting lateral averaging in the baseline, the ideal spectrum is
+\begin{equation}
+ s_i(f)=\int_{0}^{L_z}W_i(z)R(f;w_i(z))\,dz,
+ \qquad W_i(z)\geq0,\qquad \int W_i(z)\,dz=1.
+ \label{eq:depth_integrated_spectrum}
+\end{equation}
+Here $w_i(z)$ is the local mass fraction at $(x_i,y_i,z)$. The baseline uses $W_i=1/L_z$ within the collection interval $0\leq z\leq L_z$ and zero outside it. This interval starts at the sample midplane and traverses one side of the sphere. Normalising the weighting keeps the reference signal comparable as collection length is varied; it isolates mixture composition from a separate change in collected brightness. A physical count rate would additionally depend on collection efficiency and illumination. These factors are represented separately by the count scale below.
+
+For the fixed sample, Equation~\ref{eq:depth_integrated_spectrum} reduces exactly to
+\begin{equation}
+ s_i(f)=(1-p_i)R(f;0)+p_iR(f;\wmax),\qquad
+ p_i=\int W_i(z)\,\mathbf{1}_{\{d(x_i,y_i,z)<1\}}\,dz.
+ \label{eq:fixed_mixture}
+\end{equation}
+The coefficient $p_i$ is a collection-weighted fraction of the homogeneous sample region, not its glycerol mass fraction. With constant $A$, it is also the full-band sample signal fraction. With concentration-dependent $A$, the signal fraction becomes
+\begin{equation}
+ p_i^{\mathrm{signal}}=
+ \frac{p_i A(\wmax)}{(1-p_i)A(0)+p_i A(\wmax)}.
+ \label{eq:signal_fraction}
+\end{equation}
+For $r_s=20\,\mu\mathrm m$ and $L_z=30\,\mu\mathrm m$, the central ray has $p_i=2/3$. No ray contains a pure sample response in this baseline. This provides a deliberate test of methods that depend on observing pure endmembers. A separate 10 $\mu\mathrm m$ collection-length condition will permit pure sample rays in the fixed case.
+
+Figure~\ref{fig:fixed_formation} follows the central collection ray from the three-dimensional model to its two weighted spectral contributions and their sum.
+
+% Figure 12: fixed mixture formation
+\begin{figure}[htbp]
+    \centering
+\includegraphics[width=1.0\linewidth]{figures/12_fixed_mixture_formation.pdf}
+\caption{Formation of a fixed-component spectrum along one collection ray. The central ray contains collection fractions 33.3\% water and 66.7\% homogeneous 10\% solution (full-band signal fractions 29.4\% and 70.6\%, respectively). Coloured curves include these weights and the concentration-dependent response areas; their exact sum is black. The spectra include the assumed instrument response. Intensity denotes spectral density in the common arbitrary scale.}
+\label{fig:fixed_formation}
+\end{figure}
+
+For the varying sample, it is useful to describe the collection-weighted distribution of concentrations by a probability measure $\nu_i$. Then
+\begin{equation}
+ s_i(f)=\int_{[0,\wmax]}R(f;w)\,d\nu_i(w),\qquad
+ \nu_i(B)=\int W_i(z)\,\mathbf{1}_{\{w_i(z)\in B\}}\,dz.
+ \label{eq:continuous_unmixing}
+\end{equation}
+The measure notation includes discrete contributions such as surrounding pure water as well as continuous concentration distributions. A smooth probability density alone would omit the point mass at zero concentration. In numerical fitting, $\nu_i$ will be represented by nonnegative probability masses on concentration bins, and ground truth will be obtained using the same collection weights as the forward simulation.
+
+Figure~\ref{fig:varying_formation} expands the corresponding process for the varying sample, showing local responses at immediate depth positions within one collection volume. These depths are distinct from the lateral scan positions in Figure~\ref{fig:noiseless_dataset}.
+
+% Figure 13: gradient mixture formation
+\begin{figure}[htbp]
+    \centering
+\includegraphics[width=1.0\linewidth]{figures/13_gradient_mixture_formation.pdf}
+\caption{Formation of a varying-concentration spectrum. (a) Coloured points lie at different depths within one collection region. (b) Local spectra are individually scaled and offset vertically for visibility. (c) Water and concentration-bin contributions are depth-weighted and summed exactly. The colour bar identifies glycerol concentration for the coloured contributions. Colour represents glycerol mass fraction. Collection begins at the centre and traverses one side of the gradient. These are depth contributions to one pixel, not different lateral pixels.}
+\label{fig:varying_formation}
+\end{figure}
+
+The noiseless recorded spectrum includes instrument broadening:
+\begin{align}
+ y_i^{(0)}(f)&=(h*s_i)(f)+b_i(f), \label{eq:noiseless_recorded}\\
+ (h*s_i)(f)&=\int_{-\infty}^{\infty}h(f-f')s_i(f')\,df',\qquad
+ \int h(f)\,df=1. \label{eq:convolution}
+\end{align}
+The asterisk denotes convolution, not multiplication. The baseline $h$ is a Lorentzian with FWHM $\Gamma_h=0.276$ GHz and $b_i=0$. Convolution of two Lorentzians preserves area and adds their FWHMs, allowing this particular forward model to be calculated analytically before depth integration. A narrow-response sensitivity case with $\Gamma_h=0.10$ GHz will help distinguish effects of instrument broadening from mixture overlap. Fits will use the same stated instrument response, so the recovered local linewidth refers to the intrinsic response. Noiseless means that random count fluctuations have not been drawn; it does not mean that instrumental broadening has been removed.
+
+% Figure 14: noiseless dataset
+\begin{figure}[htbp]
+    \centering
+\includegraphics[width=1.0\linewidth]{figures/14_noiseless_dataset.pdf}
+\caption{Noiseless forward-model datasets. Left: three-dimensional sample models and red collection indicators. Middle: the central lateral spectral line, displayed over 5.65--7.00 GHz; the complete simulated band is 4.50--8.50 GHz. The white line selects $x=y=0$. Right: contributions to that single pixel and their exact black sum. Intensity denotes spectral density on the common arbitrary scale. Both rows use common scales. Instrument broadening and the chosen increasing-intensity law are included; random noise and additive background are absent.}
+\label{fig:noiseless_dataset}
+\end{figure}
+
+Figure~\ref{fig:noisy_dataset} shows matching Poisson-noise examples at a reference budget of 10000 water photons per pixel.
+
+% Figure 15: noisy dataset
+\begin{figure}[htbp]
+    \centering
+\includegraphics[width=1.0\linewidth]{figures/15_noisy_dataset.pdf}
+\caption{Poisson-noise examples corresponding to Figure~\ref{fig:noiseless_dataset}, with the same geometry and heatmap colour limits. The reference budget is 10000 expected water photons per pixel in the full band. Counts are converted to spectral density (labelled intensity) using the known count scale and bin width for display. Orange traces show noisy pixels and faint curves show their expectations. These are simulations, not experimental measurements.}
+\label{fig:noisy_dataset}
+\end{figure}
+
+Figure~\ref{fig:noiseless_dataset} shows the form of the data that the analysis will receive. A two-dimensional spatial scan produces a cube indexed by $x$, $y$ and frequency, or equivalently a matrix with one spectrum per spatial position. The displayed line-scan window is narrowed to 5.65--7.00 GHz to make the spectral variation visible, without changing the simulated frequency bins. The right-hand panels decompose the central mixed pixel into contributions whose sum equals the corresponding line-scan spectrum. The observed spectra mix sample and water because the collection interval extends beyond the sample. The central fixed-sample ray now has two-thirds sample weighting and one-third water weighting. The fixed and varying samples can therefore both display smoothly changing measured spectra even though their local composition fields are different. Recovery will be tested against the known contribution distributions, rather than by interpreting the apparent peak position as a direct concentration map.
+
+% =========================
+% Photon statistics and simulation comparisons
+% =========================
+
+\subsection{Photon statistics and simulation comparisons}
+
+Photon shot noise will be generated by sampling independent Poisson counts conditional on the expected spectrum:
+\begin{equation}
+ N_{im}\sim\operatorname{Poisson}(\mu_{im}),\qquad
+ \mu_{im}=t_i\kappa\int_{\Delta f_m}y_i^{(0)}(f)\,df.
+ \label{eq:noise_model}
+\end{equation}
+The scale $\kappa$ converts the arbitrary spectral area into photon rate, and $t_i$ is acquisition time. The same bin integration will be applied to model spectra and data. If an additive background is introduced, it will be included in $y_i^{(0)}$ before sampling, so its photons also contribute shot noise. Detector read noise and drift will be excluded from the primary benchmark and reported as exclusions; a separate extension would need independently specified distributions or drift trajectories.
+
+Noise conditions will be set by expected photon budget rather than by assigning an uncalibrated acquisition time. Let $J_0$ be the integral of the instrument-broadened water response over the retained frequency bins. For each budget $P$, choose $t_i\kappa=P/J_0$. Pure water then has $P$ expected photons in the retained band, while mixtures retain any change in finite-band area or modelled intensity. This scaling is held constant across scan positions in a comparison. The proposed budgets are $10^2$, $10^3$, $10^4$ and $10^5$, with 30 independent noise realisations at each budget and a separate noiseless condition. Counts will not be converted to seconds without a measured photon rate. The exposure-time illustration in Figure~\ref{fig:noise} separately assumes 1000 expected water-reference photons per second within its displayed 5.25--7.35 GHz band. That assumed rate defines the illustrative seconds and is not a calibration of the reference microscope; the main benchmark remains specified by photon budgets.
+
+Pilot development will use the baseline sample and the planned variations $\beta=0.5,1,2$, $L_z=10,30,100\,\mu\mathrm m$, $\Gamma_h=0.10,0.276$ GHz and $\delta_A=-0.20,0,+0.20$. Initially, each factor will be varied separately from the baseline to make its effect interpretable. Additional overlap tests will vary the maximum concentration to 2.5\%, 5\% and 10\% within the initial range. A separate evaluation set with radii 15 and 25 $\mu\mathrm m$ and exponents 0.75 and 1.5 will be reserved before tuning. Lateral step and depth step will each be halved in a numerical convergence check; a metric change greater than 1\% will trigger refinement. These choices define a proposed benchmark and can be revised during pilot work before the final protocol is frozen.
+
+% =========================
+% Analysis of the four configurations
+% =========================
+
+\subsection{Analysis of the four configurations}
+\subsubsection{Fixed components with known spectra}
+
+NNLS will estimate component coefficients from the known water and homogeneous-solution responses. The dictionary $\mathbf D$ will contain the instrument-broadened, bin-integrated reference responses with their prescribed areas retained. On count-rate-equivalent data, the fit is
+\begin{equation}
+ \widehat{\mathbf a}_i=\underset{\mathbf a_i\geq0}{\operatorname{argmin}}
+ \|\mathbf y_i-\mathbf D\mathbf a_i\|_2^2,
+ \qquad \widehat p_{ik}=\frac{\widehat a_{ik}}{\sum_\ell\widehat a_{i\ell}}.
+ \label{eq:known_fit}
+\end{equation}
+Here $\mathbf y_i$ denotes counts divided by the known count scale, and noiseless inputs use the corresponding expected values. A zero coefficient sum will be recorded as failure rather than normalised. Keeping $A$ in the references allows the coefficients to be compared with the collection-weighted ground truth; unit-area references instead produce signal fractions and require the conversion in Equation~\ref{eq:signal_fraction}. NNLS is the primary baseline; its unweighted loss does not exactly match low-count Poisson likelihood, which will be noted when interpreting performance.
+
+\subsubsection{Fixed components with unknown spectra}
+
+PCA-assisted endmember estimation, VCA and MCR-ALS will be compared with the number of material components fixed at two. PCA will first reconstruct spectra from a low-dimensional subspace; extreme observations in that subspace will supply candidate responses. VCA will select candidate endmembers using its standard geometric procedure. Candidate responses will then be fitted across the dataset using NNLS. MCR-ALS will minimise
+\begin{equation}
+ \min_{\mathbf C\geq0,\,\mathbf S\geq0}
+ \|\mathbf Y-\mathbf C\mathbf S^{\mathsf T}\|_{\mathrm F}^{2},
+ \label{eq:mcr}
+\end{equation}
+where rows of $\mathbf Y$ are spectra, columns of $\mathbf S$ are component responses and rows of $\mathbf C$ contain their coefficients. Multiple initialisations will assess sensitivity to local solutions. Spectrum scaling will be fixed by a stated area convention, and components will be matched to truth by testing both label assignments. These steps remove scale and label conventions but do not resolve all mixture ambiguity.
+
+The 30 $\mu\mathrm m$ baseline intentionally contains pure-water rays but no pure-sample ray. Extreme observations can therefore remain mixtures, even without noise, and this will be reported as an assumption limitation rather than attributed entirely to optimisation failure. A reference-assisted comparison will fix the water spectrum using the mean of designated water-only calibration positions. Their known location is additional supplied information and will be declared as such. An unassisted comparison will not receive those labels. In the intensity-sensitivity cases, physical collection fractions will not be claimed for unknown-area components without an area calibration; normalised signal fractions will be evaluated instead.
+
+\subsubsection{Varying concentrations with known spectra}
+
+A concentration dictionary will represent the known local response family, including its instrument response and bin integration. The initial grid will contain 51 concentration values from 0 to $\wmax$; coefficients will be probability masses rather than density values. For $\wmax=0.10$, the spacing is 0.002 in mass fraction, or 0.2 percentage points. With a nonnegative coefficient vector $\mathbf u_i$, fitting will use
+\begin{equation}
+ \widehat{\mathbf u}_i=\underset{\mathbf u_i\geq0}{\operatorname{argmin}}
+ \left[\|\mathbf y_i-\mathbf D\mathbf u_i\|_2^2+
+ \eta\|\mathbf L\mathbf u_{i,+}\|_2^2\right],\qquad
+ \widehat\pi_{ij}=\frac{\widehat u_{ij}}{\sum_\ell\widehat u_{i\ell}}.
+ \label{eq:regularised_distribution}
+\end{equation}
+The vector $\mathbf u_{i,+}$ contains only positive-concentration bins, preserving a separate unpenalised water atom at zero. The second-difference matrix $\mathbf L$ penalises roughness across the equally spaced positive bins. Dictionaries will be scaled consistently during tuning, and $\eta$ will be selected on development simulations from $0,10^{-6},10^{-5},\ldots,10^2$, then frozen for final evaluation. Halving the concentration-grid spacing will test discretisation sensitivity. Ground-truth bin masses will use a documented nearest-grid assignment, and the same assignment will be retained when comparing cumulative distributions.
+
+Broadening makes neighbouring dictionary columns similar, so a successful spectrum fit may not recover a narrow concentration distribution accurately. The analysis will therefore report the resolution of recovered distributions and their dependence on regularisation. The known response areas permit evaluation of collection-weighted concentration distributions; this interpretation relies on the supplied intensity model and will be reassessed in the intensity-sensitivity cases.
+
+\subsubsection{Varying concentrations with unknown spectra}
+
+Without a concentration calibration, the analysis will be formulated in BFS coordinates. Linewidth and integrated response will be represented by shared smooth functions,
+\begin{equation}
+ \Gamma=G(f_{\mathrm B}),\qquad A=H(f_{\mathrm B}),\qquad
+ s_i(f)=\int \ell(f;u,G(u))\,d\xi_i(u),
+ \label{eq:unknown_family}
+\end{equation}
+where $\ell$ is a unit-area Lorentzian and $\xi_i$ is a nonnegative spectral-area measure over BFS $u$. Its normalised form describes signal contributions. This parameterisation avoids claiming that the data separately determine local intensity and material amount: multiplying an unknown local response area by a function and dividing its contribution weights by the same function can preserve the spectrum. The linewidth function can also trade off against the spread of centres, so a unique solution will not be assumed.
+
+The initial implementation will jointly fit nonnegative BFS-bin weights and a positive linewidth function. The linewidth function will be represented by a piecewise-linear curve with five equally spaced knots over the fitted BFS interval; a second-difference penalty on the knot values will control roughness. Alternating constrained updates will start from ten initialisations, with regularisation selected using development data. Water-only and water-plus-10\%-solution reference conditions will fix the corresponding endpoint responses. The primary distribution estimates will be signal-weighted, because the baseline response area varies with concentration. A reference-assisted branch may supply $H$ from the simulation model to investigate the value of intensity calibration; a constant-$H$ branch will be a deliberate model-mismatch comparison rather than an assumption that the baseline has constant area. Recovering an arbitrary unknown $H$ and a physical concentration distribution simultaneously will not be treated as an identifiable task on the basis of one or two reference spectra alone.
+
+Evaluation will compare the recovered $G$ and signal-weighted BFS distributions with their true counterparts. Under constant area these distributions coincide with collection-weighted distributions; under varying area their ground truth will be intensity-weighted. An absolute concentration axis will be reported only when a concentration-to-BFS calibration is explicitly supplied. This formulation allows the fourth configuration to test how much spectral information is recoverable while keeping its unresolved ambiguities visible.
+
+% =========================
+% Accuracy and robustness evaluation
+% =========================
+
+\subsection{Accuracy and robustness evaluation}
+
+Recovery accuracy will be evaluated separately from spectral reconstruction. For fixed components, the primary contribution error is
+\begin{equation}
+ \mathrm{MAE}_{p}=\frac{1}{N}\sum_i|\widehat p_i-p_i|.
+ \label{eq:proportion_mae}
+\end{equation}
+The reported fraction will be identified as collection-weighted or signal-weighted according to the response normalisation. Unknown component responses will additionally be compared by absolute BFS error, absolute intrinsic-linewidth error and relative area error when their areas are calibrated. Components will be matched before these errors are calculated, and the denominator convention for any relative error will be reported.
+
+For varying responses, distributions will be compared using the one-dimensional Wasserstein distance,
+\begin{equation}
+ W_{1,i}=\int|\widehat F_i(x)-F_i(x)|\,dx.
+ \label{eq:wasserstein}
+\end{equation}
+Here $F_i$ and $\widehat F_i$ are cumulative probability distributions including discrete masses. In the known-family configuration, $x$ is glycerol mass fraction; in the unknown-family configuration it is BFS in GHz, using signal-weighted truth where appropriate. Both the dimensional error and an error divided by the corresponding coordinate range will be reported. Distribution errors will also be reported for sample-intersecting rays separately, so numerous pure-water positions do not hide poor recovery within the sample.
+
+Spectral reconstruction will be measured relative to the noiseless instrument-affected bin values:
+\begin{equation}
+ \mathrm{NRMSE}_i=
+ \sqrt{\frac{\sum_m[\widehat y_{im}-y^{(0)}_{im}]^2}
+ {\sum_m[y^{(0)}_{im}]^2}}.
+ \label{eq:spectral_nrmse}
+\end{equation}
+Reconstruction and reference values will be expressed in the same units. This error measures agreement with the expected measurement, not agreement with a particular random noise draw. Small NRMSE accompanied by large component or distribution error will be interpreted as successful reconstruction with unsuccessful recovery.
+
+Numerical failures will be distinguished from inaccurate but converged results. A numerical failure means nonfinite output, a zero total fitted contribution, violated constraints beyond a relative tolerance of $10^{-8}$, or failure to satisfy the stopping rule within 1000 outer iterations for alternating methods. The proposed stopping rule is a relative objective change below $10^{-6}$ for five consecutive iterations. As provisional practical criteria, a fixed-mixture recovery will be flagged if its absolute fraction error exceeds 0.05; a distribution recovery will be flagged if its range-normalised Wasserstein error exceeds 0.05. These are study-defined tolerances, not established physical limits. They will be frozen after pilot assessment and supplemented with continuous error distributions so conclusions do not depend on a single threshold.
+
+For each condition, results will report mean and median error, spread across independent noise realisations, numerical failure rate and the fraction exceeding the practical tolerance. The same random datasets will be paired across methods. The noiseless case will first identify limitations caused by overlap, model ambiguity or discretisation; photon-budget comparisons will then quantify the additional effect of shot noise. Regularisation and other tuning choices will be fixed before evaluation on reserved geometries. The figures in this draft illustrate the forward model only and do not present benchmark results.
+
+% =========================
+% Computational implementation and reproducibility
+% =========================
+
+\subsection{Computational implementation and reproducibility}
+
+Python will be used to generate spectra, fit the recovery models and calculate errors. Each run will save the concentration field, grid coordinates, frequency-bin edges, collection weights, local response parameters, instrument model, photon budget, random seeds and true contribution distributions. Methods within a comparison will use identical saved inputs. Output metadata will record software versions, solver settings, normalisation, initialisation and stopping criteria, together with any revisions to the initial concentration range or proposed conditions.
+
+Before final comparisons, numerical checks will verify that the local Lorentzian has the stated full-band area, the collection weighting integrates to one, and the fixed-component integral agrees with the analytic mixture. Depth, frequency and concentration discretisations will be refined to check convergence of the reported metrics. The unknown-spectrum analysis will additionally record variation across initialisations rather than reporting only the best-looking solution. The resulting conclusions will concern recovery under the stated simulation assumptions; experimental validation remains outside this study.
+
+
+% =========================
+% Appendix: Mechanical Interpretation
+% =========================
+
+\clearpage
+\appendix
+\section{Mechanical interpretation of Brillouin parameters}
+\label{app:mechanical_interpretation}
+
+Brillouin microscopy and indentation describe different ways of deforming a material. A longitudinal sound wave produces rapid compression as it travels through the sample. An indentation experiment applies a force through a probe and allows deformation around the contact. The material's resistance to these deformations need not be the same, particularly when the measurements occur over very different timescales. This is why a Brillouin frequency shift should not be read directly as the stiffness obtained from slowly pressing into a cell \citep{bouvet2025}.
+
+The longitudinal modulus describes resistance to the compression associated with the acoustic wave. Its storage part, $M'$, describes the elastic response, while its loss part, $M''$, describes energy dissipation. For an isotropic material, the longitudinal storage modulus is related to the bulk storage modulus $K'$ and shear storage modulus $G'$ at the same frequency by
+\begin{equation}
+ M'=K'+\frac{4}{3}G'.
+ \label{eq:longitudinal_modulus_decomposition}
+\end{equation}
+The bulk modulus describes resistance to a change in volume; the shear modulus describes resistance to a change in shape. Young's modulus $E$ instead describes a uniaxial loading response that permits lateral deformation. These quantities therefore should not be interchanged simply because each is described as a modulus. Their frequency dependence also matters when comparing a slow mechanical test with a GHz acoustic measurement \citep{bouvet2025}.
+
+If the acoustic damping is weak, BFS and intrinsic linewidth can be related to the longitudinal moduli through
+\begin{equation}
+ M'\simeq\rho v_{\mathrm L}^{\,2}
+ =\rho\left[\frac{\lambda_0 f_{\mathrm B}}{2n\sin(\theta/2)}\right]^2,
+ \qquad \frac{M''}{M'}\simeq\frac{\Gamma}{f_{\mathrm B}}.
+ \label{eq:mechanical_moduli}
+\end{equation}
+Here $\rho$ is density, $v_{\mathrm L}$ is longitudinal acoustic speed, $n$ is refractive index, $\lambda_0$ is vacuum wavelength and $\theta$ is the scattering angle. The linewidth $\Gamma$ must describe the material response after accounting for instrumental broadening. The frequency variables are ordinary frequencies, not angular frequencies. Consistent SI units are required to obtain a modulus in pascals: density in kg\,m$^{-3}$, wavelength in metres and frequency in Hz. The GHz values plotted in the figures must therefore be converted before using this expression.
+
+The distinction is particularly important for water-rich materials. Longitudinal compression constrains transverse deformation, whereas a Young's-modulus measurement permits lateral expansion or contraction. A material can resist changes in volume strongly while allowing much easier changes in shape. Hydrated soft materials can therefore have GHz longitudinal moduli on the GPa scale while their low-frequency Young's moduli are on the kPa scale. These are different responses, rather than conflicting estimates of one universal stiffness \citep{bouvet2025}.
+
+These relationships explain the mechanical motivation for analysing the spectra; they do not provide an automatic conversion to a low-frequency Young's modulus. Water content, refractive index and density affect the interpretation of hydrated materials \citep{wu2018,bouvet2025}. The present study will evaluate recovery of spectra and their contributions, without estimating mechanical moduli from the simulated measurements.
+
+% =========================
+% References
+% =========================
+
+\clearpage
+\bibliography{BrillouinMicroscopy}
+\end{document}

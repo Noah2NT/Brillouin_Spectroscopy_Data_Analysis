@@ -1,0 +1,92 @@
+[
+  {
+    "paper_figure": 1,
+    "review_id": 1,
+    "stem": "figure_01_cell_mechanics",
+    "caption": "Similar cell appearances can conceal different mechanical responses. An AFM probe applies force to a cell; the same force produces less indentation in the higher-stiffness illustrative response. Schematic, not measured data."
+  },
+  {
+    "paper_figure": 2,
+    "review_id": 2,
+    "stem": "figure_02_brillouin_scan",
+    "caption": "Brillouin microscopy produces a spectrum at each scan position. (a) Laser light is focused through the objective; backscattered light is sent through a beam splitter to a separate spectrometer and detector. Vertical wave motifs symbolise acoustic fluctuations, not particle trajectories. (b) A spatial scan contains many measurement positions. (c) Expanding guides connect one selected pixel to its cartoon photon-count spectrum. The peaks are elastic Rayleigh scattering and frequency-shifted Stokes and anti-Stokes scattering. Optical geometry, peak shapes and counts are schematic."
+  },
+  {
+    "paper_figure": 3,
+    "review_id": 3,
+    "stem": "figure_03_spectral_features",
+    "caption": "Spectral features introduced independently of material mixing. (a) BFS is the separation of a Brillouin peak from the incident-light frequency; FWHM is the width at half peak height. (b) A shift changes peak centre. (c) Broadening changes linewidth, with constant integrated area in this illustration. Curves are schematic; instrumental broadening must be distinguished from intrinsic damping."
+  },
+  {
+    "paper_figure": 4,
+    "review_id": 4,
+    "stem": "figure_04_material_responses",
+    "caption": "Schematic separated Brillouin responses illustrate how material identity can produce different BFS values. Water and Plexiglass are introductory examples, not the glycerol simulation calibration. Peak centres and widths are illustrative."
+  },
+  {
+    "paper_figure": 5,
+    "review_id": 5,
+    "stem": "figure_05_collection_volume",
+    "caption": "A finite collection region can contain both sample and surrounding medium. Their collection-weighted local spectra combine into one measured spectrum. Panels (b) and (c) use the same axes and contributions; the example is schematic, not a depth reconstruction."
+  },
+  {
+    "paper_figure": 6,
+    "review_id": 6,
+    "stem": "figure_06_exposure_noise",
+    "caption": "Shorter exposure increases relative photon shot noise. Each panel shows a connected Poisson-count realisation (orange) and a faint noiseless expected trace (blue), for the same mixed spectrum at fixed illumination and collection efficiency. The illustrative count scale is 1000 expected water-reference photons per second in the displayed 5.25\u20137.35 GHz band; these are simulated exposure times, not calibrated instrument times. Each vertical axis is in raw photon counts and therefore changes scale with exposure. No extra Gaussian noise is added."
+  },
+  {
+    "paper_figure": 7,
+    "review_id": 7,
+    "stem": "figure_07_single_peak_limit",
+    "caption": "A single Lorentzian cannot exactly reproduce this deliberately chosen two-component sum. The plotted single-peak curve is a numerical least-squares fit to the same noiseless sum shown in panel (a). This example illustrates model mismatch, not a universal claim that every mixture is visibly separable. Closely overlapping components can also produce deceptively small residuals."
+  },
+  {
+    "paper_figure": 8,
+    "review_id": 8,
+    "stem": "figure_08_unmixing_workflow",
+    "caption": "Known responses allow mixture contributions to be fitted. When responses are unknown, multiple mixed spectra provide variation from which component responses and contributions may be estimated, subject to the method assumptions. Every small spectrum is one continuous Brillouin-band curve, with frequency in GHz; outputs are illustrative, not benchmark results."
+  },
+  {
+    "paper_figure": 9,
+    "review_id": 9,
+    "stem": "figure_09_study_questions",
+    "caption": "Four simulation configurations and their recovery targets. (1) Known fixed spectra are used to estimate mixture weights. (2) Unknown fixed spectra require estimation of component spectra and weights. (3) Known concentration-dependent spectra are used to estimate a concentration distribution. (4) Unknown varying spectra require estimation of contributions and spectral relationships. The final panel illustrates the prescribed BFS (blue dashed line, left axis) and intrinsic linewidth (orange solid line, right axis) versus glycerol mass percentage. All example outputs are schematic, not recovery results. Unknown-spectrum weights require intensity calibration to represent collection fractions; the final configuration does not imply uniquely recoverable absolute concentration."
+  },
+  {
+    "paper_figure": 10,
+    "review_id": 10,
+    "stem": "figure_10_sample_models_3d",
+    "caption": "Three-dimensional prescribed sample models in surrounding water. The uniform sphere has 10% glycerol by mass; the cutaway gradient sphere increases from 0% at the boundary to 10% at the centre. The red cylinder array illustrates collection regions at multiple lateral scan positions, each with the finite axial collection range (30 micrometres, from z=0 to 30). The cutaway reveals a radial model field, not a reconstructed volume. Concentration laws are test functions, not physical diffusion models; dimensions are in micrometres."
+  },
+  {
+    "paper_figure": 11,
+    "review_id": 13,
+    "stem": "figure_13_concentration_parameters",
+    "caption": "Chosen local response laws over the initial 0\u201310% glycerol mass range. BFS and intrinsic linewidth use the provisional laws specified in the methodology. Integrated intensity is now prescribed to rise linearly by 20% between 0% and 10% glycerol. This increasing intensity is an explicit modelling choice, not a measured concentration calibration. Peak area and peak height are distinct."
+  },
+  {
+    "paper_figure": 12,
+    "review_id": 11,
+    "stem": "figure_11_fixed_mixture_3d",
+    "caption": "A single axial collection region contains water and homogeneous 10% glycerol solution. The central ray has collection fractions 1/3 water and 2/3 solution (33.3% and 66.7%); their full-band signal fractions are 29.4% and 70.6%. The coloured curves already include those weights and the chosen concentration-dependent areas; their exact sum is the black curve. These coefficients are collection fractions, not glycerol mass fractions or necessarily equal signal fractions. Spectra include the assumed instrument response."
+  },
+  {
+    "paper_figure": 13,
+    "review_id": 12,
+    "stem": "figure_12_varying_mixture_depth",
+    "caption": "A concentration gradient produces different local spectra within one axial collection volume. Coloured sample points and curves represent depth positions, not separate lateral pixels. Local curves in panel (b) are individually scaled and vertically offset to show their shapes; these display offsets are not frequency shifts. Panel (c) groups the true depth-weighted signal into concentration bins and water; their exact sum is black. The colour bar identifies the concentration of the coloured contributions; it does not display additional spectra. The colours progress with glycerol mass fraction. The surrounding water contribution is retained."
+  },
+  {
+    "paper_figure": 14,
+    "review_id": 14,
+    "stem": "figure_14_noiseless_dataset",
+    "caption": "Example noiseless simulation datasets. Left: three-dimensional model fields with red axial collection indicators. Middle: spectra across the central lateral line, displayed over a cropped 5.65\u20137.00 GHz range; the complete simulated frequency axis remains 4.50\u20138.50 GHz. The white line selects x=y=0. Right: the coloured contributions for that one mixed pixel and their exact black sum. The fixed sample has two responses; the gradient sample is displayed as concentration-bin contributions plus water. These are forward-model results with instrument broadening and the chosen increasing intensity law, not measured data or reconstructed volumes. Both rows use common frequency and intensity scales."
+  },
+  {
+    "paper_figure": 15,
+    "review_id": 15,
+    "stem": "figure_15_noisy_dataset",
+    "caption": "Poisson-noise counterparts of the noiseless datasets, with the same geometry, frequency window and heatmap colour limits. The reference photon budget is 10000 expected water photons over the complete 4.50\u20138.50 GHz band per pixel. Integer counts are divided by the known count scale and bin width for display as spectral density; the noise is sampled before this conversion. Colour saturation uses the noiseless heatmap limit for direct comparison. No Gaussian noise is added; these are simulation examples, not measured data."
+  }
+]

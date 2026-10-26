@@ -1,0 +1,18 @@
+{
+  "pixels": 1155,
+  "channels": 112,
+  "grid": [
+    33,
+    35
+  ],
+  "median_single_rmse": 80.00535594921661,
+  "median_mixture_rmse": 25.51517045814276,
+  "median_pixel_rmse_reduction_pct": 67.57503464679301,
+  "global_single_rmse": 75.46212209353178,
+  "global_mixture_rmse": 26.24535529816727,
+  "median_background_pct": 96.03013543892008,
+  "optimizer_converged": [
+    1155,
+    1151
+  ]
+}

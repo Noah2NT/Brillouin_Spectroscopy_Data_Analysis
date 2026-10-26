@@ -1,0 +1,86 @@
+[
+  {
+    "number": 1,
+    "title": "Cell mechanics",
+    "status": "Approved in style A",
+    "path": "approved/figure_01_cell_mechanics.png"
+  },
+  {
+    "number": 2,
+    "title": "Brillouin acquisition and scan",
+    "status": "Latest draft v2; awaiting review",
+    "path": "drafts/figure_02_brillouin_scan_v2.png"
+  },
+  {
+    "number": 3,
+    "title": "Features of a Brillouin spectrum",
+    "status": "Original placeholder",
+    "path": "references/figure_03_original.png"
+  },
+  {
+    "number": 4,
+    "title": "Water and Plexiglass responses",
+    "status": "Original placeholder",
+    "path": "references/figure_04_original.png"
+  },
+  {
+    "number": 5,
+    "title": "Finite collection volume and mixed spectra",
+    "status": "Original placeholder",
+    "path": "references/figure_05_original.png"
+  },
+  {
+    "number": 6,
+    "title": "Effect of measurement noise",
+    "status": "Original placeholder",
+    "path": "references/figure_06_original.png"
+  },
+  {
+    "number": 7,
+    "title": "Single-peak fitting of mixed spectra",
+    "status": "Original placeholder",
+    "path": "references/figure_07_original.png"
+  },
+  {
+    "number": 8,
+    "title": "Known and unknown spectral unmixing",
+    "status": "Original placeholder",
+    "path": "references/figure_08_original.png"
+  },
+  {
+    "number": 9,
+    "title": "Four study configurations",
+    "status": "Original placeholder",
+    "path": "references/figure_09_original.png"
+  },
+  {
+    "number": 10,
+    "title": "Fixed and varying sample configurations",
+    "status": "Original placeholder",
+    "path": "references/figure_10_original.png"
+  },
+  {
+    "number": 11,
+    "title": "Formation of a fixed-component spectrum",
+    "status": "Original placeholder",
+    "path": "references/figure_11_original.png"
+  },
+  {
+    "number": 12,
+    "title": "Formation of a varying-concentration spectrum",
+    "status": "Original placeholder",
+    "path": "references/figure_12_original.png"
+  },
+  {
+    "number": 13,
+    "title": "BFS, linewidth and intensity vs concentration",
+    "status": "New model plot; provisional parameters",
+    "path": "../thesis_revision/figures/concentration_parameters.png"
+  },
+  {
+    "number": 14,
+    "title": "Noiseless simulated datasets",
+    "status": "New forward-model plot",
+    "path": "../thesis_revision/figures/noiseless_simulated_dataset.png"
+  }
+]

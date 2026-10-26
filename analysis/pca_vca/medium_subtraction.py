@@ -142,15 +142,25 @@ def subtract_medium(spectra, medium_abundance, medium, k):
 
 
 def renormalise(residual, medium_abundance, k):
-    """Rescale each residual back to unit area, dropping over-subtracted pixels.
+    """Rescale each residual to unit area, counting negative bins as area.
 
-    Input spectra sum to 1 and abundances sum to 1, so the surviving area is
-    exactly (1 - k*a_medium). Pixels where that falls below RENORM_FLOOR are
-    almost entirely medium: renormalising them would just amplify noise.
+    The surviving area is measured as sum(|r|), not predicted as 1 - k*a.
+    Those agree exactly while the residual stays non-negative, but they part
+    company the moment a subtraction overshoots, and they part company in the
+    dangerous direction: 1 - k*a is the SIGNED sum, so a deep negative trough
+    cancels positive signal, shrinks the denominator, and blows up precisely
+    the pixel that was over-subtracted hardest. Counting a trough as area
+    treats it as signal that is present but mis-signed, so a worse
+    subtraction now yields less amplification rather than more.
+
+    Pixels left with less than RENORM_FLOOR of their original area are almost
+    entirely medium; renormalising them would only amplify noise, so they are
+    dropped. `medium_abundance` and `k` are kept in the signature for callers
+    but are no longer needed to compute the area.
     """
-    surviving = 1.0 - k * medium_abundance
-    keep = surviving > RENORM_FLOOR
-    out = residual[keep] / surviving[keep][:, None]
+    area = np.abs(residual).sum(axis=1)
+    keep = area > RENORM_FLOOR
+    out = residual[keep] / area[keep][:, None]
     return out, keep
 
 

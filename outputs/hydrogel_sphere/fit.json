@@ -1,0 +1,98 @@
+{
+  "parameters": {
+    "x0": 0.0065553244042469245,
+    "y0": -0.22203445484713533,
+    "z0": 0.017541247842116366,
+    "dx": 0.1,
+    "dy": 0.1,
+    "bfs_center": 6.023126242643534,
+    "bfs_edge": 5.590469166789712,
+    "bfs_power": 1.1139333284704187,
+    "lw_center": 1.0912060839102027,
+    "lw_edge": 0.5720878388634157,
+    "lw_power": 1.0657368839992385,
+    "int_center": 6602.882560970838,
+    "int_edge": 38074.6060197841,
+    "int_power": 0.8872236591944065,
+    "water_intensity": 42272.58187467739,
+    "radius_scale": 0.9823977665031707
+  },
+  "fit_names": [
+    "x0",
+    "y0",
+    "z0",
+    "bfs_center",
+    "bfs_edge",
+    "bfs_power",
+    "lw_center",
+    "lw_edge",
+    "lw_power",
+    "int_center",
+    "int_edge",
+    "int_power",
+    "water_intensity",
+    "radius_scale"
+  ],
+  "reference_radius_um": 5000.0,
+  "fitted_radius_um": 4911.988832515854,
+  "center_um": [
+    32.77662202123462,
+    -1110.1722742356767,
+    87.70623921058183
+  ],
+  "step_um": [
+    500.0,
+    500.0
+  ],
+  "psf_fwhm_um": [
+    2.0,
+    2.0,
+    100.0
+  ],
+  "initial_mse": 7027.587065319372,
+  "final_mse": 7025.205228265234,
+  "success": true,
+  "message": "`xtol` termination condition is satisfied.",
+  "nfev": 24,
+  "finer_quadrature_rmse": 0.07448155600760875,
+  "jacobian_singular_values": [
+    2828.020747872538,
+    746.6240849631035,
+    197.48085254882866,
+    141.51516914104045,
+    60.04915119551656,
+    28.20360007583046,
+    26.416986355630133,
+    11.045474406244987,
+    2.106136439280551,
+    1.5898701231699515,
+    0.7484308192382519,
+    0.006374027838028153,
+    0.0008573822322141793,
+    0.0005463011851926509
+  ],
+  "active_bounds": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "scan": "C:\\Users\\noahk\\OneDrive\\Documents\\GitHub\\Brillouin_Spectroscopy_Data_Analysis\\data\\csv\\Hydrogl1_XYscan_20000_20000_step500um_10s (1).csv",
+  "background": "C:\\Users\\noahk\\OneDrive\\Documents\\GitHub\\Brillouin_Spectroscopy_Data_Analysis\\outputs\\background_endmember\\Hydrogl1_XYscan_20000_20000_step500um_10s (1)_background_endmember.csv",
+  "limitations": [
+    "Gaussian FWHM interpretation of reported spatial resolution is assumed.",
+    "Single-plane depth sign is unidentifiable; z0 represents absolute depth.",
+    "LW is effective observed FWHM; no intrinsic linewidth claim.",
+    "Local optimization, not proof of unique parameters or spherical geometry."
+  ]
+}

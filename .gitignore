@@ -1,4 +1,27 @@
+# Python caches
 __pycache__/
 *.pyc
+
+# Local simulator material library (default_materials.json is the committed copy)
 simulator/resources/materials.json
+
+# AI assistant / agent working files
+.claude/
+.codex/
 .codex_tmp/
+.cursor/
+.aider*
+.chart-data-*/
+.hydrogel-deck-build/
+*.inspect.ndjson
+CLAUDE.md
+AGENTS.md
+
+# IDE settings
+.idea/
+
+# Packaged zip copies of thesis folders that are already committed unzipped
+outputs/*.zip
+
+# GitHub rejects files over 100 MB; keep anything that large out of git
+# (none exist as of 2026-10-26, the largest is ~23 MB)

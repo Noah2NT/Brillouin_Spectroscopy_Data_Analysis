@@ -141,6 +141,12 @@ VCA_ENDMEMBERS = 2
 MHZ_PER_GHZ = 1000.0
 MHZ_SIGNALS = {"bfs_0", "lw_0"}
 
+# TFP calibration correction (Irina/Hadi, via Ashutosh): every fitted BFS and
+# linewidth is multiplied by this. Applied once at the fit, so BFS0/LW0, SDs
+# and derivatives all inherit it. Tabletop fits are scale-equivariant, so the
+# region geometry is unchanged. Set to 1.0 for the uncorrected values.
+TFP_CALIBRATION = 1.069348
+
 # Signals that have a meaningful tabletop (media -> cell -> media) shape.
 # The gradient modes are excluded: they spike at the two cell edges rather
 # than forming a plateau, so a tabletop fit would not mean anything.
@@ -575,6 +581,8 @@ def load_and_analyse(folder_path):
         _, params = bf.fit_all_spectra(s["shift_freq"],
                                        s["folded_spectra_norm"])
         _, shifts, linewidths, _ = bf.extract_fit_parameters(params)
+        shifts = np.asarray(shifts, dtype=float) * TFP_CALIBRATION
+        linewidths = np.asarray(linewidths, dtype=float) * TFP_CALIBRATION
         spec_norm = s["folded_spectra_norm"]
 
         try:

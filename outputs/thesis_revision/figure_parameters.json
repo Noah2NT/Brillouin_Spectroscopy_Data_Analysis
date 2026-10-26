@@ -1,0 +1,16 @@
+{
+  "w_max": 0.1,
+  "bfs_water_GHz": 6.05,
+  "bfs_slope": 0.85,
+  "linewidth_water_GHz": 0.2,
+  "linewidth_slope": 2.0,
+  "instrument_fwhm_GHz": 0.276,
+  "radius_um": 20.0,
+  "collection_length_um": 100.0,
+  "beta": 1.0,
+  "depth_step_um": 0.25,
+  "lateral_step_um": 1.0,
+  "frequency_step_GHz": 0.01,
+  "integrated_intensity": 1.0,
+  "intensity_variation": 0.0
+}

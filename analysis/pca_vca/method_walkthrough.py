@@ -5,10 +5,11 @@ One 16-panel figure per sample, in the order the algorithm actually runs:
   INPUTS      1 raw BFS map          2 smoothed BFS map
               3 BFS histogram + every cutoff
   GATE 1      4 value test: raw <= cut AND smoothed <= cut
-  GATE 2      5 cell mask (Otsu -> fill -> open -> largest component)
-              6 suspicious set = failed gate 1, or cell, or invalid
-              7 suspicious dilated by `margin` -> the keep-out zone
-  GATE 3      8 final trimap after the minimum-component-size filter
+  GATE 2a     5 cell regions: open(~gate 1), keep every component
+                >= min_cell_size px -- every cell survives, not just the largest
+              6 strays the opening deleted; they stay uncertain and get no ring
+  GATE 2b     7 margin ring grown around the cell regions ONLY
+  GATE 3      8 final trimap after the minimum background-component filter
   RESULT      9 stage funnel  10 co-add SNR gain
              11 endmember vs mean in-cell   12 their difference
   USE        13 anchored VCA(3) endmembers  14-16 abundance maps
@@ -29,6 +30,8 @@ import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 from matplotlib.colors import ListedColormap
 from matplotlib.patches import Patch
+from scipy.ndimage import (binary_erosion, binary_dilation,
+                           label as cc_label)
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT))
@@ -64,31 +67,30 @@ SUS_CMAP = ListedColormap(["#f2f2f2", "#e08214"])
 
 
 def stages(data, bfs_raw, bfs_sm):
-    """Reproduce every intermediate mask so each step can be drawn."""
+    """Reproduce every intermediate mask so each step can be drawn.
+
+    Delegates to background_endmember's own gates so this figure cannot drift
+    away from what the pipeline actually does.
+    """
     valid = data["valid"]
-    k = bge.BG_K_MAD
-    margin, min_size = bge.BG_MARGIN, bge.BG_MIN_SIZE
+    bg_like, vinfo = bge.value_gate(bfs_raw, bfs_sm, valid)
+    background, cell, uncertain, info = bge.find_background(
+        data, bfs_raw, bfs_sm)
 
-    _, cell, thr_s = cmp_mod.mask_from_bfs(bfs_sm, valid)
-    thr_r = cmp_mod.otsu_threshold(bfs_raw[valid])
-    med_r, mad_r = cmp_mod._robust_background_level(bfs_raw[valid], thr_r)
-    med_s, mad_s = cmp_mod._robust_background_level(bfs_sm[valid], thr_s)
-    cut_r, cut_s = med_r + k * mad_r, med_s + k * mad_s
+    opened = binary_dilation(binary_erosion(valid & ~bg_like))
+    strays = opened & ~cell
+    keepout = fe.dilate_mask(cell, iterations=info["margin"]).astype(bool)
+    after_margin = bg_like & ~keepout
 
-    finite = valid & np.isfinite(bfs_raw) & np.isfinite(bfs_sm)
-    bg_like = finite & (bfs_raw <= cut_r) & (bfs_sm <= cut_s)
-    suspicious = (~bg_like) | cell
-    suspicious_d = fe.dilate_mask(suspicious, iterations=margin).astype(bool)
-    after_margin = bg_like & ~suspicious_d
-    background = cmp_mod._keep_components_at_least(after_margin, min_size)
-    uncertain = valid & ~(background | cell)
-
-    return dict(cell=cell, bg_like=bg_like, suspicious=suspicious,
-                suspicious_d=suspicious_d, after_margin=after_margin,
+    return dict(cell=cell, bg_like=bg_like, opened=opened, strays=strays,
+                keepout=keepout, after_margin=after_margin,
                 background=background, uncertain=uncertain,
-                thr_raw=thr_r, thr_sm=thr_s, med_raw=med_r, mad_raw=mad_r,
-                cut_raw=cut_r, cut_sm=cut_s, k=k, margin=margin,
-                min_size=min_size)
+                thr_raw=vinfo["thr_raw"], thr_sm=vinfo["thr_smoothed"],
+                med_raw=vinfo["med_raw"], mad_raw=vinfo["mad_raw"],
+                cut_raw=info["cut_raw"], cut_sm=info["cut_smoothed"],
+                k=info["k_mad"], margin=info["margin"],
+                min_size=info["min_size"],
+                min_cell_size=info["min_cell_size"], info=info)
 
 
 def _bare(ax):
@@ -125,9 +127,14 @@ def render(stem, data, bfs_raw, bfs_sm, st, endmember, summed, bg_idx,
     vals = bfs_raw[valid]
     lo, hi = np.nanpercentile(vals, [0.2, 99.8])
     bins = np.linspace(lo, hi, 70)
-    ax.hist([bfs_raw[bg], bfs_raw[unc], bfs_raw[cell]], bins=bins,
-            stacked=True, color=[C_BG, C_UNC, C_CELL], edgecolor="none",
-            label=["background", "uncertain", "cell"])
+    # Coloured by the VALUE gate only, never by the final label: the final
+    # label depends on geometry, so colouring by it here would produce a
+    # histogram whose colours cannot be read off the x-axis.
+    bg_like = st["bg_like"]
+    ax.hist([bfs_raw[bg_like], bfs_raw[valid & ~bg_like]], bins=bins,
+            stacked=True, color=[C_BG, C_UNC], edgecolor="none",
+            label=[f"passes value gate ({int(bg_like.sum())})",
+                   f"fails ({int((valid & ~bg_like).sum())})"])
     ax.axvline(st["med_raw"], color="navy", ls=":", lw=1.6,
                label=f"bg median {st['med_raw']:.4f}")
     ax.axvline(st["cut_raw"], color="navy", ls="-", lw=2.0,
@@ -135,7 +142,9 @@ def render(stem, data, bfs_raw, bfs_sm, st, endmember, summed, bg_idx,
     ax.axvline(st["thr_sm"], color="k", ls="--", lw=1.6,
                label=f"Otsu {st['thr_sm']:.4f}")
     ax.set_xlabel("BFS (GHz)"); ax.set_ylabel("pixels")
-    ax.set_title("3 · where the cutoffs fall", fontsize=10)
+    ax.set_title("3 · where the cutoffs fall\n"
+                 "coloured by the value gate — a clean vertical split",
+                 fontsize=10)
     ax.legend(fontsize=6.5); ax.grid(alpha=0.25)
 
     # ── 4 gate 1 ─────────────────────────────────────────────────
@@ -146,34 +155,38 @@ def render(stem, data, bfs_raw, bfs_sm, st, endmember, summed, bg_idx,
                  f"[{int(st['bg_like'].sum())} px]", fontsize=10)
     _bare(ax)
 
-    # ── 5 cell mask ──────────────────────────────────────────────
+    # ── 5 cell regions ───────────────────────────────────────────
+    info = st["info"]
     ax = fig.add_subplot(gs[1, 0])
-    ax.imshow(cell.astype(int), origin="lower",
-              cmap=ListedColormap(["#f2f2f2", C_CELL]), vmin=0, vmax=1,
-              interpolation="nearest")
-    ax.set_title(f"5 · cell mask\nOtsu → fill → open → largest CC  "
-                 f"[{int(cell.sum())} px]", fontsize=10)
+    lab, _ = cc_label(cell)
+    ax.imshow(np.where(lab > 0, lab, np.nan), origin="lower", cmap="tab10",
+              vmin=1, vmax=10, interpolation="nearest")
+    ax.set_title(f"5 · GATE 2a cell regions\nopen(~gate 1), keep every "
+                 f"component >= {st['min_cell_size']} px\n"
+                 f"[{info['n_cell_regions']} region(s), {int(cell.sum())} px]",
+                 fontsize=10)
     _bare(ax)
 
-    # ── 6 suspicious ─────────────────────────────────────────────
+    # ── 6 strays left behind ─────────────────────────────────────
     ax = fig.add_subplot(gs[1, 1])
-    ax.imshow(st["suspicious"].astype(int), origin="lower", cmap=SUS_CMAP,
+    ax.imshow(st["strays"].astype(int), origin="lower", cmap=SUS_CMAP,
               vmin=0, vmax=1, interpolation="nearest")
-    ax.set_title(f"6 · suspicious set\nfailed gate 1, or cell, or invalid  "
-                 f"[{int(st['suspicious'].sum())} px]", fontsize=10)
+    ax.set_title(f"6 · strays deleted by the opening / size filter\n"
+                 f"[{int(st['strays'].sum())} px] — these stay UNCERTAIN and "
+                 f"get no keep-out ring", fontsize=10)
     _bare(ax)
 
-    # ── 7 dilated keep-out ───────────────────────────────────────
+    # ── 7 keep-out ring around the cell regions only ─────────────
     ax = fig.add_subplot(gs[1, 2])
-    grown = st["suspicious_d"] & ~st["suspicious"]
+    grown = st["keepout"] & ~cell
     layer = np.zeros(shape, dtype=int)
-    layer[st["suspicious"]] = 1
+    layer[cell] = 1
     layer[grown] = 2
     ax.imshow(layer, origin="lower", vmin=0, vmax=2,
-              cmap=ListedColormap(["#f2f2f2", "#e08214", "#8c2d04"]),
+              cmap=ListedColormap(["#f2f2f2", C_CELL, "#e08214"]),
               interpolation="nearest")
-    ax.set_title(f"7 · GATE 2 dilate by margin={st['margin']} px\n"
-                 f"dark = ring added ({int(grown.sum())} px) → "
+    ax.set_title(f"7 · GATE 2b margin={st['margin']} px around the cell "
+                 f"regions ONLY\norange ring = {int(grown.sum())} px → "
                  f"{int(st['after_margin'].sum())} survive", fontsize=10)
     _bare(ax)
 

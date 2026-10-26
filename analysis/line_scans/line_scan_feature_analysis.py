@@ -61,24 +61,24 @@ SEED = 0
 MODES = ["bfs", "lw", "bfs_0", "lw_0", "vca", "sobel"]
 
 # Untreated spheroids are the same sample for both drugs, so both dose series
-# read their control group from one shared folder.
-CONTROL_DIR = "Spheroid Controls"
+# read their control group from the paclitaxel control folder.
+CONTROL_DIR = "data/paclitaxel_line_scans/Control"
 
 DRUGS = [
     dict(drug="Carboplatin",
-         base="1.5.26 20x Carboplatin",
-         folders=["control", "100um", "200um", "400um"],
-         doses=[0.0, 100.0, 200.0, 400.0],
-         colors={"control": "green", "100um": "blue",
+         base="data/carboplatin_1.5.26_20x",
+         folders=["control", "50um", "100um", "200um", "400um"],
+         doses=[0.0, 50.0, 100.0, 200.0, 400.0],
+         colors={"control": "green", "50um": "cyan", "100um": "blue",
                  "200um": "orange", "400um": "red"},
-         labels={"control": "Control", "100um": "100 uM",
-                 "200um": "200 uM", "400um": "400 uM"},
+         labels={"control": "Control", "50um": "50 µM", "100um": "100 µM",
+                 "200um": "200 µM", "400um": "400 µM"},
          paths={"control": CONTROL_DIR}),
     dict(drug="Paclitaxel",
-         base="Paclitaxel final line scans",
-         folders=["Control", "1.52 nM", "3.125 nM", "6.25 nM", "12.5 nM"],
+         base="data/paclitaxel_line_scans",
+         folders=["Control", "1.56 nM", "3.125 nM", "6.25 nM", "12.5 nM"],
          doses=[0.0, 1.52, 3.125, 6.25, 12.5],
-         colors={"Control": "green", "1.52 nM": "blue", "3.125 nM": "orange",
+         colors={"Control": "green", "1.56 nM": "blue", "3.125 nM": "orange",
                  "6.25 nM": "red", "12.5 nM": "purple"},
          labels={},
          paths={"Control": CONTROL_DIR}),

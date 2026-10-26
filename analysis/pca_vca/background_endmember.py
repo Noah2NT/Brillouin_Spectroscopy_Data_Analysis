@@ -10,19 +10,24 @@ Per CSV in data/csv the script renders one figure:
   Row 2 : standard VCA(p)  — endmember spectra + abundance maps
   Row 3 : anchored VCA(p)  — background fixed as EM1, + abundance maps
 
-Background selection is delegated to
-cell_mask_pipeline.confident_background_mask, so this script and the cell-mask
-work share one definition. That rule is stricter than "everything below Otsu":
+Background selection runs four gates, and only the first looks at a pixel's
+own Brillouin shift:
 
-  1. Otsu, fill, open, largest component on the smoothed BFS map -> cell mask.
-  2. A robust background level (median + k*MAD of the sub-Otsu side) is applied
-     to BOTH the raw and the smoothed BFS map. A pixel must read as background
-     in both. Smoothing spreads cell signal into neighbours, so a partially
-     filled pixel fails there even when noise pushed its raw value down.
-  3. Everything that fails, plus the cell mask, plus invalid pixels, is treated
-     as suspicious and dilated by `margin` — so the mixed ring around the cell
-     AND the neighbourhood of any debris speck are thrown out.
-  4. Connected components smaller than `min_size` are dropped as specks.
+  1.  VALUE    A robust background level (median + k*MAD of the sub-Otsu side)
+              is built for the raw AND the smoothed BFS map, and a pixel must
+              read below both. Smoothing spreads cell signal into neighbours,
+              so a partially filled pixel fails there even when noise pushed
+              its raw value down.
+  2a. REGIONS Everything that fails gate 1 is a cell candidate. Erode once,
+              dilate once (a morphological opening) to delete isolated pixels
+              and hairline bridges, then keep EVERY component of at least
+              `min_cell_size` px — not just the largest, so scans containing
+              more than one cell keep all of them.
+  2b. MARGIN  Anything within `margin` px of a cell region becomes uncertain.
+              Only the real regions get a ring; a lone stray pixel out in the
+              medium is left uncertain where it lies instead of costing a 5x5
+              block of good background around it.
+  3.  SIZE    Background components smaller than `min_size` are dropped.
 
 Pixels that are neither confident background nor cell are labelled 'uncertain'
 and are simply not used. Precision matters here; recall does not.
@@ -39,7 +44,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 from matplotlib.colors import ListedColormap
-from scipy.ndimage import gaussian_filter
+from scipy.ndimage import (gaussian_filter, binary_erosion, binary_dilation,
+                           binary_fill_holes, label as cc_label)
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT))
@@ -70,10 +76,10 @@ MAX_SHIFT_GHZ = 8.0     # folded-axis cutoff
 MIN_BG_PIXELS = 25      # below this the endmember is not trustworthy
 N_ENDMEMBERS = 3
 
-# Passed through to cell_mask_pipeline.confident_background_mask.
 BG_K_MAD = cmp_mod.BG_K_MAD        # robust sigmas above the background median
-BG_MARGIN = cmp_mod.BG_MARGIN      # keep-out ring grown around every suspect px
+BG_MARGIN = cmp_mod.BG_MARGIN      # keep-out ring grown around each cell region
 BG_MIN_SIZE = cmp_mod.BG_MIN_SIZE  # drop background blobs smaller than this
+BG_MIN_CELL_SIZE = 50              # a cell region must be at least this big
 
 TRIMAP_CMAP = ListedColormap(["#d9d9d9", "#c0392b", "#2c7fb8"])
 
@@ -153,40 +159,117 @@ def otsu_threshold(values):
     return cmp_mod.otsu_threshold(values)
 
 
-def find_background(data, bfs_raw, bfs_smoothed):
+def value_gate(bfs_raw, bfs_smoothed, valid, k_mad=None):
+    """GATE 1 — the only test that looks at a pixel's own shift.
+
+    A robust background level (median + k*MAD of the sub-Otsu side) is built
+    for the raw and the smoothed BFS map independently, and a pixel must read
+    below both. Smoothing spreads cell signal into neighbours, so a partially
+    filled pixel fails the smoothed test even when noise pushed its raw value
+    down. Returns (bg_like, info).
+    """
+    k_mad = BG_K_MAD if k_mad is None else k_mad
+    thr_r = cmp_mod.otsu_threshold(bfs_raw[valid])
+    thr_s = cmp_mod.otsu_threshold(bfs_smoothed[valid])
+    med_r, mad_r = cmp_mod._robust_background_level(bfs_raw[valid], thr_r)
+    med_s, mad_s = cmp_mod._robust_background_level(bfs_smoothed[valid], thr_s)
+    cut_r, cut_s = med_r + k_mad * mad_r, med_s + k_mad * mad_s
+
+    finite = valid & np.isfinite(bfs_raw) & np.isfinite(bfs_smoothed)
+    bg_like = finite & (bfs_raw <= cut_r) & (bfs_smoothed <= cut_s)
+    return bg_like, dict(thr_raw=float(thr_r), thr_smoothed=float(thr_s),
+                         med_raw=float(med_r), mad_raw=float(mad_r),
+                         cut_raw=float(cut_r), cut_smoothed=float(cut_s),
+                         k_mad=float(k_mad))
+
+
+def cell_regions_from_gate1(bg_like, valid, min_cell_size=None):
+    """GATE 2a — turn the gate-1 failures into real cell regions.
+
+    Everything not confidently background is a cell candidate. One erosion
+    followed by one dilation (a morphological opening) deletes isolated
+    pixels and hairline bridges without shrinking the surviving blobs, then
+    every component of at least `min_cell_size` pixels is kept.
+
+    Keeping EVERY qualifying component — rather than only the largest, as
+    cell_mask_pipeline.mask_from_bfs does — is what makes multi-cell scans
+    work. Sample8 holds two cells of 366 and 310 px, and the largest-component
+    rule silently discarded the smaller one.
+
+    Pixels dropped here (specks, sub-threshold blobs) are NOT promoted to
+    background: they already failed gate 1, so they land in 'uncertain', and
+    crucially they no longer earn a keep-out ring of their own.
+    """
+    min_cell_size = BG_MIN_CELL_SIZE if min_cell_size is None else min_cell_size
+    candidate = valid & ~bg_like
+    opened = binary_dilation(binary_erosion(candidate))
+    cell = cmp_mod._keep_components_at_least(opened, min_cell_size)
+    return cell, dict(n_candidate=int(candidate.sum()),
+                      n_opened=int(opened.sum()),
+                      n_dropped_small=int(opened.sum() - cell.sum()),
+                      n_cell_regions=int(cc_label(cell)[1]))
+
+
+def find_background(data, bfs_raw, bfs_smoothed, k_mad=None, margin=None,
+                    min_cell_size=None, min_size=None):
     """Return (background_mask, cell_mask, uncertain_mask, info).
 
-    Delegates to cell_mask_pipeline:
-      * mask_from_bfs             -> the cell mask (Otsu, fill, open, largest CC)
-      * confident_background_mask -> pixels confidently free of cell signal
+    Four steps, only the first of which looks at a pixel's own BFS:
 
-    The background rule is deliberately not the complement of the cell mask.
-    A pixel qualifies only if it reads below (median + k*MAD) of the
-    background side in BOTH the raw and the spatially smoothed BFS map, and
-    everything that fails is dilated by a margin, so the partial-volume ring
-    around the cell and the neighbourhood of any debris speck are excluded.
-    Whatever is neither confident background nor cell is reported as
-    'uncertain' and simply left out of the co-add.
+      1.  VALUE    raw <= cut AND smoothed <= cut                  -> bg_like
+      2a. REGIONS  open(~bg_like), keep components >= min_cell_size -> cell
+      2b. MARGIN   drop anything within `margin` px of a cell region
+      3.  SIZE     drop background components smaller than min_size
+
+    Step 2b rings only the genuine cell regions. The previous version dilated
+    every suspicious pixel, so one stray pixel out in open medium cost a 5x5
+    block of otherwise good background; strays are now simply left 'uncertain'
+    where they lie.
+
+    Anything neither confident background nor cell is 'uncertain', and is left
+    out of the co-add.
     """
-    valid = data["valid"]
-    _, cell, thr = cmp_mod.mask_from_bfs(bfs_smoothed, valid)
+    k_mad = BG_K_MAD if k_mad is None else k_mad
+    margin = BG_MARGIN if margin is None else margin
+    min_cell_size = BG_MIN_CELL_SIZE if min_cell_size is None else min_cell_size
+    min_size = BG_MIN_SIZE if min_size is None else min_size
 
-    background, uncertain, bg_info = cmp_mod.confident_background_mask(
-        bfs_raw, bfs_smoothed, valid, cell_mask=cell,
-        k_mad=BG_K_MAD, margin=BG_MARGIN, min_size=BG_MIN_SIZE)
+    valid = data["valid"]
+    bg_like, vinfo = value_gate(bfs_raw, bfs_smoothed, valid, k_mad)
+    cell, cinfo = cell_regions_from_gate1(bg_like, valid, min_cell_size)
+
+    keepout = (fe.dilate_mask(cell, iterations=margin).astype(bool)
+               if margin > 0 else cell)
+    after_margin = bg_like & ~keepout
+    background = cmp_mod._keep_components_at_least(after_margin, min_size)
+    uncertain = valid & ~(background | cell)
+
+    # A hole enclosed by a cell passes gate 1 but must never be called
+    # background. The keep-out ring absorbs these in practice; measure it
+    # rather than assume it.
+    enclosed = binary_fill_holes(cell) & ~cell
 
     bg_vals = bfs_raw[background]
     info = dict(
-        otsu_thr=float(thr),
-        n_cell=int(cell.sum()),
+        otsu_thr=vinfo["thr_smoothed"],
         n_valid=int(valid.sum()),
+        n_gate1=int(bg_like.sum()),
+        n_after_margin=int(after_margin.sum()),
         n_background=int(background.sum()),
+        n_cell=int(cell.sum()),
         n_uncertain=int(uncertain.sum()),
-        cut_raw=float(bg_info["cut_raw"]),
-        cut_smoothed=float(bg_info["cut_smoothed"]),
-        k_mad=float(bg_info["k_mad"]),
-        margin=int(bg_info["margin"]),
-        min_size=int(bg_info["min_size"]),
+        n_cell_regions=cinfo["n_cell_regions"],
+        n_candidate=cinfo["n_candidate"],
+        n_opened=cinfo["n_opened"],
+        n_dropped_small=cinfo["n_dropped_small"],
+        n_removed_margin=int(bg_like.sum() - after_margin.sum()),
+        n_removed_size=int(after_margin.sum() - background.sum()),
+        n_enclosed_holes=int(enclosed.sum()),
+        n_enclosed_called_background=int((enclosed & background).sum()),
+        cut_raw=vinfo["cut_raw"], cut_smoothed=vinfo["cut_smoothed"],
+        med_raw=vinfo["med_raw"], mad_raw=vinfo["mad_raw"],
+        k_mad=float(k_mad), margin=int(margin),
+        min_cell_size=int(min_cell_size), min_size=int(min_size),
         bg_bfs_median=float(np.median(bg_vals)) if bg_vals.size else np.nan,
         bg_bfs_spread=float(np.std(bg_vals)) if bg_vals.size else np.nan,
     )
@@ -323,9 +406,10 @@ def render(stem, data, bfs_raw, bg_mask, cell_mask, uncertain, info,
                    linewidths=0.7)
     ax.set_title(f"background {int(bg_mask.sum())} px (blue) | "
                  f"uncertain {info['n_uncertain']} px (grey)\n"
-                 f"cell {info['n_cell']} px (red) | "
-                 f"k={info['k_mad']:g}, margin={info['margin']}, "
-                 f"cut={info['cut_raw']:.3f} GHz", fontsize=8)
+                 f"cell {info['n_cell']} px in {info['n_cell_regions']} "
+                 f"region(s) (red) | k={info['k_mad']:g}, "
+                 f"margin={info['margin']}, min_cell={info['min_cell_size']}",
+                 fontsize=8)
     ax.set_xticks([]); ax.set_yticks([])
 
     # ---- Row 1, panel 3: the pure endmember
@@ -422,10 +506,14 @@ def process(path):
 
     bg_mask, cell_mask, uncertain, info = find_background(data, bfs_raw, bfs_sm)
     n_bg = int(bg_mask.sum())
-    print(f"  background {n_bg} px / {info['n_valid']} valid "
-          f"({100 * n_bg / max(info['n_valid'], 1):.0f}%), "
-          f"cell {info['n_cell']} px, uncertain {info['n_uncertain']} px "
-          f"(cut {info['cut_raw']:.3f} GHz)")
+    print(f"  gate1 {info['n_gate1']} -> margin {info['n_after_margin']} -> "
+          f"bg {n_bg} ({100 * n_bg / max(info['n_valid'], 1):.0f}% of "
+          f"{info['n_valid']}) | cell {info['n_cell']} px in "
+          f"{info['n_cell_regions']} region(s) "
+          f"(opening dropped {info['n_dropped_small']} px) | "
+          f"uncertain {info['n_uncertain']} | "
+          f"holes {info['n_enclosed_holes']} "
+          f"(as bg: {info['n_enclosed_called_background']})")
     if n_bg < MIN_BG_PIXELS:
         print(f"  [skip] fewer than {MIN_BG_PIXELS} confident background px")
         return None
@@ -459,6 +547,11 @@ def process(path):
         sample=stem, n_pixels=all_flat.shape[0],
         n_background=n_bg, n_cell=info["n_cell"],
         n_uncertain=info["n_uncertain"],
+        n_cell_regions=info["n_cell_regions"],
+        n_dropped_small=info["n_dropped_small"],
+        n_removed_margin=info["n_removed_margin"],
+        n_enclosed_holes=info["n_enclosed_holes"],
+        n_enclosed_called_background=info["n_enclosed_called_background"],
         bg_fraction=float(n_bg / max(info["n_valid"], 1)),
         otsu_ghz=info["otsu_thr"], cut_raw_ghz=info["cut_raw"],
         cut_smoothed_ghz=info["cut_smoothed"],

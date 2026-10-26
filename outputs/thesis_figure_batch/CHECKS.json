@@ -1,0 +1,18 @@
+{
+  "figure_count": 14,
+  "formats": [
+    "pdf",
+    "svg",
+    "png"
+  ],
+  "paper_pages": 22,
+  "latex_compile": "passed (Tectonic and BibTeX)",
+  "unresolved_citations_or_references": false,
+  "overfull_boxes": false,
+  "figure_1_preserved_exactly": true,
+  "forward_model_component_sums": "passed",
+  "paper_numbering": "see figure_manifest.json",
+  "intensity_model": "linear increase of 20 percent at 10 percent glycerol",
+  "exposure_times": "illustrative, with declared photon rate",
+  "inverse_benchmark": "not implemented by these figure scripts"
+}

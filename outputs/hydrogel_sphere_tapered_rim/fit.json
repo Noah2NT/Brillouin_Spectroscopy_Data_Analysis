@@ -1,0 +1,121 @@
+{
+  "parameters": {
+    "x0": -0.01572638677805972,
+    "y0": -0.21661045681548036,
+    "z0": 0.47081459545421106,
+    "dx": 0.1,
+    "dy": 0.1,
+    "bfs_center": 6.261469967596643,
+    "bfs_edge": 5.699997892765402,
+    "bfs_power": 0.6696919413358015,
+    "lw_center": 2.9860315675367537,
+    "lw_edge": 0.5260246238468629,
+    "lw_power": 0.2502339027342832,
+    "int_center": 37308.87816358036,
+    "int_edge": 174133.4372733807,
+    "int_power": 1.5276723166380022,
+    "water_intensity": 42272.58187467739,
+    "radius_scale": 1.1500770031093814,
+    "rim_width": 0.5896906162772424
+  },
+  "fit_names": [
+    "x0",
+    "y0",
+    "z0",
+    "bfs_center",
+    "bfs_edge",
+    "bfs_power",
+    "lw_center",
+    "lw_edge",
+    "lw_power",
+    "int_center",
+    "int_edge",
+    "int_power",
+    "radius_scale",
+    "rim_width"
+  ],
+  "reference_radius_um": 5000.0,
+  "fitted_radius_um": 5750.385015546907,
+  "rim_width_um": 3390.9480836492758,
+  "center_um": [
+    -78.6319338902986,
+    -1083.0522840774017,
+    2354.072977271055
+  ],
+  "step_um": [
+    500.0,
+    500.0
+  ],
+  "psf_fwhm_um": [
+    2.0,
+    2.0,
+    100.0
+  ],
+  "initial_mse": 15797.283721663936,
+  "final_mse": 389.3650250197879,
+  "success": true,
+  "initial_rmse": 125.68724566026553,
+  "final_rmse": 19.73233450506523,
+  "pixel_scaling": true,
+  "scaling_only_rmse": 28.678304971458473,
+  "initial_file": "outputs\\hydrogel_sphere_pixel_scaled\\fit.json",
+  "starts": [
+    {
+      "radius_factor": 1.0,
+      "mse": 389.3650250197879,
+      "success": true,
+      "nfev": 94
+    },
+    {
+      "radius_factor": 1.08,
+      "mse": 389.3650395478202,
+      "success": true,
+      "nfev": 66
+    }
+  ],
+  "message": "`ftol` termination condition is satisfied.",
+  "nfev": 94,
+  "finer_quadrature_rmse": 0.0014665766950495017,
+  "jacobian_singular_values": [
+    119.89728041934147,
+    64.23773035592768,
+    61.10042363278705,
+    34.26277450898348,
+    30.07775185555457,
+    10.410984330183283,
+    7.16919560049628,
+    6.516069551604573,
+    1.0599023016635705,
+    0.16485476819604647,
+    0.1346481179783244,
+    0.008312617379390633,
+    2.8115330207059876e-06,
+    3.473086865332001e-07
+  ],
+  "active_bounds": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "scan": "C:\\Users\\noahk\\OneDrive\\Documents\\GitHub\\Brillouin_Spectroscopy_Data_Analysis\\data\\csv\\Hydrogl1_XYscan_20000_20000_step500um_10s (1).csv",
+  "background": "C:\\Users\\noahk\\OneDrive\\Documents\\GitHub\\Brillouin_Spectroscopy_Data_Analysis\\outputs\\background_endmember\\Hydrogl1_XYscan_20000_20000_step500um_10s (1)_background_endmember.csv",
+  "limitations": [
+    "Gaussian FWHM interpretation of reported spatial resolution is assumed.",
+    "Single-plane depth sign is unidentifiable; z0 represents absolute depth.",
+    "LW is effective observed FWHM; no intrinsic linewidth claim.",
+    "Local optimization, not proof of unique parameters or spherical geometry.",
+    "Pixel gains scale both hydrogel and water. Radial intensity is fitted relative to fixed water intensity; it can remain weakly constrained. RMSE is in-sample.",
+    "The rim is an empirical local spectral mixture with measured water, not a measured surface height or concentration fraction."
+  ]
+}

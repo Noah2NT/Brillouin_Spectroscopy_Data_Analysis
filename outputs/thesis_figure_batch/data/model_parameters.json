@@ -1,0 +1,22 @@
+{
+  "w_max": 0.1,
+  "bfs_water_GHz": 6.05,
+  "bfs_slope": 0.85,
+  "linewidth_water_GHz": 0.2,
+  "linewidth_slope": 2.0,
+  "intensity_increase_at_max": 0.2,
+  "instrument_fwhm_GHz": 0.276,
+  "radius_um": 20.0,
+  "collection_length_um": 30.0,
+  "collection_start_um": 0.0,
+  "beta": 1.0,
+  "area_reference_mass_fraction": 0.1,
+  "area_slope": 2.0,
+  "figure6_water_reference_photon_budgets": [
+    100000,
+    10000,
+    1000
+  ],
+  "seed": 24948806,
+  "figure15_water_reference_photons": 10000
+}

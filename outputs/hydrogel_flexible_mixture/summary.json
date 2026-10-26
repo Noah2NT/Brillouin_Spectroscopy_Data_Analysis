@@ -1,0 +1,17 @@
+{
+  "source": "C:\\Users\\noahk\\OneDrive\\Documents\\GitHub\\Brillouin_Spectroscopy_Data_Analysis\\outputs\\hydrogel_sphere_tapered_rim",
+  "method": "Independent nonnegative hydrogel and water spectral areas per pixel",
+  "shared_parameters_refitted": false,
+  "n_pixels": 1155,
+  "n_channels": 69,
+  "before_rmse": 19.732334505065232,
+  "final_rmse": 18.462157640227556,
+  "percentage_units": "Fraction of integrated spectral intensity within the saved frequency window",
+  "undefined_fraction_pixels": 0,
+  "zero_hydrogel_support_pixels": 793,
+  "limitations": [
+    "In-sample fit with extra per-pixel flexibility; not physical concentration.",
+    "Pixels with no hydrogel support in the saved sphere remain pure background.",
+    "Similar component spectra make fractions weakly constrained."
+  ]
+}
